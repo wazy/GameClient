@@ -42,7 +42,7 @@ public class ServerConnection implements Runnable {
 				System.out.println("Sending userid now...");
 				//Random rand = new Random();
 				//int Id = rand.nextInt(6-1+1)+1;
-				osw.write("6" + (char) 13);
+				osw.write("4" + (char) 13);
 				osw.flush();
 				
 				while ((c = isr.read()) != 13) {
@@ -86,13 +86,21 @@ public class ServerConnection implements Runnable {
 	@SuppressWarnings("unchecked")
 	public void run () {
 		try {
+			int id;
 			BufferedInputStream bos = new BufferedInputStream(connection.getInputStream());
 			ObjectInputStream inputStream = new ObjectInputStream(bos);
+			BufferedInputStream bis = new BufferedInputStream(connection.getInputStream());
+			InputStreamReader isr = new InputStreamReader(bis, "US-ASCII");
 			while (true) {
 				if (Main.exitRequest) {
 					connection.shutdownInput();
 					return;
 				}
+				
+				// read position of player in list here
+				while((id = isr.read()) != 13);
+				Player.listPosition = id;
+				// read all players and their positions
 				Player.onlinePlayers = (ArrayList<Player>) inputStream.readObject();
 				Thread.sleep(3000);
 			}
