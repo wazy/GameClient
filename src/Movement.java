@@ -23,7 +23,7 @@ public class Movement {
 		
 		// currently just moving to the mouse coordinates
 		if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-			Player.onlinePlayers.get(0).update(Mouse.getDX(), Mouse.getDY());
+			Player.onlinePlayers.get(Player.listPosition).update(Mouse.getDX(), Mouse.getDY());
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
 			Player.onlinePlayers.get(0).update(Mouse.getDX(), Mouse.getDY());
