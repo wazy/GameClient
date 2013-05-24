@@ -42,9 +42,9 @@ public class ServerConnection implements Runnable {
 				System.out.println("Sending userid now...");
 				//Random rand = new Random();
 				//int Id = rand.nextInt(6-1+1)+1;
-				osw.write("6" + (char) 13);
+				osw.write("1" + (char) 13);
 				osw.flush();
-				
+
 				while ((c = isr.read()) != 13) {
 					instr1.append((char) c);
 				}

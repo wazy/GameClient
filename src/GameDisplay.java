@@ -52,9 +52,12 @@ public class GameDisplay {
 				}
 				Display.sync(10); // framerate
 			}
+			
 			// TODO put this in its own class.. MainMenu.java
 			else {  // 0:main menu
 				Display.sync(5);
+				MainMenu.run();
+				/*
 				String playerInfo[] = null;
 				SimpleText.drawString("Welcome to Game", 260, 300);
 				// if within the box dimensions
@@ -75,8 +78,8 @@ public class GameDisplay {
 						SimpleText.drawString("Login failed", 275, 285);
 						SimpleText.drawString("Perhaps start server", 255, 175);
 					}
-				}
-			}
+				} */
+			} 
 			Display.update(); // update window if something changes	
 		}
 		Player.deleteTexture();
