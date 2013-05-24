@@ -14,6 +14,8 @@ public class Player implements Serializable {
 	private static String playerImg = new File("./img/alien2.png").getAbsolutePath();
 	
 	public static ArrayList<Player> onlinePlayers = new ArrayList<Player>(16);
+
+	public static int listPosition = 0; // client's position in the list init to zero
 	public int id, x, y;
 	public String name;
 	public boolean selected = false;

@@ -6,7 +6,7 @@ public class ServerConnection implements Runnable {
 	
 	private Socket connection;
 
-	ServerConnection(Socket s){
+	ServerConnection(Socket s) {
 		this.connection = s;
 	}
 	
@@ -86,6 +86,7 @@ public class ServerConnection implements Runnable {
 	@SuppressWarnings("unchecked")
 	public void run () {
 		try {
+			int id;
 			BufferedInputStream bos = new BufferedInputStream(connection.getInputStream());
 			ObjectInputStream inputStream = new ObjectInputStream(bos);
 			while (true) {
@@ -93,6 +94,13 @@ public class ServerConnection implements Runnable {
 					connection.shutdownInput();
 					return;
 				}
+				
+				// read and set position of player in list here
+				id = inputStream.readInt();
+				Player.listPosition = id;
+				System.out.println("You are position: " + Player.listPosition + " in the list.");
+				
+				// read all players and their positions
 				Player.onlinePlayers = (ArrayList<Player>) inputStream.readObject();
 				Thread.sleep(3000);
 			}
