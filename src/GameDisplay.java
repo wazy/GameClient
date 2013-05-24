@@ -1,8 +1,5 @@
 import static org.lwjgl.opengl.GL11.*;
-
 import java.sql.SQLException;
-
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.*;
 import org.lwjgl.*;
 
@@ -52,8 +49,7 @@ public class GameDisplay {
 				}
 				Display.sync(10); // framerate
 			}
-			
-			// TODO put this in its own class.. MainMenu.java
+
 			else {  // 0:main menu
 				Display.sync(5);
 				MainMenu.run();

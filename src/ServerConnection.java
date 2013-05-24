@@ -66,10 +66,16 @@ public class ServerConnection implements Runnable {
 				System.out.println("not authenticated");
 				return null;
 			}
-			
+			// handle receiving player updates
 			Runnable runnable = new ServerConnection(connection);
 			Thread thread = new Thread(runnable);
 			thread.start();
+			
+			// handle sending coordinates
+			Runnable runnable1 = new UpdateCoordinates();
+			Thread thread1 = new Thread(runnable1);
+			thread1.start();
+			
 			return instrBuffer;
 		}
 		catch (Exception e) {
@@ -83,12 +89,13 @@ public class ServerConnection implements Runnable {
 		//outputStream.(Player.onlinePlayers);
 	}
 	*/
+	
 	@SuppressWarnings("unchecked")
 	public void run () {
 		try {
 			int id;
-			BufferedInputStream bos = new BufferedInputStream(connection.getInputStream());
-			ObjectInputStream inputStream = new ObjectInputStream(bos);
+			BufferedInputStream bis = new BufferedInputStream(connection.getInputStream());
+			ObjectInputStream inputStream = new ObjectInputStream(bis);
 			while (true) {
 				if (Main.exitRequest) {
 					connection.shutdownInput();
