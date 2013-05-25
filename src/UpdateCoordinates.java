@@ -1,35 +1,31 @@
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.InputStreamReader;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
 public class UpdateCoordinates implements Runnable {
 	public void run() {
+		Socket connection = null;
 		try {
 			System.out.println("Updating coordinates");
 			int id, x , y, listPosition;
 			// gets server address and attempts to establish a connection
 			InetAddress address = InetAddress.getByName("localhost");
-			Socket connection = new Socket(address, 8149);
+			connection = new Socket(address, 8149);
 			BufferedOutputStream bos = new BufferedOutputStream(connection.getOutputStream());
-			OutputStreamWriter osw = new OutputStreamWriter(bos);
+			ObjectOutputStream outputStream = new ObjectOutputStream(bos);
 			BufferedInputStream bis = new BufferedInputStream(connection.getInputStream());
-			InputStreamReader isr = new InputStreamReader(bis, "US-ASCII");
+			ObjectInputStream inputStream = new ObjectInputStream(bis);
 			//ObjectOutputStream outputStream = new ObjectOutputStream(bos);
 			
 			// tell server we want to update player coords
-			osw.write("update" + (char) 13);
-			osw.flush();
-			osw.close();
-			
-			BufferedOutputStream bos1 = new BufferedOutputStream(connection.getOutputStream());
-			ObjectOutputStream outputStream = new ObjectOutputStream(bos1);
-			
-			int c = isr.read();
+			outputStream.writeChars("update" + (char) 13);
+			outputStream.flush();
+						
+			int c = inputStream.readInt();
 			// one is accepted connection from server
 			if (c == 1) {
 				while (true) {
@@ -47,6 +43,14 @@ public class UpdateCoordinates implements Runnable {
 		}
 		catch (Exception e) {
 			e.printStackTrace();
+		}
+		finally {
+			try {
+				connection.close();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

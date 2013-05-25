@@ -5,16 +5,17 @@ import java.util.ArrayList;
 public class ServerConnection implements Runnable {
 	
 	private Socket connection;
+	private ObjectInputStream ois = null;
 
-	ServerConnection(Socket s) {
+	ServerConnection(Socket s, ObjectInputStream input) {
 		this.connection = s;
+		this.ois = input;
 	}
 	
 	public static String[] authenticate() {
 		String host = "localhost";
 		int port = 8149;
 		
-		StringBuffer instr = new StringBuffer();
 		StringBuffer instr1 = new StringBuffer();
 		String instrBuffer[] = null;
 		
@@ -23,29 +24,28 @@ public class ServerConnection implements Runnable {
 			InetAddress address = InetAddress.getByName(host);
 			Socket connection = new Socket(address, port);
 			BufferedOutputStream bos = new BufferedOutputStream(connection.getOutputStream());
-			OutputStreamWriter osw = new OutputStreamWriter(bos, "US-ASCII");
+			ObjectOutputStream oos = new ObjectOutputStream(bos);
+			oos.flush();
 		
 			// tell server we want to auth
-			osw.write("auth" + (char) 13);
-			osw.flush();
+			oos.writeChars("auth" + (char) 13);
+			oos.flush();
 			
 			BufferedInputStream bis = new BufferedInputStream(connection.getInputStream());
-			InputStreamReader isr = new InputStreamReader(bis, "US-ASCII");
-			int c;
-			while((c = isr.read()) != 13)
-				instr.append((char) c);
+			ObjectInputStream ois = new ObjectInputStream(bis);
+			int c = ois.readInt();
 			
-			if (Integer.parseInt(instr.toString()) == 1) {
+			if (c == 1) {
 				System.out.println("Authenticated successfully!");
 				
 				// TODO: this needs to come from authentication part however NYI in client
 				System.out.println("Sending userid now...");
 				//Random rand = new Random();
 				//int Id = rand.nextInt(6-1+1)+1;
-				osw.write("1" + (char) 13);
-				osw.flush();
+				oos.writeInt(1);
+				oos.flush();
 
-				while ((c = isr.read()) != 13) {
+				while ((c = ois.readChar()) != 13) {
 					instr1.append((char) c);
 				}
 				if (instr1.toString().contentEquals("create")) {
@@ -64,10 +64,13 @@ public class ServerConnection implements Runnable {
 			}
 			else {
 				System.out.println("not authenticated");
+				connection.close();
+				oos.close();
+				ois.close();
 				return null;
 			}
 			// handle receiving player updates
-			Runnable runnable = new ServerConnection(connection);
+			Runnable runnable = new ServerConnection(connection, ois);
 			Thread thread = new Thread(runnable);
 			thread.start();
 			
@@ -75,7 +78,8 @@ public class ServerConnection implements Runnable {
 			Runnable runnable1 = new UpdateCoordinates();
 			Thread thread1 = new Thread(runnable1);
 			thread1.start();
-			
+			// oos.close();
+			// ois.close();
 			return instrBuffer;
 		}
 		catch (Exception e) {
@@ -94,21 +98,20 @@ public class ServerConnection implements Runnable {
 	public void run () {
 		try {
 			int id;
-			BufferedInputStream bis = new BufferedInputStream(connection.getInputStream());
-			ObjectInputStream inputStream = new ObjectInputStream(bis);
 			while (true) {
 				if (Main.exitRequest) {
 					connection.shutdownInput();
+					ois.close();
 					return;
 				}
 				
 				// read and set position of player in list here
-				id = inputStream.readInt();
+				id = ois.readInt();
 				Player.listPosition = id;
 				System.out.println("You are position: " + Player.listPosition + " in the list.");
 				
 				// read all players and their positions
-				Player.onlinePlayers = (ArrayList<Player>) inputStream.readObject();
+				Player.onlinePlayers = (ArrayList<Player>) ois.readObject();
 				Thread.sleep(3000);
 			}
 		}
