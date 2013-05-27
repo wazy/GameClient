@@ -2,6 +2,9 @@ import static org.lwjgl.opengl.GL11.*;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 import java.io.Serializable;
 
@@ -13,7 +16,8 @@ public class Player implements Serializable {
 	public static int playerID = 0;
 	private static String playerImg = new File("./img/alien2.png").getAbsolutePath();
 	
-	public static ArrayList<Player> onlinePlayers = new ArrayList<Player>(16);
+	
+	public static List<Player> onlinePlayers = Collections.synchronizedList(new ArrayList<Player>(16));
 
 	public static int listPosition = 0; // client's position in the list init to zero
 	public int id, x, y;

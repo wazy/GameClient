@@ -22,14 +22,14 @@ public class UpdateCoordinates implements Runnable {
 			//ObjectOutputStream outputStream = new ObjectOutputStream(bos);
 			
 			// tell server we want to update player coords
-			outputStream.writeChars("update" + (char) 13);
+			outputStream.writeObject("update");
 			outputStream.flush();
 						
 			int c = inputStream.readInt();
 			// one is accepted connection from server
 			if (c == 1) {
 				while (true) {
-					Thread.sleep(2000);
+					Thread.sleep(500);
 					id = Player.getId();
 					listPosition = Player.listPosition;
 					x = Player.onlinePlayers.get(listPosition).x;
@@ -41,15 +41,15 @@ public class UpdateCoordinates implements Runnable {
 			}
 			
 		}
+		// socketexception thrown when connection terminates
 		catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 		finally {
 			try {
 				connection.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 	}

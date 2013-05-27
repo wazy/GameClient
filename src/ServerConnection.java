@@ -1,22 +1,23 @@
 import java.io.*;
 import java.net.*;
-import java.util.ArrayList;
+import java.util.List;
 
 public class ServerConnection implements Runnable {
 	
 	private Socket connection;
-	private ObjectInputStream ois = null;
+	private ObjectInputStream ois;
 
-	ServerConnection(Socket s, ObjectInputStream input) {
+	ServerConnection(Socket s, ObjectInputStream ois2) throws IOException {
 		this.connection = s;
-		this.ois = input;
+		this.ois = ois2;
+		//ois = new ObjectInputStream(connection.getInputStream());
 	}
 	
 	public static String[] authenticate() {
 		String host = "localhost";
 		int port = 8149;
 		
-		StringBuffer instr1 = new StringBuffer();
+		//StringBuffer instr1 = new StringBuffer();
 		String instrBuffer[] = null;
 		
 		try {
@@ -26,15 +27,14 @@ public class ServerConnection implements Runnable {
 			BufferedOutputStream bos = new BufferedOutputStream(connection.getOutputStream());
 			ObjectOutputStream oos = new ObjectOutputStream(bos);
 			oos.flush();
-		
+			ObjectInputStream ois1 = new ObjectInputStream(connection.getInputStream());
+
 			// tell server we want to auth
-			oos.writeChars("auth" + (char) 13);
+			oos.writeObject("auth");
 			oos.flush();
-			
-			BufferedInputStream bis = new BufferedInputStream(connection.getInputStream());
-			ObjectInputStream ois = new ObjectInputStream(bis);
-			int c = ois.readInt();
-			
+
+			int c = ois1.readInt();
+
 			if (c == 1) {
 				System.out.println("Authenticated successfully!");
 				
@@ -42,18 +42,20 @@ public class ServerConnection implements Runnable {
 				System.out.println("Sending userid now...");
 				//Random rand = new Random();
 				//int Id = rand.nextInt(6-1+1)+1;
-				oos.writeInt(1);
+				oos.writeInt(5);
 				oos.flush();
 
-				while ((c = ois.readChar()) != 13) {
+				String option = (String) ois1.readObject();
+			/*	while ((c = ois.readChar()) != 13) {
 					instr1.append((char) c);
 				}
-				if (instr1.toString().contentEquals("create")) {
+			*/
+				if (option.contentEquals("create")) {
 					System.out.println("Please create an account first!");
 				}
 				else { // we have character info
 					System.out.println("Success!");
-					instrBuffer = instr1.toString().split(",");
+					instrBuffer = option.split(",");
 					System.out.println("Your character info is as follows:");
 					System.out.println("ID = " + instrBuffer[0]);
 					System.out.println("Name = " + instrBuffer[1]);
@@ -66,11 +68,11 @@ public class ServerConnection implements Runnable {
 				System.out.println("not authenticated");
 				connection.close();
 				oos.close();
-				ois.close();
+				ois1.close();
 				return null;
 			}
 			// handle receiving player updates
-			Runnable runnable = new ServerConnection(connection, ois);
+			Runnable runnable = new ServerConnection(connection, ois1);
 			Thread thread = new Thread(runnable);
 			thread.start();
 			
@@ -78,8 +80,6 @@ public class ServerConnection implements Runnable {
 			Runnable runnable1 = new UpdateCoordinates();
 			Thread thread1 = new Thread(runnable1);
 			thread1.start();
-			// oos.close();
-			// ois.close();
 			return instrBuffer;
 		}
 		catch (Exception e) {
@@ -104,14 +104,14 @@ public class ServerConnection implements Runnable {
 					ois.close();
 					return;
 				}
-				
+			
 				// read and set position of player in list here
 				id = ois.readInt();
 				Player.listPosition = id;
 				System.out.println("You are position: " + Player.listPosition + " in the list.");
 				
 				// read all players and their positions
-				Player.onlinePlayers = (ArrayList<Player>) ois.readObject();
+				Player.onlinePlayers = (List<Player>) ois.readObject();
 				Thread.sleep(3000);
 			}
 		}
