@@ -40,16 +40,11 @@ public class ServerConnection implements Runnable {
 				
 				// TODO: this needs to come from authentication part however NYI in client
 				System.out.println("Sending userid now...");
-				//Random rand = new Random();
-				//int Id = rand.nextInt(6-1+1)+1;
-				oos.writeInt(5);
+				oos.writeInt(6);
 				oos.flush();
 
 				String option = (String) ois1.readObject();
-			/*	while ((c = ois.readChar()) != 13) {
-					instr1.append((char) c);
-				}
-			*/
+			
 				if (option.contentEquals("create")) {
 					System.out.println("Please create an account first!");
 				}
@@ -87,12 +82,6 @@ public class ServerConnection implements Runnable {
 			return null;
 		}
 	}
-	/*
-	private static void receiveOnlinePlayers() {
-		//ObjectInputStream inputStream = new ObjectInputStream();
-		//outputStream.(Player.onlinePlayers);
-	}
-	*/
 	
 	@SuppressWarnings("unchecked")
 	public void run () {
@@ -108,7 +97,7 @@ public class ServerConnection implements Runnable {
 				// read and set position of player in list here
 				id = ois.readInt();
 				Player.listPosition = id;
-				System.out.println("You are position: " + Player.listPosition + " in the list.");
+				//System.out.println("You are position: " + Player.listPosition + " in the list.");
 				
 				// read all players and their positions
 				Player.onlinePlayers = (List<Player>) ois.readObject();

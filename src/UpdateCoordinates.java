@@ -29,7 +29,14 @@ public class UpdateCoordinates implements Runnable {
 			// one is accepted connection from server
 			if (c == 1) {
 				while (true) {
-					Thread.sleep(500);
+					Thread.sleep(100); // adjust this
+					
+					if (Main.exitRequest) { // check if a reason exists to continue
+						connection.close();
+						return;
+					}
+					
+					// System.out.println("Sending coordinates to server..");
 					id = Player.getId();
 					listPosition = Player.listPosition;
 					x = Player.onlinePlayers.get(listPosition).x;
@@ -37,6 +44,7 @@ public class UpdateCoordinates implements Runnable {
 					Player player = new Player(id, String.valueOf(listPosition), x, y);
 					outputStream.writeObject(player);
 					outputStream.flush();
+					// System.out.println("Coordinates sent = " + x + "  " + y);
 				}
 			}
 			
