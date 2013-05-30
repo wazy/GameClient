@@ -14,27 +14,19 @@ public class Movement {
 			}
 		}
 		
-		// why the bloody hell is this in this file??
-		// this is for player movement ONLY!!!!!!!
-	/*	if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
-			States.setState(2);
-		}
-	*/	
-		
 		// currently just moving to the mouse coordinates
 		if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-			Player.onlinePlayers.get(Player.listPosition).update(Mouse.getDX(), Mouse.getDY());
+			Player.onlinePlayers.get(Player.listPosition).updateY(2);
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-			Player.onlinePlayers.get(0).update(Mouse.getDX(), Mouse.getDY());
+			Player.onlinePlayers.get(Player.listPosition).updateY(-2);
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-			Player.onlinePlayers.get(0).update(Mouse.getDX(), Mouse.getDY());
+			Player.onlinePlayers.get(Player.listPosition).updateX(2);
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-			Player.onlinePlayers.get(0).update(Mouse.getDX(), Mouse.getDY());
-		}
-		
+			Player.onlinePlayers.get(Player.listPosition).updateX(-2);
+		}		
 	/*
 	 * int dx = Mouse.getDX();   // speed of movement on x axis
 	 * int dy = -Mouse.getDY();   // speed of movement on y axis

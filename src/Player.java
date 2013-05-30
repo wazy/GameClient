@@ -37,11 +37,6 @@ public class Player implements Serializable {
 			return false;
 	}
 	
-	void update(int dx, int dy) {
-		x += dx;
-		y += dy;
-	}
-	
 	public static void loadTexture() {
 		tex = TextureLoader.setupTextures(playerImg);
 	}
@@ -78,5 +73,15 @@ public class Player implements Serializable {
 	}
 	public static int getId() {
 		return Player.playerID;
+	}
+	void updateX(int newXValue) {
+		x = newXValue;
+	}
+	void updateY(int newYValue) {
+		y = newYValue;
+	}
+	void updateXY(int newXValue, int newYValue) {
+		x = newXValue;
+		y = newYValue;
 	}
 }
