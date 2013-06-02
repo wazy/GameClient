@@ -16,16 +16,16 @@ public class Movement {
 		
 		// currently just moving to the mouse coordinates
 		if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-			Player.onlinePlayers.get(Player.listPosition).updateY(2);
+			Player.onlinePlayers.get(Player.listPosition).updateY(5);
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-			Player.onlinePlayers.get(Player.listPosition).updateY(-2);
+			Player.onlinePlayers.get(Player.listPosition).updateY(-5);
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-			Player.onlinePlayers.get(Player.listPosition).updateX(2);
+			Player.onlinePlayers.get(Player.listPosition).updateX(-5);
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-			Player.onlinePlayers.get(Player.listPosition).updateX(-2);
+			Player.onlinePlayers.get(Player.listPosition).updateX(5);
 		}		
 	/*
 	 * int dx = Mouse.getDX();   // speed of movement on x axis

@@ -13,7 +13,7 @@ public class UpdateCoordinates implements Runnable {
 			System.out.println("Updating coordinates");
 			int id, x , y, listPosition;
 			// gets server address and attempts to establish a connection
-			InetAddress address = InetAddress.getByName("localhost");
+			InetAddress address = InetAddress.getByName("216.158.67.244");
 			connection = new Socket(address, 8149);
 			BufferedOutputStream bos = new BufferedOutputStream(connection.getOutputStream());
 			ObjectOutputStream outputStream = new ObjectOutputStream(bos);

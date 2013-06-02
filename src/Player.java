@@ -75,13 +75,13 @@ public class Player implements Serializable {
 		return Player.playerID;
 	}
 	void updateX(int newXValue) {
-		x = newXValue;
+		x += newXValue;
 	}
 	void updateY(int newYValue) {
-		y = newYValue;
+		y += newYValue;
 	}
 	void updateXY(int newXValue, int newYValue) {
-		x = newXValue;
-		y = newYValue;
+		x += newXValue;
+		y += newYValue;
 	}
 }

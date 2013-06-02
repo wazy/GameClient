@@ -14,7 +14,7 @@ public class ServerConnection implements Runnable {
 	}
 	
 	public static String[] authenticate() {
-		String host = "localhost";
+		String host = "216.158.67.244";
 		int port = 8149;
 		
 		//StringBuffer instr1 = new StringBuffer();
@@ -40,7 +40,7 @@ public class ServerConnection implements Runnable {
 				
 				// TODO: this needs to come from authentication part however NYI in client
 				System.out.println("Sending userid now...");
-				oos.writeInt(6);
+				oos.writeInt(2);
 				oos.flush();
 
 				String option = (String) ois1.readObject();
@@ -101,7 +101,7 @@ public class ServerConnection implements Runnable {
 				
 				// read all players and their positions
 				Player.onlinePlayers = (List<Player>) ois.readObject();
-				Thread.sleep(3000);
+				Thread.sleep(1000);
 			}
 		}
 		catch (Exception e) {
