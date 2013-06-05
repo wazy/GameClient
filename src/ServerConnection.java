@@ -40,7 +40,7 @@ public class ServerConnection implements Runnable {
 				
 				// TODO: this needs to come from authentication part however NYI in client
 				System.out.println("Sending userid now...");
-				oos.writeInt(2);
+				oos.writeInt(3);
 				oos.flush();
 
 				String option = (String) ois1.readObject();
