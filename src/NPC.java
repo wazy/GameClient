@@ -6,26 +6,28 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 import java.io.Serializable;
 
-public class Player implements Serializable {
-	
-	private static final long serialVersionUID = -8405971951484157839L;
-	private static int tex;
-	public static int playerID = 0;
-	private static String playerImg = new File("./img/alien2.png").getAbsolutePath();
-	
-	public static List<Player> onlinePlayers = Collections.synchronizedList(new ArrayList<Player>(16));
+public class NPC implements Serializable {
+	private static final long serialVersionUID = -8405971951484157839L; // please help with this dan!!!!
 
+	private static int tex;
+	public static int npcID = 0;
+	private static String npcImg = new File("./img/spike-ball.png").getAbsolutePath();
+
+	public static List<NPC> NPCs = Collections.synchronizedList(new ArrayList<NPC>(16));
 	public static int listPosition = 0; // client's position in the list init to zero
 	public int id, x, y;
 	public String name;
 	public boolean selected = false;
+	public boolean alliance; // which side is NPC on 
 	
-	Player (int id, String name, int x, int y) {
+	NPC (int id, String name, int x, int y, boolean alliance) {
 		this.id = id;
 		this.name = name;
+		this.alliance = alliance;
 		this.x = x;
 		this.y = y;
 	}
+	
 	boolean inBounds(int mouseX, int mouseY) {
 		if (mouseX > x && mouseX < x + 50 && mouseY > y && mouseY < y + 50)
 			return true;
@@ -34,7 +36,7 @@ public class Player implements Serializable {
 	}
 	
 	public static void loadTexture() {
-		tex = TextureLoader.setupTextures(playerImg);
+		tex = TextureLoader.setupTextures(npcImg);
 	}
 	
 	public static void deleteTexture() {
@@ -42,7 +44,7 @@ public class Player implements Serializable {
 		GL11.glDeleteTextures(tex);
 	}
 	
-	void draw() {
+	void drawNPC() {
 		// draw player name
 		SimpleText.drawString(name, x, y+55);
 		
@@ -64,11 +66,11 @@ public class Player implements Serializable {
 			glVertex2f(x, y+50);
 		glEnd();
 	}
-	public static void setId(String playerId) {
-		Player.playerID = Integer.parseInt(playerId);
+	public static void setId(String npcId) {
+		NPC.npcID = Integer.parseInt(npcId);
 	}
 	public static int getId() {
-		return Player.playerID;
+		return NPC.npcID;
 	}
 	void updateX(int newXValue) {
 		x += newXValue;
