@@ -23,7 +23,7 @@ public class GameDisplay {
 		glMatrixMode(GL_MODELVIEW);
 		
 		StateDrawer.drawMainMenu("");
-
+		NPC.NPCs.add(new NPC(0,"Dan",200,200,true));
 		// while not closed
 		while (!Display.isCloseRequested()) {
 			// clear screen
@@ -48,8 +48,12 @@ public class GameDisplay {
 						player.draw();
 				}
 				Display.sync(10); // framerate
+				NPC.loadTexture();
+				for (NPC npc : NPC.NPCs) {
+					if (npc != null)
+						npc.drawNPC();
+				}
 			}
-
 			else {  // 0:main menu
 				Display.sync(5);
 				MainMenu.run();

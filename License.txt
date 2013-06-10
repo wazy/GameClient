@@ -1,0 +1,1 @@
+Attribution should be done like this: "c" 2005-2013 Julien Jorge <julien.jorge@stuff-o-matic.com>

@@ -7,7 +7,7 @@ import org.lwjgl.opengl.GL11;
 import java.io.Serializable;
 
 public class NPC implements Serializable {
-	private static final long serialVersionUID = -8405971951484157839L; // please help with this dan!!!!
+	private static final long serialVersionUID = -8405971951484157840L;
 
 	private static int tex;
 	public static int npcID = 0;

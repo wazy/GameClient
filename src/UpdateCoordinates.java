@@ -56,7 +56,7 @@ public class UpdateCoordinates implements Runnable {
 		finally {
 			try {
 				connection.close();
-			} catch (IOException e) {
+			} catch (Exception e) {
 				//e.printStackTrace();
 			}
 		}
