@@ -54,16 +54,16 @@ public class NPC implements Serializable {
 		//glColor3f(1.0f, 0.2f, 0.2f);
 		
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, tex);
-		// draw the player (a quad) 50 x 50
+		// draw a monster (a quad) 100 x 100
 		glBegin(GL_QUADS);
 			glTexCoord2f(0.0f, 0.0f);
 			glVertex2f(x, y);
 			glTexCoord2f(1.0f, 0.0f);
-			glVertex2f(x+50, y);
+			glVertex2f(x+100, y);
 			glTexCoord2f(1.0f, 1.0f);
-			glVertex2f(x+50, y+50);
+			glVertex2f(x+100, y+100);
 			glTexCoord2f(0.0f, 1.0f);
-			glVertex2f(x, y+50);
+			glVertex2f(x, y+100);
 		glEnd();
 	}
 	public static void setId(String npcId) {
@@ -71,15 +71,5 @@ public class NPC implements Serializable {
 	}
 	public static int getId() {
 		return NPC.npcID;
-	}
-	void updateX(int newXValue) {
-		x += newXValue;
-	}
-	void updateY(int newYValue) {
-		y += newYValue;
-	}
-	void updateXY(int newXValue, int newYValue) {
-		x += newXValue;
-		y += newYValue;
 	}
 }
