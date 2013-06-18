@@ -1,3 +1,4 @@
+package main;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.nio.IntBuffer;

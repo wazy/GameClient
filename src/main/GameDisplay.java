@@ -1,3 +1,4 @@
+package main;
 import static org.lwjgl.opengl.GL11.*;
 import java.sql.SQLException;
 import org.lwjgl.opengl.*;
@@ -23,11 +24,14 @@ public class GameDisplay {
 		glMatrixMode(GL_MODELVIEW);
 		
 		StateDrawer.drawMainMenu("");
-		NPC.NPCs.add(new NPC(0,"Dan",200,200,true));
+		
 		// while not closed
 		while (!Display.isCloseRequested()) {
-			// clear screen
-			//glClear(GL_COLOR_BUFFER_BIT);
+			if (Main.exitRequest) { // check if a reason exists to close
+				System.out.println("SHUTDOWN: Main display thread is exiting..");
+				break;
+			}
+			
 			if (States.getState() == 2) {  // 2:paused
 				StateDrawer.drawPauseMenu();
 				if (States.checkPlay()) {
@@ -43,16 +47,22 @@ public class GameDisplay {
 				//ServerConnection.receiveOnlinePlayers();
 				
 				// draw players in the online list (constantly updated)
+				Player.loadTexture();
 				for (Player player : Player.onlinePlayers) {
 					if (player != null)
 						player.draw();
 				}
-				Display.sync(10); // framerate
-				NPC.loadTexture();
-				for (NPC npc : NPC.NPCs) {
-					if (npc != null)
-						npc.drawNPC();
+				Player.deleteTexture();
+				
+				// draw creatures from server
+				Creature.loadTexture();
+				for (Creature creature : Creature.CreatureList) {
+					if (creature != null)
+						creature.drawNPC();
 				}
+				Creature.deleteTexture();
+				
+				Display.sync(10); // framerate
 			}
 			else {  // 0:main menu
 				Display.sync(5);

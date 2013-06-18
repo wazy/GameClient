@@ -1,3 +1,4 @@
+package main;
 import static org.lwjgl.opengl.GL11.*;
 import java.io.File;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ public class Player implements Serializable {
 	private static final long serialVersionUID = -8405971951484157839L;
 	private static int tex;
 	public static int playerID = 0;
-	private static String playerImg = new File("./img/alien2.png").getAbsolutePath();
+	private static String playerImg = new File("./img/etc2.png").getAbsolutePath();
 	
 	public static List<Player> onlinePlayers = Collections.synchronizedList(new ArrayList<Player>(16));
 
@@ -47,11 +48,10 @@ public class Player implements Serializable {
 		SimpleText.drawString(name, x, y+55);
 		
 		// can't add texture to player without this
+		GL11.glDisable(GL_TEXTURE_2D);
 		GL11.glEnable(GL_TEXTURE_2D);
-		// we can color the texture if we want
-		//glColor3f(1.0f, 0.2f, 0.2f);
-		
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, tex);
+		
 		// draw the player (a quad) 50 x 50
 		glBegin(GL_QUADS);
 			glTexCoord2f(0.0f, 0.0f);

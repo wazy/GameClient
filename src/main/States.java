@@ -1,3 +1,4 @@
+package main;
 import org.lwjgl.input.Keyboard;
 
 public class States {

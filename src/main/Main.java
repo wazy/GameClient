@@ -1,3 +1,4 @@
+package main;
 import org.lwjgl.LWJGLException;
 
 public class Main {

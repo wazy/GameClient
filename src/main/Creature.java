@@ -1,3 +1,4 @@
+package main;
 import static org.lwjgl.opengl.GL11.*;
 import java.io.File;
 import java.util.ArrayList;
@@ -6,21 +7,20 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 import java.io.Serializable;
 
-public class NPC implements Serializable {
+public class Creature implements Serializable {
 	private static final long serialVersionUID = -8405971951484157840L;
 
-	private static int tex;
-	public static int npcID = 0;
-	private static String npcImg = new File("./img/spike-ball.png").getAbsolutePath();
+	private static int texture;
+	public static int creatureID = 0;
+	private static String creatureImg = new File("./img/monster.png").getAbsolutePath();
 
-	public static List<NPC> NPCs = Collections.synchronizedList(new ArrayList<NPC>(16));
+	public static List<Creature> CreatureList = Collections.synchronizedList(new ArrayList<Creature>(16));
 	public static int listPosition = 0; // client's position in the list init to zero
-	public int id, x, y;
+	public int id, x, y, alliance;
 	public String name;
 	public boolean selected = false;
-	public boolean alliance; // which side is NPC on 
 	
-	NPC (int id, String name, int x, int y, boolean alliance) {
+	Creature (int id, String name, int x, int y, int alliance) {
 		this.id = id;
 		this.name = name;
 		this.alliance = alliance;
@@ -36,40 +36,39 @@ public class NPC implements Serializable {
 	}
 	
 	public static void loadTexture() {
-		tex = TextureLoader.setupTextures(npcImg);
+		texture = TextureLoader.setupTextures(creatureImg);
 	}
 	
 	public static void deleteTexture() {
 		// dont forget to delete the texture after use
-		GL11.glDeleteTextures(tex);
+		GL11.glDeleteTextures(texture);
 	}
 	
 	void drawNPC() {
 		// draw player name
 		SimpleText.drawString(name, x, y+55);
 		
-		// can't add texture to player without this
+		// can't add texture to Creature without this
+		GL11.glDisable(GL_TEXTURE_2D);
 		GL11.glEnable(GL_TEXTURE_2D);
-		// we can color the texture if we want
-		//glColor3f(1.0f, 0.2f, 0.2f);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture);
 		
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, tex);
-		// draw a monster (a quad) 100 x 100
+		// draw a monster (a quad) 50 x 50
 		glBegin(GL_QUADS);
 			glTexCoord2f(0.0f, 0.0f);
 			glVertex2f(x, y);
 			glTexCoord2f(1.0f, 0.0f);
-			glVertex2f(x+100, y);
+			glVertex2f(x+50, y);
 			glTexCoord2f(1.0f, 1.0f);
-			glVertex2f(x+100, y+100);
+			glVertex2f(x+50, y+50);
 			glTexCoord2f(0.0f, 1.0f);
-			glVertex2f(x, y+100);
+			glVertex2f(x, y+50);
 		glEnd();
 	}
-	public static void setId(String npcId) {
-		NPC.npcID = Integer.parseInt(npcId);
+	public static void setId(String npcID) {
+		Creature.creatureID = Integer.parseInt(npcID);
 	}
 	public static int getId() {
-		return NPC.npcID;
+		return Creature.creatureID;
 	}
 }

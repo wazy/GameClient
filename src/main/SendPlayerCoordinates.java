@@ -1,38 +1,41 @@
+package main;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.InetAddress;
 import java.net.Socket;
 
-public class UpdateCoordinates implements Runnable {
+/* NOTE: UpdatePlayerCoordinates is in ServerConnection.java */
+public class SendPlayerCoordinates implements Runnable {
 	public void run() {
 		Socket connection = null;
+		int id, x , y, listPosition;
 		try {
-			System.out.println("Updating coordinates");
-			int id, x , y, listPosition;
+			System.out.println("Sending player coordinates...");
 			// gets server address and attempts to establish a connection
-			InetAddress address = InetAddress.getByName("localhost");
-			connection = new Socket(address, 8149);
-			BufferedOutputStream bos = new BufferedOutputStream(connection.getOutputStream());
-			ObjectOutputStream outputStream = new ObjectOutputStream(bos);
-			BufferedInputStream bis = new BufferedInputStream(connection.getInputStream());
-			ObjectInputStream inputStream = new ObjectInputStream(bis);
-			//ObjectOutputStream outputStream = new ObjectOutputStream(bos);
+			connection = SocketHandler.fetchSocket();
+			if (connection == null) {
+				System.exit(-1);
+			}
+			// init the streams here for r/w
+			ObjectOutputStream outputStream = new ObjectOutputStream(new BufferedOutputStream(connection.getOutputStream()));
+			outputStream.flush();
 			
-			// tell server we want to update player coords
+			ObjectInputStream inputStream = new ObjectInputStream(new BufferedInputStream(connection.getInputStream()));
+			
+			// tell server we want to update player coordinates
 			outputStream.writeObject("update");
 			outputStream.flush();
 						
 			int c = inputStream.readInt();
-			// one is accepted connection from server
+			// one means accepted connection from server
 			if (c == 1) {
 				while (true) {
 					Thread.sleep(100); // adjust this
 					
 					if (Main.exitRequest) { // check if a reason exists to continue
 						connection.close();
+						System.out.println("SHUTDOWN: Update player coordinates thread is exiting..");
 						return;
 					}
 					
@@ -49,9 +52,12 @@ public class UpdateCoordinates implements Runnable {
 			}
 			
 		}
-		// socketexception thrown when connection terminates
+		// socket exception thrown when connection terminates
+		// this will terminate entire client in a domino fashion
 		catch (Exception e) {
-			e.printStackTrace();
+			System.out.println("FATAL: Update player coordinates thread is exiting..");
+			Main.exitRequest = true;
+			//e.printStackTrace();
 		} 
 		finally {
 			try {

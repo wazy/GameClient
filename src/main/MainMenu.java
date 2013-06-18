@@ -1,3 +1,4 @@
+package main;
 import static org.lwjgl.opengl.GL11.*;
 import java.sql.SQLException;
 import org.lwjgl.input.Mouse;
