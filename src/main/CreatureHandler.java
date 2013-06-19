@@ -12,7 +12,7 @@ public class CreatureHandler implements Runnable {
 	public void run() {
 		Socket connection = null;
 		try {
-			System.out.println("Updating npcs...");
+			System.out.println("Updating creatures...");
 			// gets server address and attempts to establish a connection
 			connection = SocketHandler.fetchSocket();
 			if (connection == null) {
@@ -35,7 +35,8 @@ public class CreatureHandler implements Runnable {
 					Thread.sleep(1000); // adjust this
 					if (Main.exitRequest) { // check if a reason exists to continue
 						connection.close();
-						System.out.println("SHUTDOWN: Monsters thread is exiting..");
+						System.out.println("SHUTDOWN: Creature thread is exiting..");
+						Main.threadCount = Main.threadCount - 1; // one less active thread
 						return;
 					}
 					Creature.CreatureList = (List<Creature>) inputStream.readObject();

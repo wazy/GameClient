@@ -31,8 +31,8 @@ public class UpdatePlayerCoordinates implements Runnable {
 				System.out.println("Receiving player coordinates...");
 				while (true) {
 					if (Main.exitRequest) {
-						connection.shutdownInput();
 						System.out.println("SHUTDOWN: Receiving player coordinates thread is exiting..");
+						Main.threadCount = Main.threadCount - 1; // one less active thread
 						ois.close();
 						return;
 					}

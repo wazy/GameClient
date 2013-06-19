@@ -17,7 +17,8 @@ public class ThreadHandler {
 		Runnable handleMonsterCoordinates = new CreatureHandler();
 		Thread handleMonsterCoordinatesThread = new Thread(handleMonsterCoordinates);
 		handleMonsterCoordinatesThread.start();
-
+		
+		Main.threadCount = 3;
 		/*
 		 * Add more threads in this location for future functionality.
 		 * TODO: cleanup.. need better design here.

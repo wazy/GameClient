@@ -75,5 +75,6 @@ public class GameDisplay {
 		}
 		StateDrawer.deleteTexture();
 		Display.destroy();
+		Main.exitRequest = true;	// tell everything to terminate
 	}
 }
