@@ -1,9 +1,10 @@
 package main;
 
 import javax.swing.*;
-
+import jBCrypt.BCrypt;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 import java.util.Arrays;
 
 public class LoginFrontEnd extends JPanel implements ActionListener {
@@ -14,6 +15,7 @@ public class LoginFrontEnd extends JPanel implements ActionListener {
 	private JFrame mainFrame;
 	private JPasswordField passwordField;
 	private JTextField usernameField;
+	private static JFrame frame;
 	
 	public LoginFrontEnd(JFrame frame) {
 		mainFrame = frame;
@@ -35,7 +37,7 @@ public class LoginFrontEnd extends JPanel implements ActionListener {
 
 		JComponent buttonPanel = createButtonPanel();
 
-		JPanel textPanel = new JPanel(new GridLayout(0,1));
+		JPanel textPanel = new JPanel(new GridLayout(0,2));
 		
 		textPanel.add(usernameLabel);
 		textPanel.add(usernameField);
@@ -67,13 +69,25 @@ public class LoginFrontEnd extends JPanel implements ActionListener {
 
 		if (LOGIN.equals(action)) {
 			char[] input = passwordField.getPassword();
+			String password = "";
+			
+			for (int i = 0; i < input.length; i++) {
+				password = password + input[i];
+			}
 			String username = usernameField.getText();
-			if (username.equals("user") && isPasswordCorrect(input)) {
-				JOptionPane.showMessageDialog(mainFrame, "Correct!");
+			try {
+				if (userValidate(username, password)) { // everything is ok then we can render things
+					JOptionPane.showMessageDialog(mainFrame, "Welcome to Game!");
+					frame.dispose();
+					GameDisplay.run();
+				} 
+				else {
+					JOptionPane.showMessageDialog(mainFrame, 
+							"Invalid username or password. ", "Error Message", JOptionPane.ERROR_MESSAGE);
+				}
 			} 
-			else {
-				JOptionPane.showMessageDialog(mainFrame, 
-						"Invalid username or password. ", "Error Message", JOptionPane.ERROR_MESSAGE);
+			catch (Exception e1) {
+				e1.printStackTrace();
 			}
 
 			Arrays.fill(input, '0');
@@ -86,8 +100,27 @@ public class LoginFrontEnd extends JPanel implements ActionListener {
 		}
 	}
 
-	private static boolean isPasswordCorrect(char[] input) {
-		return true;
+	private static boolean userValidate(String username, String password) throws SQLException {
+		if (password.isEmpty() || username.isEmpty()) {
+			return false;
+		}
+		// Hash a password for the first time
+		//String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
+		
+		// this hash == "pass"
+		//String hashed = "$2a$10$8iH4Y/JPBgcmZ0hbFIJMz.YpuEhVqhCZRyCvtaEDFFdx4eNCW/EEu";
+
+		String hashedPassword = LoginHandler.authenticate(username);
+
+		if (hashedPassword == null) {
+			return false;
+		}
+		else if (BCrypt.checkpw(password, hashedPassword)) {
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	protected void resetFocus() {
@@ -95,7 +128,7 @@ public class LoginFrontEnd extends JPanel implements ActionListener {
 	}
 
 	private static void GUI() {
-		JFrame frame = new JFrame("Game");
+		frame = new JFrame("Game");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		// create and set up the content panel
@@ -116,7 +149,7 @@ public class LoginFrontEnd extends JPanel implements ActionListener {
 		frame.setVisible(true);
 	}
 
-	public static void main(String[] args) {
+	public static void init() {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				GUI();

@@ -5,7 +5,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-/* NOTE: UpdatePlayerCoordinates is in ServerConnection.java */
 public class SendPlayerCoordinates implements Runnable {
 	public void run() {
 		Socket connection = null;

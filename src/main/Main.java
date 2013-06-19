@@ -6,7 +6,8 @@ public class Main {
 	
 	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, LWJGLException {
 		try {
-			GameDisplay.run();
+			LoginFrontEnd.init();
+			while (true) {;}
 		}
 		catch(Exception e){
 			e.printStackTrace();
