@@ -35,7 +35,7 @@ public class SendPlayerCoordinates implements Runnable {
 					if (Main.exitRequest) { // check if a reason exists to continue
 						connection.close();
 						System.out.println("SHUTDOWN: Update player coordinates thread is exiting..");
-						Main.threadCount = Main.threadCount - 1; // one less active thread
+						Main.threadCount.decrementAndGet(); // one less active thread
 						return;
 					}
 					
@@ -57,7 +57,7 @@ public class SendPlayerCoordinates implements Runnable {
 		catch (Exception e) {
 			System.out.println("FATAL: Update player coordinates thread is exiting..");
 			Main.exitRequest = true;
-			Main.threadCount = Main.threadCount - 1; // one less active thread
+			Main.threadCount.decrementAndGet(); // one less active thread
 			return;
 			//e.printStackTrace();
 		} 

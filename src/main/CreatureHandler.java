@@ -36,7 +36,7 @@ public class CreatureHandler implements Runnable {
 					if (Main.exitRequest) { // check if a reason exists to continue
 						connection.close();
 						System.out.println("SHUTDOWN: Creature thread is exiting..");
-						Main.threadCount = Main.threadCount - 1; // one less active thread
+						Main.threadCount.decrementAndGet(); // one less active thread
 						return;
 					}
 					Creature.CreatureList = (List<Creature>) inputStream.readObject();
@@ -48,9 +48,9 @@ public class CreatureHandler implements Runnable {
 		// socket exception / EOF exception thrown when connection terminates (silence error)
 		// this will terminate entire client in a domino fashion
 		catch (Exception e) {
-			System.out.println("\nFATAL: Monsters thread is exiting..");
+			System.out.println("\nFATAL: Creature thread is exiting..");
 			Main.exitRequest = true;
-			Main.threadCount = Main.threadCount - 1; // one less active thread
+			Main.threadCount.decrementAndGet(); // one less active thread
 			return;
 			//e.printStackTrace();
 		} 

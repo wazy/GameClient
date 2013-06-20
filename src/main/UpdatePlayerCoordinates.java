@@ -32,7 +32,7 @@ public class UpdatePlayerCoordinates implements Runnable {
 				while (true) {
 					if (Main.exitRequest) {
 						System.out.println("SHUTDOWN: Receiving player coordinates thread is exiting..");
-						Main.threadCount = Main.threadCount - 1; // one less active thread
+						Main.threadCount.decrementAndGet(); // one less active thread
 						ois.close();
 						return;
 					}
@@ -65,7 +65,7 @@ public class UpdatePlayerCoordinates implements Runnable {
 		catch (Exception e) {
 			System.out.println("\nFATAL: Receiving player coordinates thread is exiting..");
 			Main.exitRequest = true;
-			Main.threadCount = Main.threadCount - 1; // one less active thread
+			Main.threadCount.decrementAndGet(); // one less active thread
 			return;
 			//e.printStackTrace();
 		}
