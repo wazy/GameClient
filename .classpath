@@ -3,9 +3,9 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/lwjgl_jar/arm/jinput.jar"/>
-	<classpathentry kind="lib" path="lib/lwjgl_jar/arm/lwjgl.jar">
+	<classpathentry kind="lib" path="lib/lwjgl_jar/lwjgl.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="GameClient/lib/lwjgl_native/arm"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="GameClient/lib/lwjgl_native/macosx"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/PNGDecoder.jar"/>

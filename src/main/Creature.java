@@ -71,4 +71,10 @@ public class Creature implements Serializable {
 	public static int getId() {
 		return Creature.creatureID;
 	}
+	public int getX() {
+		return this.x;
+	}
+	public int getY() {
+		return this.y;
+	}
 }

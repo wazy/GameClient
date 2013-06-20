@@ -44,6 +44,16 @@ public class UpdatePlayerCoordinates implements Runnable {
 
 					// read all players and their positions
 					Player.onlinePlayers = (List<Player>) ois.readObject();
+					
+					int x1 = Player.onlinePlayers.get(Player.listPosition).x;
+					int y1 = Player.onlinePlayers.get(Player.listPosition).y;
+					
+					for (int i = 0; i < Creature.CreatureList.size(); i++) {
+						int x2 = Creature.CreatureList.get(i).getX();
+						int y2 = Creature.CreatureList.get(i).getY();
+						if (((y1 < y2 + 60) || (y2 - 60 > y1)) && ((x1 < x2 + 60) || (x2 - 60 > x1))) 
+							System.out.println("Collision Detected");
+					}
 					Thread.sleep(500);
 				}
 			}
@@ -55,6 +65,8 @@ public class UpdatePlayerCoordinates implements Runnable {
 		catch (Exception e) {
 			System.out.println("\nFATAL: Receiving player coordinates thread is exiting..");
 			Main.exitRequest = true;
+			Main.threadCount = Main.threadCount - 1; // one less active thread
+			return;
 			//e.printStackTrace();
 		}
 		finally {

@@ -50,6 +50,8 @@ public class CreatureHandler implements Runnable {
 		catch (Exception e) {
 			System.out.println("\nFATAL: Monsters thread is exiting..");
 			Main.exitRequest = true;
+			Main.threadCount = Main.threadCount - 1; // one less active thread
+			return;
 			//e.printStackTrace();
 		} 
 		finally {
