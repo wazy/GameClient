@@ -16,46 +16,46 @@ public class Movement {
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
 			if (Keyboard.isKeyDown(Keyboard.KEY_A)) { // check if player is moving up and left
-				Player.onlinePlayers.get(Player.listPosition).updateXY(-5,5); // moves the player northwest
+				Player.onlinePlayers.get(Player.listPosition.get()).updateXY(-5,5); // moves the player northwest
 			}
 			else if (Keyboard.isKeyDown(Keyboard.KEY_D)) { // check if player is moving up and right
-				Player.onlinePlayers.get(Player.listPosition).updateXY(5, 5); // moves the player northeast
+				Player.onlinePlayers.get(Player.listPosition.get()).updateXY(5, 5); // moves the player northeast
 			}
 			else {
-				Player.onlinePlayers.get(Player.listPosition).updateY(5); // moves the player up 
+				Player.onlinePlayers.get(Player.listPosition.get()).updateY(5); // moves the player up 
 			}
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
 			if (Keyboard.isKeyDown(Keyboard.KEY_A)) { // check if player is moving down and left
-				Player.onlinePlayers.get(Player.listPosition).updateXY(-5,-5); // moves the player southwest
+				Player.onlinePlayers.get(Player.listPosition.get()).updateXY(-5,-5); // moves the player southwest
 			}
 			else if (Keyboard.isKeyDown(Keyboard.KEY_D)) { // check if player is moving down and right
-				Player.onlinePlayers.get(Player.listPosition).updateXY(5, -5); // moves the player southeast
+				Player.onlinePlayers.get(Player.listPosition.get()).updateXY(5, -5); // moves the player southeast
 			}
 			else {
-				Player.onlinePlayers.get(Player.listPosition).updateY(-5); // moves the player down
+				Player.onlinePlayers.get(Player.listPosition.get()).updateY(-5); // moves the player down
 			}
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
 			if (Keyboard.isKeyDown(Keyboard.KEY_W)) { // check if player is moving left and up
-				Player.onlinePlayers.get(Player.listPosition).updateXY(-5,5); // moves the player northwest
+				Player.onlinePlayers.get(Player.listPosition.get()).updateXY(-5,5); // moves the player northwest
 			}
 			else if (Keyboard.isKeyDown(Keyboard.KEY_S)) { // check if player is moving left and down
-				Player.onlinePlayers.get(Player.listPosition).updateXY(-5, -5); // moves the player southwest
+				Player.onlinePlayers.get(Player.listPosition.get()).updateXY(-5, -5); // moves the player southwest
 			}
 			else {
-				Player.onlinePlayers.get(Player.listPosition).updateX(-5); // moves the player left
+				Player.onlinePlayers.get(Player.listPosition.get()).updateX(-5); // moves the player left
 			}
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
 			if (Keyboard.isKeyDown(Keyboard.KEY_W)) { // check if player is moving right and up
-				Player.onlinePlayers.get(Player.listPosition).updateXY(5,5); // moves the player northeast
+				Player.onlinePlayers.get(Player.listPosition.get()).updateXY(5,5); // moves the player northeast
 			}
 			else if (Keyboard.isKeyDown(Keyboard.KEY_S)) { // check if player is moving right and down
-				Player.onlinePlayers.get(Player.listPosition).updateXY(5, -5); // moves the player southeast
+				Player.onlinePlayers.get(Player.listPosition.get()).updateXY(5, -5); // moves the player southeast
 			}
 			else {
-				Player.onlinePlayers.get(Player.listPosition).updateX(5); // moves the player right
+				Player.onlinePlayers.get(Player.listPosition.get()).updateX(5); // moves the player right
 			}
 		}
 	/*

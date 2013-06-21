@@ -41,9 +41,11 @@ public class SendPlayerCoordinates implements Runnable {
 					
 					// System.out.println("Sending coordinates to server..");
 					id = Player.getId();
-					listPosition = Player.listPosition;
+					listPosition = Player.listPosition.get();
 					x = Player.onlinePlayers.get(listPosition).x;
 					y = Player.onlinePlayers.get(listPosition).y;
+					
+					// where client's player is in the array is sent as "name" -- hack
 					Player player = new Player(id, String.valueOf(listPosition), x, y);
 					outputStream.writeObject(player);
 					outputStream.flush();

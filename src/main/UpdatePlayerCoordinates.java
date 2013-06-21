@@ -39,21 +39,12 @@ public class UpdatePlayerCoordinates implements Runnable {
 
 					// read and set position of player in list here
 					int id = ois.readInt();
-					Player.listPosition = id;
+					Player.listPosition.set(id);
 					//System.out.println("You are position: " + Player.listPosition + " in the list.");
 
 					// read all players and their positions
 					Player.onlinePlayers = (List<Player>) ois.readObject();
-					
-					int x1 = Player.onlinePlayers.get(Player.listPosition).x;
-					int y1 = Player.onlinePlayers.get(Player.listPosition).y;
-					
-					for (int i = 0; i < Creature.CreatureList.size(); i++) {
-						int x2 = Creature.CreatureList.get(i).getX();
-						int y2 = Creature.CreatureList.get(i).getY();
-						if (((y1 < y2 + 60) || (y2 - 60 > y1)) && ((x1 < x2 + 60) || (x2 - 60 > x1))) 
-							System.out.println("Collision Detected");
-					}
+
 					Thread.sleep(500);
 				}
 			}

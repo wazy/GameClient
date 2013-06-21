@@ -4,6 +4,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
+
 import org.lwjgl.opengl.GL11;
 import java.io.Serializable;
 
@@ -16,8 +18,11 @@ public class Player implements Serializable {
 	
 	public static List<Player> onlinePlayers = Collections.synchronizedList(new ArrayList<Player>(16));
 
-	public static int listPosition = 0; // client's position in the list init to zero
+	public static AtomicInteger listPosition = new AtomicInteger(0); // client's position in the list init to zero
+	
+	// x and y should probably be atomic as well for thread safety
 	public int id, x, y;
+	
 	public String name;
 	public boolean selected = false;
 	
@@ -27,6 +32,7 @@ public class Player implements Serializable {
 		this.x = x;
 		this.y = y;
 	}
+	
 	boolean inBounds(int mouseX, int mouseY) {
 		if (mouseX > x && mouseX < x + 50 && mouseY > y && mouseY < y + 50)
 			return true;
@@ -64,12 +70,31 @@ public class Player implements Serializable {
 			glVertex2f(x, y+50);
 		glEnd();
 	}
+	
+	// static is probably a bad idea but we only need
+	// to manage one client and thus have a global id
 	public static void setId(String playerId) {
 		Player.playerID = Integer.parseInt(playerId);
 	}
 	public static int getId() {
 		return Player.playerID;
 	}
+	
+	public void setName(String newName) {
+		this.name = newName;
+	}
+	
+	public String getName() {
+		return this.name;
+	}
+	public int getX() {
+		return this.x;
+	}
+	
+	public int getY() {
+		return this.y;
+	}
+	
 	void updateX(int newXValue) {
 		x += newXValue;
 	}
