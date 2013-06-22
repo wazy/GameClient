@@ -34,7 +34,7 @@ public class SendPlayerCoordinates implements Runnable {
 					
 					if (Main.exitRequest) { // check if a reason exists to continue
 						connection.close();
-						System.out.println("SHUTDOWN: Update player coordinates thread is exiting..");
+						System.out.println("SHUTDOWN: Sending player coordinates thread is exiting..");
 						Main.threadCount.decrementAndGet(); // one less active thread
 						return;
 					}
@@ -42,8 +42,11 @@ public class SendPlayerCoordinates implements Runnable {
 					// System.out.println("Sending coordinates to server..");
 					id = Player.getId();
 					listPosition = Player.listPosition.get();
-					x = Player.onlinePlayers.get(listPosition).x;
-					y = Player.onlinePlayers.get(listPosition).y;
+					
+					while (Player.onlinePlayers.size() < 1) {;}
+					
+					x = Player.onlinePlayers.get(listPosition).getX();
+					y = Player.onlinePlayers.get(listPosition).getY();
 					
 					// where client's player is in the array is sent as "name" -- hack
 					Player player = new Player(id, String.valueOf(listPosition), x, y);
@@ -57,11 +60,11 @@ public class SendPlayerCoordinates implements Runnable {
 		// socket exception thrown when connection terminates
 		// this will terminate entire client in a domino fashion
 		catch (Exception e) {
-			System.out.println("FATAL: Update player coordinates thread is exiting..");
+			//e.printStackTrace();
+			System.out.println("FATAL: Sending player coordinates thread is exiting..");
 			Main.exitRequest = true;
 			Main.threadCount.decrementAndGet(); // one less active thread
 			return;
-			//e.printStackTrace();
 		} 
 		finally {
 			try {

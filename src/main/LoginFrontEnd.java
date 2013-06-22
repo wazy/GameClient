@@ -10,35 +10,45 @@ import java.util.Arrays;
 public class LoginFrontEnd extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private static String LOGIN = "Login";
-	private static String INFO = "Information";
+	private static String REGISTER = "Register";
 
 	private JFrame mainFrame;
 	private JPasswordField passwordField;
 	private JTextField usernameField;
 	private static JFrame frame;
-	
+
+	// for registration frame
+	private JFrame frame2;
+	private JLabel createUsernameLabel;
+	private JLabel createPasswordLabel;
+	private JLabel createPasswordLabel2;
+	private JTextField createUsernameField;
+	private JPasswordField createPasswordField;
+	private JPasswordField createPasswordField2;
+
 	public LoginFrontEnd(JFrame frame) {
 		mainFrame = frame;
 		mainFrame.setLocationRelativeTo(null);
 		mainFrame.setSize(100, 200);
-		
+
 		usernameField = new JTextField(10);
+		usernameField.setActionCommand(LOGIN);
 		usernameField.addActionListener(this);
-		
+
 		passwordField = new JPasswordField(10);
 		passwordField.setActionCommand(LOGIN);
 		passwordField.addActionListener(this);
 
 		JLabel usernameLabel = new JLabel("Username: ");
 		JLabel passwordLabel = new JLabel("Password: ");
-		
+
 		usernameLabel.setLabelFor(usernameField);
 		passwordLabel.setLabelFor(passwordField);
 
 		JComponent buttonPanel = createButtonPanel();
 
 		JPanel textPanel = new JPanel(new GridLayout(0,2));
-		
+
 		textPanel.add(usernameLabel);
 		textPanel.add(usernameField);
 		textPanel.add(passwordLabel);
@@ -51,17 +61,108 @@ public class LoginFrontEnd extends JPanel implements ActionListener {
 	protected JComponent createButtonPanel() {
 		JPanel panel = new JPanel(new GridLayout(0,1));
 		JButton loginButton = new JButton("Login");
-		JButton helpButton = new JButton("Help");
+		JButton registerButton = new JButton("Register");
 
 		loginButton.setActionCommand(LOGIN);
-		helpButton.setActionCommand(INFO);
 		loginButton.addActionListener(this);
-		helpButton.addActionListener(this);
+
+		registerButton.setActionCommand(REGISTER);
+		registerButton.addActionListener(new Register());
 
 		panel.add(loginButton);
-		panel.add(helpButton);
+		panel.add(registerButton);
 
 		return panel;
+	}
+
+	class Register implements ActionListener {        
+		public void actionPerformed (ActionEvent e) {     
+			frame2 = new JFrame("Game Registration");
+			frame2.setVisible(true);
+			frame2.setSize(400,100);
+			frame2.setLocationRelativeTo(null);
+
+			JPanel panel = new JPanel(new GridLayout(1,1));
+			JButton createButton = new JButton("Create");
+
+			createButton.setActionCommand("Create");
+			createButton.addActionListener(new Create());
+
+			panel.add(createButton);
+
+			createUsernameField = new JTextField(10);
+			createPasswordField = new JPasswordField(10);
+			createPasswordField2 = new JPasswordField(10);
+
+			createUsernameLabel = new JLabel("Username: ");
+			createPasswordLabel = new JLabel("Password: ");
+			createPasswordLabel2 = new JLabel("Repeat: ");
+
+			createUsernameLabel.setLabelFor(createUsernameField);
+			createPasswordLabel.setLabelFor(createPasswordField);
+			createPasswordLabel2.setLabelFor(createPasswordField2);
+
+			JPanel textPanel = new JPanel(new GridLayout(0,2));
+
+			textPanel.add(createUsernameLabel);
+			textPanel.add(createUsernameField);
+			textPanel.add(createPasswordLabel);
+			textPanel.add(createPasswordField);
+			textPanel.add(createPasswordLabel2);
+			textPanel.add(createPasswordField2);
+
+			frame2.add(textPanel);
+			textPanel.add(panel);
+		}
+	}
+
+	class Create implements ActionListener {        
+		public void actionPerformed (ActionEvent e) {
+			String password = "", password2 = "";
+			String username = createUsernameField.getText();
+			
+			char[] input = createPasswordField.getPassword();
+			
+			for (int i = 0; i < input.length; i++) {
+				password = password + input[i];
+			}
+
+			input = createPasswordField2.getPassword();
+			
+			for (int i = 0; i < input.length; i++) {
+				password2 = password2 + input[i];
+			}
+			
+			// user left a part empty of form
+			if (password.isEmpty() || password2.isEmpty() || username.isEmpty()) {
+				JOptionPane.showMessageDialog(mainFrame, 
+						"You left something blank!", "Error Message", JOptionPane.ERROR_MESSAGE);
+				createUsernameField.requestFocusInWindow();
+			}
+			
+			// not matching passwords
+			else if (!password.equals(password2)) {
+				JOptionPane.showMessageDialog(mainFrame, 
+						"Passwords do not match!", "Error Message", JOptionPane.ERROR_MESSAGE);
+				createUsernameField.requestFocusInWindow();
+			}
+			else { // lets try to register
+				String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
+				// System.out.println("Username: " + username + " Hash: " + hashed);
+				boolean success = LoginHandler.register(username, hashed);
+				
+				if (!success) {
+					JOptionPane.showMessageDialog(mainFrame, 
+							"An error occurred while registering.. duplicate username?", "Error Message", JOptionPane.ERROR_MESSAGE);
+					createUsernameField.requestFocusInWindow();
+				}
+				else { // registered successfully
+					JOptionPane.showMessageDialog(mainFrame, "Successful registration! You may now login.");
+					frame2.dispose();
+				}
+				
+			}
+		}
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -70,7 +171,7 @@ public class LoginFrontEnd extends JPanel implements ActionListener {
 		if (LOGIN.equals(action)) {
 			char[] input = passwordField.getPassword();
 			String password = "";
-			
+
 			for (int i = 0; i < input.length; i++) {
 				password = password + input[i];
 			}
@@ -106,7 +207,7 @@ public class LoginFrontEnd extends JPanel implements ActionListener {
 		}
 		// Hash a password for the first time
 		//String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
-		
+
 		// this hash == "pass"
 		//String hashed = "$2a$10$8iH4Y/JPBgcmZ0hbFIJMz.YpuEhVqhCZRyCvtaEDFFdx4eNCW/EEu";
 

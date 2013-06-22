@@ -47,9 +47,46 @@ public class LoginHandler {
 			return null;
 		}
 	}
+	public static boolean register(String username, String hashpw) {
+		try {
+			// concat hash and username together so that we only write once
+			String regDetails = username + " " + hashpw;
+			
+			Socket connection = SocketHandler.fetchSocket();
+
+			// null if fails to open connection
+			if (connection == null) {
+				System.exit(-1);
+			}
+
+			ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(connection.getOutputStream()));
+			oos.flush();
+			ObjectInputStream ois = new ObjectInputStream(connection.getInputStream());
+
+			// client wants to register, reg packet as follows
+			// CMSG "register", SMSG 1, CMSG regDetails,
+			// SMSG 1 or 0 (valid or not) --> then server d/c's the client		
+
+			// tell server we want to register
+			oos.writeObject("register");
+			oos.flush();
+
+			int c = ois.readInt();
+
+			if (c == 1) {
+				oos.writeObject(regDetails); // send account details
+				oos.flush();
+
+				c = ois.readInt(); // 1 means success
+				if (c == 1) {
+					return true;
+				}
+			}
+			return false; // failed to register
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 }
-	//if ((playerInfo = ServerConnection.authenticate()) != null) { //successful login
-	// add client player -- {id, name, x, y}
-	//		Player.onlinePlayers.add(new Player(Integer.parseInt(playerInfo[0].trim()), playerInfo[1].trim(),
-	//			Integer.parseInt(playerInfo[2].trim()), Integer.parseInt(playerInfo[3].trim())));
-	//	States.setState(1);

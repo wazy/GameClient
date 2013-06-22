@@ -6,6 +6,11 @@ public class Movement {
 	
 	public static void check() {
 		
+		// client still loading
+		if (Player.onlinePlayers.size() < 1) {
+			return;
+		}
+		
 		// just testing .... 
 		if (Mouse.next()) { 	// buffered events
 			if (Mouse.getEventButtonState()) { // pressed down?
