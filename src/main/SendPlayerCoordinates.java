@@ -40,11 +40,12 @@ public class SendPlayerCoordinates implements Runnable {
 					}
 					
 					// System.out.println("Sending coordinates to server..");
-					id = Player.getId();
+
+					while (Player.onlinePlayers.size() < 1) {;}
+
 					listPosition = Player.listPosition.get();
 					
-					while (Player.onlinePlayers.size() < 1) {;}
-					
+					id = Player.onlinePlayers.get(listPosition).getId();
 					x = Player.onlinePlayers.get(listPosition).getX();
 					y = Player.onlinePlayers.get(listPosition).getY();
 					

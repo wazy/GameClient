@@ -13,7 +13,6 @@ public class Player implements Serializable {
 	
 	private static final long serialVersionUID = -8405971951484157839L;
 	private static int tex;
-	public static int playerID = 0;
 	private static String playerImg = new File("./img/etc2.png").getAbsolutePath();
 	
 	public static List<Player> onlinePlayers = Collections.synchronizedList(new ArrayList<Player>(16));
@@ -71,13 +70,12 @@ public class Player implements Serializable {
 		glEnd();
 	}
 	
-	// static is probably a bad idea but we only need
-	// to manage one client and thus have a global id
-	public static void setId(String playerId) {
-		Player.playerID = Integer.parseInt(playerId);
+	// this can help prevent wrong client d/c on server
+	public void setId(String playerId) {
+		this.id = Integer.parseInt(playerId);
 	}
-	public static int getId() {
-		return Player.playerID;
+	public int getId() {
+		return this.id;
 	}
 	
 	public void setName(String newName) {

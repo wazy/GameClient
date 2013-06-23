@@ -12,6 +12,7 @@ public class CombatHandler implements Runnable {
 				Collision = DetectCollisions();
 				if (Collision) {
 					System.out.println("Collision detected! Player being moved..");
+					// health--;
 				}
 					Thread.sleep(1000);
 			}
@@ -55,10 +56,8 @@ public class CombatHandler implements Runnable {
 					int y2 = Creature.CreatureList.get(i).getY();
 					
 					// creature's coordinates plus a small buffer for movement momentum, etc
-					// TODO FIX ME -- incorrect on left side and below creature
-					if (((y1 < (y2 + 60)) || ((y2 - 60) > y1)) && ((x1 < (x2 + 60)) || ((x2 - 60) > x1))) {
-					//	if (x1 > x2 && x1 < x2 + 100 && y1 > y2 && y1 < y2 + 100) {
-							
+					if (((x1 < x2 + 65) &&  (x1 > x2 - 65)) && ((y1 < y2 + 65) && (y1 > y2 - 65))) {
+						
 						System.out.println(x1 + " " + x2);
 						System.out.println(y1 + " " + y2);
 						

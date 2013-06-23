@@ -22,7 +22,7 @@ public class UpdatePlayerCoordinates implements Runnable {
 			oos.flush();
 			ObjectInputStream ois = new ObjectInputStream(connection.getInputStream());
 
-			// tell server we want to auth
+			// tell server we want it to spc (send player coordinates)
 			oos.writeObject("spc");
 			oos.flush();
 
