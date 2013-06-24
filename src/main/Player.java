@@ -15,6 +15,8 @@ public class Player implements Serializable {
 	private static int tex;
 	private static String playerImg = new File("./img/etc2.png").getAbsolutePath();
 	
+	public static int playerHealth = 5;
+	
 	public static List<Player> onlinePlayers = Collections.synchronizedList(new ArrayList<Player>(16));
 
 	public static AtomicInteger listPosition = new AtomicInteger(0); // client's position in the list init to zero

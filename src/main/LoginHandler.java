@@ -1,9 +1,11 @@
 package main;
+import jBCrypt.BCrypt;
+
 import java.io.*;
 import java.net.*;
 
 public class LoginHandler {
-	public static String authenticate(String username) {
+	public static boolean authenticate(String username, String password) {
 		try {
 			Socket connection = SocketHandler.fetchSocket();
 
@@ -19,7 +21,8 @@ public class LoginHandler {
 			// client wants to authenticate, auth packet as follows
 			// CMSG "auth", SMSG 1, CMSG username,
 			// SMSG 1 or 0 (exists or doesn't), CMSG 1 (pong if user exists),
-			// SMSG passwordHash --> then server d/c's the client		
+			// SMSG passwordHash, CMSG 1 or 0 (valid or not)
+			// --> then server d/c's the client		
 
 			// tell server we want to auth
 			oos.writeObject("auth");
@@ -37,14 +40,25 @@ public class LoginHandler {
 					oos.flush();
 
 					String passwordHash = (String) ois.readObject(); // hash of password for comparison
-					return passwordHash;
+
+					if (BCrypt.checkpw(password, passwordHash)) {
+						oos.writeInt(1); // tell server is validated
+						oos.flush();
+						return true;
+					}
+					else {
+						oos.writeInt(0); // not right password
+						oos.flush();
+						return false;
+					}
 				}
 			}
-			return null; // failure to authenticate
+			return false; // failure to authenticate
 		}
 		catch (Exception e) {
+			System.out.println(password);
 			e.printStackTrace();
-			return null;
+			return false;
 		}
 	}
 	public static boolean register(String username, String hashpw) {

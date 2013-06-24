@@ -11,7 +11,7 @@ public class ThreadHandler {
 		 */
 		
 		// handle receiving player coordinate updates
-		Runnable getPlayerCoordinates = new UpdatePlayerCoordinates();
+		Runnable getPlayerCoordinates = new AcceptPlayerCoordinates();
 		Thread getPlayerCoordinatesThread = new Thread(getPlayerCoordinates);
 		getPlayerCoordinatesThread.start();
 

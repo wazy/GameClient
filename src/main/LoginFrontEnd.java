@@ -205,23 +205,10 @@ public class LoginFrontEnd extends JPanel implements ActionListener {
 		if (password.isEmpty() || username.isEmpty()) {
 			return false;
 		}
-		// Hash a password for the first time
-		//String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
 
-		// this hash == "pass"
-		//String hashed = "$2a$10$8iH4Y/JPBgcmZ0hbFIJMz.YpuEhVqhCZRyCvtaEDFFdx4eNCW/EEu";
-
-		String hashedPassword = LoginHandler.authenticate(username);
-
-		if (hashedPassword == null) {
-			return false;
-		}
-		else if (BCrypt.checkpw(password, hashedPassword)) {
-			return true;
-		}
-		else {
-			return false;
-		}
+		boolean result = LoginHandler.authenticate(username, password);
+		
+		return result; // true for success / false for fail
 	}
 
 	protected void resetFocus() {

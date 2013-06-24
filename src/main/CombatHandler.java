@@ -12,7 +12,14 @@ public class CombatHandler implements Runnable {
 				Collision = DetectCollisions();
 				if (Collision) {
 					System.out.println("Collision detected! Player being moved..");
-					// health--;
+					
+					// some template code for further development
+					if (--Player.playerHealth > 0 ) {
+						System.out.println("Health is now: " + Player.playerHealth);
+					}
+					else {
+						System.out.println("Player has succumb to darkness.. farewell.");
+					}
 				}
 					Thread.sleep(1000);
 			}

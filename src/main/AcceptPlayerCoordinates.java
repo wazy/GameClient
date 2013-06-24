@@ -3,8 +3,8 @@ import java.io.*;
 import java.net.*;
 import java.util.List;
 
-/* updates / receives player list from server */
-public class UpdatePlayerCoordinates implements Runnable {
+/* accepts / updates player list from server */
+public class AcceptPlayerCoordinates implements Runnable {
 	@SuppressWarnings("unchecked")
 	public void run () {
 		// probably not best place for this but
@@ -29,10 +29,10 @@ public class UpdatePlayerCoordinates implements Runnable {
 			int c = ois.readInt();
 
 			if (c == 1) {
-				System.out.println("Receiving player coordinates...");
+				System.out.println("Accepting player coordinates...");
 				while (true) {
 					if (Main.exitRequest) {
-						System.out.println("SHUTDOWN: Updating player coordinates thread is exiting..");
+						System.out.println("SHUTDOWN: Accepting player coordinates thread is exiting..");
 						Main.threadCount.decrementAndGet(); // one less active thread
 						ois.close();
 						return;
@@ -55,7 +55,7 @@ public class UpdatePlayerCoordinates implements Runnable {
 		}
 		// will cause client to shutdown on fatal error
 		catch (Exception e) {
-			System.out.println("\nFATAL: Updating player coordinates thread is exiting..");
+			System.out.println("\nFATAL: Accepting player coordinates thread is exiting..");
 			Main.exitRequest = true;
 			Main.threadCount.decrementAndGet(); // one less active thread
 			return;
