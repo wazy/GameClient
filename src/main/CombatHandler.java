@@ -18,7 +18,8 @@ public class CombatHandler implements Runnable {
 						System.out.println("Health is now: " + Player.playerHealth);
 					}
 					else {
-						System.out.println("Player has succumb to darkness.. farewell.");
+						System.out.println("\nPlayer has succumb to darkness.. farewell.\n");
+						Main.exitRequest = true;
 					}
 				}
 					Thread.sleep(1000);

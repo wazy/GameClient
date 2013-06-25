@@ -87,12 +87,21 @@ public class Player implements Serializable {
 	public String getName() {
 		return this.name;
 	}
+	
 	public int getX() {
 		return this.x;
 	}
 	
+	public void setX(int X) {
+		this.x = X;
+	}
+	
 	public int getY() {
 		return this.y;
+	}
+	
+	public void setY(int Y) {
+		this.y = Y;
 	}
 	
 	void updateX(int newXValue) {
