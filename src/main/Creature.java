@@ -14,7 +14,7 @@ public class Creature implements Serializable {
 	public static int creatureID = 0;
 	private static String creatureImg = new File("./img/monster.png").getAbsolutePath();
 
-	public static List<Creature> CreatureList = Collections.synchronizedList(new ArrayList<Creature>(16));
+	public static List<Creature> creatureList = Collections.synchronizedList(new ArrayList<Creature>(16));
 	public static int listPosition = 0; // client's position in the list init to zero
 	public int id, x, y, alliance;
 	public String name;

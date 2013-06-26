@@ -1,21 +1,21 @@
 package main;
 
 public class CombatHandler implements Runnable {
-	
+
 	private boolean Collision = false;
-	
+
 	public void run () {
 		System.out.println("Handling combat..");
 		while (!Main.exitRequest) {
 			try {
 				//check for fire button pressed
 				Combat.check();
-				
+
 				// see if a collision occurred
 				Collision = DetectCollisions();
 				if (Collision) {
 					System.out.println("Collision detected! Player being moved..");
-					
+
 					// some template code for further development
 					if (--Player.playerHealth > 0 ) {
 						System.out.println("Health is now: " + Player.playerHealth);
@@ -25,7 +25,7 @@ public class CombatHandler implements Runnable {
 						Main.exitRequest = true;
 					}
 				}
-					Thread.sleep(1000);
+				Thread.sleep(1000);
 			}
 			catch (Exception e) {
 				e.printStackTrace();
@@ -48,33 +48,34 @@ public class CombatHandler implements Runnable {
 			if (Player.onlinePlayers.size() < 1) {
 				return false;
 			}
-			synchronized (Creature.CreatureList) {
+			synchronized (Creature.creatureList) {
 				// empty list -- do nothing
-				if (Creature.CreatureList.size() < 1) {
+				if (Creature.creatureList.size() < 1) {
 					return false;
 				}
-				
+
 				int listPosition = Player.listPosition.get();
 				Player player = Player.onlinePlayers.get(listPosition);
-				
+
 				// get client's player's position
 				int x1 = player.getX();
 				int y1 = player.getY();
-				
+
 				// detects collision -- player against creatures
-				for (int i = 0; i < Creature.CreatureList.size(); i++) {
-					int x2 = Creature.CreatureList.get(i).getX();
-					int y2 = Creature.CreatureList.get(i).getY();
-					
+				for (int i = 0; i < Creature.creatureList.size(); i++) {
+					Creature creature = Creature.creatureList.get(i);
+					int x2 = creature.getX();
+					int y2 = creature.getY();
+
 					// creature's coordinates plus a small buffer for movement momentum, etc
 					if (((x1 < x2 + 65) &&  (x1 > x2 - 65)) && ((y1 < y2 + 65) && (y1 > y2 - 65))) {
-						
+
 						System.out.println(x1 + " " + x2);
 						System.out.println(y1 + " " + y2);
-						
+
 						// just resetting player's coordinates as proof of concept
 						player.updateXY(-5, -5);
-						
+
 						// collision happened
 						return true;
 					}

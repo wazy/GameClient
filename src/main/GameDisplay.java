@@ -56,7 +56,7 @@ public class GameDisplay {
 				
 				// draw creatures from server
 				Creature.loadTexture();
-				for (Creature creature : Creature.CreatureList) {
+				for (Creature creature : Creature.creatureList) {
 					if (creature != null)
 						creature.drawNPC();
 				}

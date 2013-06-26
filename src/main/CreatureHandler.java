@@ -39,7 +39,7 @@ public class CreatureHandler implements Runnable {
 						Main.threadCount.decrementAndGet(); // one less active thread
 						return;
 					}
-					Creature.CreatureList = (List<Creature>) inputStream.readObject();
+					Creature.creatureList = (List<Creature>) inputStream.readObject();
 					// System.out.println(Creature.CreatureList.size());
 				}
 			}
