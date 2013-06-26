@@ -15,10 +15,17 @@ public class Combat {
 		int x = player.getX();
 		int y = player.getY();
 
-		if (Keyboard.next()) { 	// buffered events
-			if (Keyboard.isKeyDown(Keyboard.KEY_F)); { // pressed down?
-				if (Keyboard.isKeyDown(Keyboard.KEY_F)) { 
-					System.out.println("fire button is pressed");
+		if (Mouse.next()) { 	// buffered events
+			if (Keyboard.isKeyDown(Keyboard.KEY_F) && Mouse.getEventButtonState()){ // key F pressed down && click mouse?
+				int mouse_X = Mouse.getX();
+				int mouse_Y = Mouse.getY();
+				
+				System.out.printf("you fired toward position %d,%d\n",Mouse.getX(),Mouse.getY());// useful for detecting hit/miss airborne shots later
+				for (Creature i : Creature.CreatureList) { //loop through creatures?? not efficient WIP
+					if (i.inBounds(mouse_X, mouse_Y)) { 
+						System.out.printf("you shot at %s\n", i.getName());
+						break;
+					}
 				}
 			}
 		}

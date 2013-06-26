@@ -77,4 +77,7 @@ public class Creature implements Serializable {
 	public int getY() {
 		return this.y;
 	}
+	public String getName() {
+		return this.name;
+	}
 }
