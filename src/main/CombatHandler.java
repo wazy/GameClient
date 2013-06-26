@@ -8,6 +8,9 @@ public class CombatHandler implements Runnable {
 		System.out.println("Handling combat..");
 		while (!Main.exitRequest) {
 			try {
+				//check for fire button fffffffffffffffpressed
+				Combat.check();
+				
 				// see if a collision occurred
 				Collision = DetectCollisions();
 				if (Collision) {

@@ -58,6 +58,7 @@ public class AcceptPlayerCoordinates implements Runnable {
 			System.out.println("\nFATAL: Accepting player coordinates thread is exiting..");
 			Main.exitRequest = true;
 			Main.threadCount.decrementAndGet(); // one less active thread
+			e.printStackTrace();
 			return;
 			//e.printStackTrace();
 		}
