@@ -8,9 +8,8 @@ import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.lwjgl.opengl.GL11;
 
@@ -19,7 +18,7 @@ public class Spell {
 		private static int texture;
 		private static String spellImg = new File("./img/monster.png").getAbsolutePath();
 
-		public static List<Spell> spellList = Collections.synchronizedList(new ArrayList<Spell>(10));
+		public static Map<Integer, Spell> spellMap = new HashMap<Integer, Spell>(20);
 		public int spellID, x, y;
 		public String name;
 		

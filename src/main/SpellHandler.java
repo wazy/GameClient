@@ -10,9 +10,6 @@ public class SpellHandler implements Runnable{
 		// client still loading
 		while (Player.onlinePlayers.size() < 1) {;}
 
-		// Player player = Player.onlinePlayers.get(Player.listPosition.get());
-		// int x = player.getX();
-		// int y = player.getY();
 		while (!Main.exitRequest) {
 			try {
 				while (Keyboard.next()) { 	// buffered keyboard events
@@ -23,10 +20,38 @@ public class SpellHandler implements Runnable{
 
 							// useful for detecting hit/miss airborne shots later
 							System.out.printf("You fired toward position %d,%d\n", mouse_X, mouse_Y);
+
+							Player player = Player.onlinePlayers.get(Player.listPosition.get());
+							int x1 = player.getX();
+							int y1 = player.getY();
+
+							// get hypotenuse
+							double hypote = Math.hypot(x1 - mouse_X, y1 - mouse_Y);
+
+							// generate 20 spell objects to represent object path
+							int results = (int) hypote/20;
+
+							System.out.println("Hypotenuse is " + hypote);
+							System.out.println("Increment value is " + results);
+
+							// not ready to render yet
+							while (GameDisplay.drawProjectile) {;}
 							
+							// lock it while we add here
+							synchronized (Spell.spellMap) {
+								int k = 0;
+								
+								Spell.spellMap.clear();
+
+								// do our calculations here with incrementing position
+								for (int i = results; i <= hypote; i += results) {
+									if (k < 20) {
+										Spell.spellMap.put(k++, new Spell(1, "", x1+i, y1));
+									}
+								}
+							}
 							GameDisplay.drawProjectile = true;
-							Spell.spellList.add(new Spell(1,"",mouse_X,mouse_Y));
-							
+
 							synchronized (Creature.creatureList) {
 								for (Creature creature : Creature.creatureList) { // necessary.. probably need more efficient
 									if (creature.inBounds(mouse_X, mouse_Y)) { 
@@ -40,7 +65,7 @@ public class SpellHandler implements Runnable{
 				}
 			}
 			catch (Exception e) {
-				e.printStackTrace();
+				// e.printStackTrace();
 				System.out.println("\nFATAL: spell handler thread is exiting..");
 				Main.exitRequest = true;
 				Main.threadCount.decrementAndGet(); // one less active thread

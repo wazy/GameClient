@@ -10,8 +10,9 @@ public class GameDisplay {
 	public static volatile boolean drawProjectile = false;
 
 	public static void run() throws SQLException {
+		int k = 0;
 		DisplayMode x;
-		try{
+		try {
 			x = new DisplayMode(640, 480);
 			Display.setDisplayMode(x);
 			Display.setTitle("Game");
@@ -43,7 +44,7 @@ public class GameDisplay {
 				}
 				Display.sync(5); // framerate
 			}
-			else if (States.getState() == 1){  // 1:playing
+			else if (States.getState() == 1) {  // 1:playing
 				glClear(GL_COLOR_BUFFER_BIT);
 				States.checkPaused();
 				Movement.check();
@@ -65,12 +66,21 @@ public class GameDisplay {
 						creature.drawNPC();
 				}
 				Creature.deleteTexture();
+
 				if (GameDisplay.drawProjectile) {
-					for (Spell spell : Spell.spellList) {
-						if (spell != null)
+					// System.out.println(Spell.spellMap.size());
+					if (k < Spell.spellMap.size()) {  // drawing parts
+						Spell spell = Spell.spellMap.get(k);
+						if (spell != null) {
+							// System.out.println(spell.getX() + " " + spell.getY());
 							spell.drawSpell();
+						}
+						k++;
 					}
-					GameDisplay.drawProjectile = false;
+					else { // all parts have been drawn -- clear to cast again
+						GameDisplay.drawProjectile = false;
+						k = 0;
+					}
 				}
 				Display.sync(10); // framerate
 			}
