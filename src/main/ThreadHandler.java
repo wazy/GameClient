@@ -29,9 +29,13 @@ public class ThreadHandler {
 		Runnable combatHandler = new CombatHandler();
 		Thread combatHandlerThread = new Thread(combatHandler);
 		combatHandlerThread.start();
-		
+
+		// handle player spells
+		Runnable spellHandler = new SpellHandler();
+		Thread spellHandlerThread = new Thread(spellHandler);
+		spellHandlerThread.start();
+
 		// update when modifying threads
-		Main.threadCount.set(4);
-		
+		Main.threadCount.set(5);
 	}
 }

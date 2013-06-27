@@ -1,10 +1,14 @@
 package main;
 import static org.lwjgl.opengl.GL11.*;
+
 import java.sql.SQLException;
+
 import org.lwjgl.opengl.*;
 import org.lwjgl.*;
 
 public class GameDisplay {
+	public static volatile boolean drawProjectile = false;
+
 	public static void run() throws SQLException {
 		DisplayMode x;
 		try{
@@ -16,22 +20,22 @@ public class GameDisplay {
 		catch(LWJGLException e){
 			e.printStackTrace();
 		}
-		
+
 		// init opengl
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		glOrtho(0, 640, 0, 480, 1, -1); // x,y,z  z is one b/c 2D
 		glMatrixMode(GL_MODELVIEW);
-		
+
 		StateDrawer.drawMainMenu("");
-		
+
 		// while not closed
 		while (!Display.isCloseRequested()) {
 			if (Main.exitRequest) { // check if a reason exists to close
 				System.out.println("SHUTDOWN: Main display thread is exiting..");
 				break;
 			}
-			
+
 			if (States.getState() == 2) {  // 2:paused
 				StateDrawer.drawPauseMenu();
 				if (States.checkPlay()) {
@@ -43,9 +47,9 @@ public class GameDisplay {
 				glClear(GL_COLOR_BUFFER_BIT);
 				States.checkPaused();
 				Movement.check();
-				
+
 				//ServerConnection.receiveOnlinePlayers();
-				
+
 				// draw players in the online list (constantly updated)
 				Player.loadTexture();
 				for (Player player : Player.onlinePlayers) {
@@ -53,7 +57,7 @@ public class GameDisplay {
 						player.draw();
 				}
 				Player.deleteTexture();
-				
+
 				// draw creatures from server
 				Creature.loadTexture();
 				for (Creature creature : Creature.creatureList) {
@@ -61,13 +65,19 @@ public class GameDisplay {
 						creature.drawNPC();
 				}
 				Creature.deleteTexture();
-				
+				if (GameDisplay.drawProjectile) {
+					for (Spell spell : Spell.spellList) {
+						if (spell != null)
+							spell.drawSpell();
+					}
+					GameDisplay.drawProjectile = false;
+				}
 				Display.sync(10); // framerate
 			}
 			else {  // 0 just started client
 				States.setState(1);
 				ThreadHandler.initAll(); // start threads
-				
+
 				Display.sync(5);
 				//MainMenu.run();
 			}
