@@ -78,6 +78,22 @@ public class GameDisplay {
 						k++;
 					}
 					else { // all parts have been drawn -- clear to cast again
+						int x2 = Spell.spellMap.get(Spell.spellMap.size() - 1).getX();
+						int y2 = Spell.spellMap.get(Spell.spellMap.size() - 1).getY();
+						System.out.println(x2 + " " + y2);
+						
+						// temp to show final spell coordinates
+						glBegin(GL_QUADS);
+							glTexCoord2f(0.0f, 0.0f);
+							glVertex2f(x2, y2);
+							glTexCoord2f(1.0f, 0.0f);
+							glVertex2f(x2+50, y2);
+							glTexCoord2f(1.0f, 1.0f);
+							glVertex2f(x2+50, y2+50);
+							glTexCoord2f(0.0f, 1.0f);
+							glVertex2f(x2, y2+50);
+						glEnd();
+						
 						GameDisplay.drawProjectile = false;
 						k = 0;
 					}

@@ -26,31 +26,39 @@ public class SpellHandler implements Runnable{
 							int y1 = player.getY();
 
 							// get hypotenuse
-							double hypote = Math.hypot(x1 - mouse_X, y1 - mouse_Y);
+							//	double hypote = Math.hypot(x1 - mouse_X, y1 - mouse_Y);
 							double slope = (mouse_Y - y1) / (mouse_X - x1);
-							
-							// generate 20 spell objects to represent object path
-							int results = (int) hypote/15;
 
-							System.out.println("Hypotenuse is " + hypote);
-							System.out.println("Increment value is " + results);
+							// generate 20 spell objects to represent object path
+							//	int results = (int) hypote/20;
+
+							//	System.out.println("Hypotenuse is " + hypote);
+							//	System.out.println("Increment value is " + results);
 
 							// not ready to render yet
 							while (GameDisplay.drawProjectile) {;}
-							
+
 							// lock it while we add here
 							synchronized (Spell.spellMap) {
 								int k = 0;
-								
+
 								Spell.spellMap.clear();
 
-								// do our calculations here with incrementing position
-								for (int i = results; i <= hypote; i += results) {
+								int width = mouse_X - x1;
+								for (int i = 0; i < width; i += 20) {
 									if (k < 20) {
-										double y = slope * (x1+i) + y1;
-										Spell.spellMap.put(k++, new Spell(1, "", x1+i, (int)y));
+										float x = x1 + i;
+										double y = y1 + (slope * i);
+										Spell.spellMap.put(k++, new Spell(1, "", (int)x, (int)y));
 									}
 								}
+								// do our calculations here with incrementing position
+								// for (int i = results; i <= hypote; i += results) {
+								//	if (k < 20) {
+								//		double y = slope * (x1+i) + y1;
+								//		Spell.spellMap.put(k++, new Spell(1, "", x1+i, (int)y));
+								//	}
+								//}
 							}
 							GameDisplay.drawProjectile = true;
 
