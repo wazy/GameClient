@@ -22,8 +22,8 @@ public class SpellHandler implements Runnable{
 							System.out.printf("You fired toward position %d,%d\n", mouse_X, mouse_Y);
 
 							Player player = Player.onlinePlayers.get(Player.listPosition.get());
-							int x1 = player.getX();
-							int y1 = player.getY();
+							int x1 = player.getX() + 25;
+							int y1 = player.getY() + 25;
 
 							// get hypotenuse
 							//	double hypote = Math.hypot(x1 - mouse_X, y1 - mouse_Y);
@@ -41,17 +41,49 @@ public class SpellHandler implements Runnable{
 							// lock it while we add here
 							synchronized (Spell.spellMap) {
 								int k = 0;
-
-								Spell.spellMap.clear();
-
 								int width = mouse_X - x1;
-								for (int i = 0; i < width; i += 20) {
-									if (k < 20) {
-										float x = x1 + i;
-										double y = y1 + (slope * i);
-										Spell.spellMap.put(k++, new Spell(1, "", (int)x, (int)y));
+								Spell.spellMap.clear();
+								
+								// handles shooting straight up and down
+								if (width < 30 && width > -30) {
+									int height = mouse_Y - y1;
+									if (height < 0) { // decrement the y value
+										for (int i = 0; i > height; i -= 20) {
+											if (k < 20) {
+												Spell.spellMap.put(k++, new Spell(1, "", (int)x1, (int)y1+i));
+											}
+										}
+									}
+									else {
+										for (int i = 0; i < height; i += 20) { // increments the y value
+											if (k < 20) {
+												Spell.spellMap.put(k++, new Spell(1, "", (int)x1, (int)y1+i));
+											}
+										}
 									}
 								}
+								//handles shooting left
+								else if (width < 0) {
+									for (int i = 0; i > width; i -= 20) {
+										if (k < 20) {
+											float x = x1 + i;
+											double y = y1 + (slope * i);
+											Spell.spellMap.put(k++, new Spell(1, "", (int)x, (int)y));
+										}
+									}
+								}
+								//handles shooting right
+								else {
+									for (int i = 0; i < width; i += 20) {
+										if (k < 20) {
+											float x = x1 + i;
+											double y = y1 + (slope * i);
+											Spell.spellMap.put(k++, new Spell(1, "", (int)x, (int)y));
+										}
+									}
+								}
+
+
 								// do our calculations here with incrementing position
 								// for (int i = results; i <= hypote; i += results) {
 								//	if (k < 20) {
@@ -60,7 +92,12 @@ public class SpellHandler implements Runnable{
 								//	}
 								//}
 							}
-							GameDisplay.drawProjectile = true;
+							if (Spell.spellMap.size() > 0) {
+								GameDisplay.drawProjectile = true;
+							}
+							else {
+								continue;
+							}
 
 							synchronized (Creature.creatureList) {
 								for (Creature creature : Creature.creatureList) { // necessary.. probably need more efficient

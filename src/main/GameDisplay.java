@@ -68,7 +68,7 @@ public class GameDisplay {
 				Creature.deleteTexture();
 
 				if (GameDisplay.drawProjectile) {
-					// System.out.println(Spell.spellMap.size());
+//					 System.out.println(Spell.spellMap.size());
 					if (k < Spell.spellMap.size()) {  // drawing parts
 						Spell spell = Spell.spellMap.get(k);
 						if (spell != null) {
