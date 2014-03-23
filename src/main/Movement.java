@@ -5,9 +5,10 @@ import org.lwjgl.input.Mouse;
 public class Movement {
 	
 	public static void check() {
-		
+
 		// client still loading
-		if (Player.onlinePlayers.size() < 1) {
+		if (Player.listPosition.get() < 0 || Player.onlinePlayers.size() < 1 
+				|| Player.onlinePlayers.size() <= Player.listPosition.get()) {
 			return;
 		}
 

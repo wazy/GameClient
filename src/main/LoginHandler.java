@@ -14,8 +14,10 @@ public class LoginHandler {
 				System.exit(-1);
 			}
 
-			ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(connection.getOutputStream()));
-			oos.flush();
+			ObjectOutputStream oos = new ObjectOutputStream(
+										new BufferedOutputStream(
+											connection.getOutputStream()));
+
 			ObjectInputStream ois = new ObjectInputStream(connection.getInputStream());
 
 			// client wants to authenticate, auth packet as follows
@@ -41,9 +43,13 @@ public class LoginHandler {
 
 					String passwordHash = (String) ois.readObject(); // hash of password for comparison
 
+					// tell server we are validated and get playerID
 					if (BCrypt.checkpw(password, passwordHash)) {
-						oos.writeInt(1); // tell server is validated
+						oos.writeInt(1);
 						oos.flush();
+						
+						Player.playerID = ois.readInt();
+
 						return true;
 					}
 					else {

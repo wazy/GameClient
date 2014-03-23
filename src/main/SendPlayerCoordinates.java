@@ -8,7 +8,8 @@ import java.net.Socket;
 public class SendPlayerCoordinates implements Runnable {
 	public void run() {
 		Socket connection = null;
-		int id, x , y, listPosition;
+		int x , y, pos = -1;
+		
 		try {
 			System.out.println("Sending player coordinates...");
 			// gets server address and attempts to establish a connection
@@ -17,18 +18,25 @@ public class SendPlayerCoordinates implements Runnable {
 				System.exit(-1);
 			}
 			// init the streams here for r/w
-			ObjectOutputStream outputStream = new ObjectOutputStream(new BufferedOutputStream(connection.getOutputStream()));
-			outputStream.flush();
-			
-			ObjectInputStream inputStream = new ObjectInputStream(new BufferedInputStream(connection.getInputStream()));
+			ObjectOutputStream oos = new ObjectOutputStream(
+										new BufferedOutputStream(
+											connection.getOutputStream()));
+
+			ObjectInputStream ois = new ObjectInputStream(
+												new BufferedInputStream(
+													connection.getInputStream()));
 			
 			// tell server we want to update player coordinates
-			outputStream.writeObject("update");
-			outputStream.flush();
+			oos.writeObject("update");
+			oos.writeInt(Player.playerID);
+			oos.flush();
 						
-			int c = inputStream.readInt();
-			// one means accepted connection from server
-			if (c == 1) {
+			int c = ois.readInt();
+
+			if (c == 1) { // accepted connection from server
+
+				while (Player.onlinePlayers.size() < 1) {;}
+
 				while (true) {
 					Thread.sleep(100); // adjust this
 					
@@ -39,20 +47,15 @@ public class SendPlayerCoordinates implements Runnable {
 						return;
 					}
 					
-					// System.out.println("Sending coordinates to server..");
+					pos = Player.findPlayerPosInList(pos);
 
-					while (Player.onlinePlayers.size() < 1) {;}
-
-					listPosition = Player.listPosition.get();
+					x = Player.onlinePlayers.get(pos).getX();
+					y = Player.onlinePlayers.get(pos).getY();
 					
-					id = Player.onlinePlayers.get(listPosition).getId();
-					x = Player.onlinePlayers.get(listPosition).getX();
-					y = Player.onlinePlayers.get(listPosition).getY();
-					
-					// where client's player is in the array is sent as "name" -- hack
-					Player player = new Player(id, String.valueOf(listPosition), x, y);
-					outputStream.writeObject(player);
-					outputStream.flush();
+					oos.write(pos);
+					oos.write(x);
+					oos.write(y);
+					oos.flush();
 					// System.out.println("Coordinates sent = " + x + "  " + y);
 				}
 			}

@@ -19,17 +19,19 @@ public class AcceptPlayerCoordinates implements Runnable {
 			}
 
 			ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(connection.getOutputStream()));
-			oos.flush();
 			ObjectInputStream ois = new ObjectInputStream(connection.getInputStream());
 
 			// tell server we want it to spc (send player coordinates)
 			oos.writeObject("spc");
+			oos.writeInt(Player.playerID);
 			oos.flush();
 
 			int c = ois.readInt();
 
 			if (c == 1) {
+
 				System.out.println("Accepting player coordinates...");
+
 				while (true) {
 					if (Main.exitRequest) {
 						System.out.println("SHUTDOWN: Accepting player coordinates thread is exiting..");
@@ -38,10 +40,9 @@ public class AcceptPlayerCoordinates implements Runnable {
 						return;
 					}
 
-					// read and set position of player in list here
-					int id = ois.readInt();
-					Player.listPosition.set(id);
-					//System.out.println("You are position: " + Player.listPosition + " in the list.");
+					// write position in list so server can cleanup on d/c 
+					oos.writeInt(Player.listPosition.get());
+					oos.flush();
 
 					// read all players and their positions
 					Player.onlinePlayers = (List<Player>) ois.readObject();

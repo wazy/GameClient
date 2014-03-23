@@ -10,21 +10,24 @@ import org.lwjgl.opengl.GL11;
 import java.io.Serializable;
 
 public class Player implements Serializable {
-	
-	private static final long serialVersionUID = -8405971951484157839L;
-	private static int tex;
-	private static String playerImg = new File("./img/etc2.png").getAbsolutePath();
-	
-	public static int playerHealth = 5;
-	
-	public static List<Player> onlinePlayers = Collections.synchronizedList(new ArrayList<Player>(16));
 
-	public static AtomicInteger listPosition = new AtomicInteger(0); // client's position in the list init to zero
-	
-	// x and y should probably be atomic as well for thread safety
-	public int id, x, y;
+	private static int tex = -1;
+	public static int playerID = -1;
+	public static volatile int playerHealth = 5;
+
+	public static AtomicInteger listPosition = new AtomicInteger(-1);
+
+	private static final long serialVersionUID = -8405971951484157839L;
+	private static String playerImg = new File("./img/etc2.png").getAbsolutePath();
+
+	public static volatile List<Player> onlinePlayers =	Collections.synchronizedList(
+																new ArrayList<Player>(16));
 	
 	public String name;
+
+	// x and y should probably be atomic for thread safety?
+	public int id, x, y;
+	
 	public boolean selected = false;
 	
 	Player (int id, String name, int x, int y) {
@@ -73,10 +76,10 @@ public class Player implements Serializable {
 	}
 	
 	// this can help prevent wrong client d/c on server
-	public void setId(String playerId) {
-		this.id = Integer.parseInt(playerId);
+	public void setID(String playerID) {
+		this.id = Integer.parseInt(playerID);
 	}
-	public int getId() {
+	public int getID() {
 		return this.id;
 	}
 	
@@ -113,5 +116,21 @@ public class Player implements Serializable {
 	void updateXY(int newXValue, int newYValue) {
 		x += newXValue;
 		y += newYValue;
+	}
+
+	// finds where the player's info is -- from the server
+	public static int findPlayerPosInList(int previousPos) {
+		
+		// no need to reiterate -- position didn't change
+		if ((previousPos >= 0) && (onlinePlayers.get(previousPos).getID() == previousPos))
+			return previousPos;
+		
+		for (int i = 0; i < onlinePlayers.size(); i++) {
+			if (onlinePlayers.get(i).getID() == playerID) {
+				listPosition.set(i);
+				return i;
+			}
+		}
+		return -1;
 	}
 }
