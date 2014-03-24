@@ -46,12 +46,16 @@ public class SendPlayerCoordinates implements Runnable {
 						Main.threadCount.decrementAndGet(); // one less active thread
 						return;
 					}
-					
+
 					pos = Player.findPlayerPosInList(pos);
+
+					while (pos < 0) {
+						pos = Player.findPlayerPosInList(pos);
+					}
 
 					x = Player.onlinePlayers.get(pos).getX();
 					y = Player.onlinePlayers.get(pos).getY();
-					
+
 					oos.write(pos);
 					oos.write(x);
 					oos.write(y);

@@ -16,6 +16,8 @@ public class Movement {
 		int x = player.getX();
 		int y = player.getY();
 		
+		//System.out.println(x + " " + y);
+		
 		// if player is out of screen boundary
 		// this should actually push player back
 		// temporarily going to reset coordinates
@@ -25,7 +27,7 @@ public class Movement {
 		}
 		
 		// just testing .... 
-		if (Mouse.next()) { 	// buffered events
+		if (Mouse.next()) { // buffered events
 			if (Mouse.getEventButtonState()) { // pressed down?
 				if (player.inBounds(Mouse.getX(), Mouse.getY())) {
 					SimpleText.drawString("YOU CLICKED PLAYER", 500, 100);

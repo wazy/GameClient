@@ -52,6 +52,11 @@ public class CombatHandler implements Runnable {
 				}
 
 				int listPosition = Player.listPosition.get();
+				
+				if (listPosition >= Player.onlinePlayers.size()) {
+					return false;
+				}
+				
 				Player player = Player.onlinePlayers.get(listPosition);
 
 				// get client's player's position

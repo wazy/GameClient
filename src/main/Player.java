@@ -122,7 +122,8 @@ public class Player implements Serializable {
 	public static int findPlayerPosInList(int previousPos) {
 		
 		// no need to reiterate -- position didn't change
-		if ((previousPos >= 0) && (onlinePlayers.get(previousPos).getID() == previousPos))
+		if ((previousPos >= 0) && (previousPos < onlinePlayers.size()) 
+				&& (onlinePlayers.get(previousPos).getID() == previousPos))
 			return previousPos;
 		
 		for (int i = 0; i < onlinePlayers.size(); i++) {
