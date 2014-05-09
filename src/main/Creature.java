@@ -23,11 +23,11 @@ public class Creature implements Serializable {
 	Creature (int id, String name, int x, int y, int width, int height, int alliance) {
 		this.id = id;
 		this.name = name;
-		this.alliance = alliance;
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.alliance = alliance;
 	}
 	
 	boolean inBounds(int mouseX, int mouseY) {
@@ -47,14 +47,13 @@ public class Creature implements Serializable {
 	}
 	
 	void drawNPC(String shape) {
-		
 		if (shape.equals("rectangle") == true)
 			OpenGLShapes.drawQuad(this.x, this.y, this.width, this.height, this.name, texture);
 	}
-	public static void setId(String npcID) {
+	public static void setID(String npcID) {
 		Creature.creatureID = Integer.parseInt(npcID);
 	}
-	public static int getId() {
+	public static int getID() {
 		return Creature.creatureID;
 	}
 	public int getX() {
