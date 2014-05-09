@@ -1,5 +1,6 @@
 package main;
 import static org.lwjgl.opengl.GL11.*;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,6 +8,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.lwjgl.opengl.GL11;
+
 import java.io.Serializable;
 
 public class Player implements Serializable {
@@ -53,26 +55,9 @@ public class Player implements Serializable {
 		GL11.glDeleteTextures(tex);
 	}
 	
-	void draw() {
-		// draw player name
-		SimpleText.drawString(name, x, y+55);
-		
-		// can't add texture to player without this
-		GL11.glDisable(GL_TEXTURE_2D);
-		GL11.glEnable(GL_TEXTURE_2D);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, tex);
-		
-		// draw the player (a quad) 50 x 50
-		glBegin(GL_QUADS);
-			glTexCoord2f(0.0f, 0.0f);
-			glVertex2f(x, y);
-			glTexCoord2f(1.0f, 0.0f);
-			glVertex2f(x+50, y);
-			glTexCoord2f(1.0f, 1.0f);
-			glVertex2f(x+50, y+50);
-			glTexCoord2f(0.0f, 1.0f);
-			glVertex2f(x, y+50);
-		glEnd();
+	void draw(String shape) {
+		if (shape.equals("rectangle") == true)
+			OpenGLShapes.drawQuad(this.x, this.y, 50, 50, this.name, tex);
 	}
 	
 	// this can help prevent wrong client d/c on server

@@ -55,7 +55,7 @@ public class GameDisplay {
 				Player.loadTexture();
 				for (Player player : Player.onlinePlayers) {
 					if (player != null)
-						player.draw();
+						player.draw("rectangle");
 				}
 				Player.deleteTexture();
 
@@ -63,7 +63,7 @@ public class GameDisplay {
 				Creature.loadTexture();
 				for (Creature creature : Creature.creatureList) {
 					if (creature != null)
-						creature.drawNPC();
+						creature.drawNPC("rectangle");
 				}
 				Creature.deleteTexture();
 

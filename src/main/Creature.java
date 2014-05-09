@@ -16,16 +16,18 @@ public class Creature implements Serializable {
 
 	public static List<Creature> creatureList = Collections.synchronizedList(new ArrayList<Creature>(16));
 	public static int listPosition = 0; // client's position in the list init to zero
-	public int id, x, y, alliance;
-	public String name;
-	public boolean selected = false;
+	private int id, x, y, width, height, alliance;
+	private String name;
+	private boolean selected = false;
 	
-	Creature (int id, String name, int x, int y, int alliance) {
+	Creature (int id, String name, int x, int y, int width, int height, int alliance) {
 		this.id = id;
 		this.name = name;
 		this.alliance = alliance;
 		this.x = x;
 		this.y = y;
+		this.width = width;
+		this.height = height;
 	}
 	
 	boolean inBounds(int mouseX, int mouseY) {
@@ -44,26 +46,10 @@ public class Creature implements Serializable {
 		GL11.glDeleteTextures(texture);
 	}
 	
-	void drawNPC() {
-		// draw player name
-		SimpleText.drawString(name, x, y+55);
+	void drawNPC(String shape) {
 		
-		// can't add texture to Creature without this
-		GL11.glDisable(GL_TEXTURE_2D);
-		GL11.glEnable(GL_TEXTURE_2D);
-		GL11.glBindTexture(GL11.GL_TEXTURE_2D, texture);
-		
-		// draw a monster (a quad) 50 x 50
-		glBegin(GL_QUADS);
-			glTexCoord2f(0.0f, 0.0f);
-			glVertex2f(x, y);
-			glTexCoord2f(1.0f, 0.0f);
-			glVertex2f(x+50, y);
-			glTexCoord2f(1.0f, 1.0f);
-			glVertex2f(x+50, y+50);
-			glTexCoord2f(0.0f, 1.0f);
-			glVertex2f(x, y+50);
-		glEnd();
+		if (shape.equals("rectangle") == true)
+			OpenGLShapes.drawQuad(this.x, this.y, this.width, this.height, this.name, texture);
 	}
 	public static void setId(String npcID) {
 		Creature.creatureID = Integer.parseInt(npcID);
