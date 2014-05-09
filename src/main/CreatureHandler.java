@@ -24,7 +24,7 @@ public class CreatureHandler implements Runnable {
 			
 			ObjectInputStream inputStream = new ObjectInputStream(new BufferedInputStream(connection.getInputStream()));
 			
-			// tell server we want to update player coordinates
+			// tell server we want to update creature coordinates
 			outputStream.writeObject("monster");
 			outputStream.flush();
 						
