@@ -1,6 +1,7 @@
 package main;
 import static org.lwjgl.opengl.GL11.*;
 
+import java.io.File;
 import java.sql.SQLException;
 
 import org.lwjgl.opengl.*;
@@ -51,6 +52,12 @@ public class GameDisplay {
 
 				//ServerConnection.receiveOnlinePlayers();
 
+				//drawBackground()
+				String backgroundImg = new File("./img/background.png").getAbsolutePath();
+				int texture = TextureLoader.setupTextures(backgroundImg);
+				OpenGLShapes.drawQuad(0, 0, 640, 480, "", texture);
+				GL11.glDeleteTextures(texture);
+				
 				// draw players in the online list (constantly updated)
 				Player.loadTexture();
 				for (Player player : Player.onlinePlayers) {
@@ -98,14 +105,13 @@ public class GameDisplay {
 						k = 0;
 					}
 				}
-				Display.sync(10); // framerate
+				Display.sync(30); // framerate
 			}
 			else {  // 0 just started client
 				States.setState(1);
 				ThreadHandler.initAll(); // start threads
 
-				Display.sync(5);
-				//MainMenu.run();
+				Display.sync(30);
 			}
 			Display.update(); // update window if something changes	
 		}
