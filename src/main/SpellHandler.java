@@ -3,7 +3,7 @@ package main;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-public class SpellHandler implements Runnable{
+public class SpellHandler implements Runnable {
 	public void run() {
 		System.out.println("Handling spells..");
 
@@ -112,7 +112,7 @@ public class SpellHandler implements Runnable{
 				}
 			}
 			catch (Exception e) {
-				// e.printStackTrace();
+				 //e.printStackTrace();
 				System.out.println("\nFATAL: spell handler thread is exiting..");
 				Main.exitRequest = true;
 				Main.threadCount.decrementAndGet(); // one less active thread

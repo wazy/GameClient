@@ -26,7 +26,7 @@ public class SendPlayerCoordinates implements Runnable {
 												new BufferedInputStream(
 													connection.getInputStream()));
 			
-			// tell server we want to update player coordinates
+			// tell server we wadnt to update player coordinates
 			oos.writeObject("update");
 			oos.writeInt(Player.playerID);
 			oos.flush();
@@ -39,7 +39,7 @@ public class SendPlayerCoordinates implements Runnable {
 
 				while (true) {
 					Thread.sleep(100); // adjust this
-					
+
 					if (Main.exitRequest) { // check if a reason exists to continue
 						connection.close();
 						System.out.println("SHUTDOWN: Sending player coordinates thread is exiting..");
@@ -47,10 +47,10 @@ public class SendPlayerCoordinates implements Runnable {
 						return;
 					}
 
-					pos = Player.findPlayerPosInList(pos);
+					pos = Player.getListPosition().get();
 
 					while (pos < 0) {
-						pos = Player.findPlayerPosInList(pos);
+						pos = Player.getListPosition().get();
 					}
 
 					x = Player.onlinePlayers.get(pos).getX();

@@ -116,4 +116,29 @@ public class Player implements Serializable {
 		}
 		return -1;
 	}
+
+	public static void setPlayerID(int playerIDFromServer) {
+		playerID = playerIDFromServer;
+	}
+
+	public static int getPlayerID() {
+		return playerID;
+	}
+
+	public static void setOnlinePlayers(List<Player> onlinePlayersFromServer) {
+		onlinePlayers = onlinePlayersFromServer;
+	}
+	
+	public static List<Player> getOnlinePlayers() {
+		return onlinePlayers;
+	}
+
+	public static AtomicInteger getListPosition() {
+		return listPosition;
+	}
+
+	public static void setListPosition(int positionFromServer) {
+		listPosition.set(positionFromServer);
+	}
+	
 }

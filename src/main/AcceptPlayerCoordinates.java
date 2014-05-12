@@ -20,10 +20,9 @@ public class AcceptPlayerCoordinates implements Runnable {
 
 			ObjectOutputStream oos = new ObjectOutputStream(new BufferedOutputStream(connection.getOutputStream()));
 			ObjectInputStream ois = new ObjectInputStream(connection.getInputStream());
-
+			
 			// tell server we want it to spc (send player coordinates)
 			oos.writeObject("spc");
-			oos.writeInt(Player.playerID);
 			oos.flush();
 
 			int c = ois.readInt();
@@ -32,40 +31,65 @@ public class AcceptPlayerCoordinates implements Runnable {
 
 				System.out.println("Accepting player coordinates...");
 
-				Player.onlinePlayers = (List<Player>) ois.readObject();
+				oos.writeInt(Player.getPlayerID());
+				oos.flush();
 				
+				Player.setOnlinePlayers((List<Player>) ois.readObject());
+
 				while (true) {
-					if (Main.exitRequest) {
+					if (Main.isExitRequested()) {
 						System.out.println("SHUTDOWN: Accepting player coordinates thread is exiting..");
-						Main.threadCount.decrementAndGet(); // one less active thread
+						Main.getThreadCount().decrementAndGet(); // one less active thread
 						ois.close();
 						return;
 					}
 
-					int pos = Player.listPosition.get();
-					
-					// write position in list so server can cleanup on d/c 
-					oos.writeInt(pos);
-					oos.flush();
+					// get "actual" size of player list
+					int n = ois.read();
+
+					// w: spc | r: 1 | w: ID | r: List | while true { r: n | r: 9 || r: 1 }
 
 					// read all players and their positions
-					for (int i = 0; i < ois.read(); i++) {
-						if (i != pos) {
-							Player play = Player.onlinePlayers.get(i);
-							System.out.println(play.getID());
-							int ID = ois.read();
-							if (play.getID() == ID) { // need to add contains check
-								play.setX(ois.read());
-								play.setY(ois.read());
+					for (int i = 0; i < n; i++) {
+						int playerUpdatePacket = ois.readInt();
+						System.out.println("PUP: " + playerUpdatePacket);
+
+						String packet = String.valueOf(playerUpdatePacket); 
+						int size = packet.length();
+
+						// decode packet (other players)
+						if (size >= 7) {
+							while (size <= 9) { 
+								size = 0 + size;
 							}
-							else { // add new player to our list
-								play = new Player(ID, "test", ois.read(), ois.read());
-								Player.onlinePlayers.add(play);
+							System.out.println(size);
+							String[] arr = packet.split(("(?<=\\G...)"));
+							
+							int ID = Integer.parseInt(arr[0]);
+							int X = Integer.parseInt(arr[1]);
+							int Y = Integer.parseInt(arr[2]);
+
+							if (i >= Player.getOnlinePlayers().size()) {
+								System.out.println("Player being added: " + playerUpdatePacket);
+								Player player = new Player(ID, "test", X, Y);
+								Player.getOnlinePlayers().add(player);	
+					
 							}
+							else {
+								Player player = Player.getOnlinePlayers().get(i);
+								System.out.println("Player being moved: " + playerUpdatePacket);
+								player.setX(X);
+								player.setY(Y);
+							}
+						}
+						else { // set our position in list
+							if (i < Player.getOnlinePlayers().size())
+								Player.setListPosition(playerUpdatePacket);
+							
 						}
 					}
 
-					Thread.sleep(500);
+					Thread.sleep(2000);
 				}
 			}
 			else {

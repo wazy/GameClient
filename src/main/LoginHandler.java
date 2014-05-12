@@ -48,7 +48,7 @@ public class LoginHandler {
 						oos.writeInt(1);
 						oos.flush();
 						
-						Player.playerID = ois.readInt();
+						Player.setPlayerID(ois.readInt());
 
 						return true;
 					}

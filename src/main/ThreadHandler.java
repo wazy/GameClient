@@ -13,27 +13,27 @@ public class ThreadHandler {
 		// handle receiving player coordinate updates
 		Runnable getPlayerCoordinates = new AcceptPlayerCoordinates();
 		Thread getPlayerCoordinatesThread = new Thread(getPlayerCoordinates);
-		getPlayerCoordinatesThread.start();
+//		getPlayerCoordinatesThread.start();
 
 		// handle sending coordinates
 		Runnable sendPlayerCoordinates = new SendPlayerCoordinates();
 		Thread sendPlayerCoordinatesThread = new Thread(sendPlayerCoordinates);
-		sendPlayerCoordinatesThread.start();
+//		sendPlayerCoordinatesThread.start();
 
 		// handle creature coordinates
-		Runnable handleCreatureCoordinates = new CreatureHandler();
-		Thread handleCreatureCoordinatesThread = new Thread(handleCreatureCoordinates);
-		handleCreatureCoordinatesThread.start();
+//		Runnable handleCreatureCoordinates = new CreatureHandler();
+//		Thread handleCreatureCoordinatesThread = new Thread(handleCreatureCoordinates);
+//		handleCreatureCoordinatesThread.start();
 		
 		// handle combat updates.. mostly NYI
-		Runnable combatHandler = new CombatHandler();
-		Thread combatHandlerThread = new Thread(combatHandler);
-		combatHandlerThread.start();
+//		Runnable combatHandler = new CombatHandler();
+//		Thread combatHandlerThread = new Thread(combatHandler);
+//		combatHandlerThread.start();
 
 		// handle player spells
-		Runnable spellHandler = new SpellHandler();
-		Thread spellHandlerThread = new Thread(spellHandler);
-		spellHandlerThread.start();
+//		Runnable spellHandler = new SpellHandler();
+//		Thread spellHandlerThread = new Thread(spellHandler);
+//		spellHandlerThread.start();
 
 		// update when modifying threads
 		Main.threadCount.set(5);

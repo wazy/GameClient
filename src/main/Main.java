@@ -30,4 +30,12 @@ public class Main {
 		}
 	}
 
+	public static boolean isExitRequested() {
+		return exitRequest;
+	}
+
+	public static AtomicInteger getThreadCount() {
+		return threadCount;
+	}
+
 }

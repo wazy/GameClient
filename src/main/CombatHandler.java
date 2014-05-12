@@ -51,11 +51,16 @@ public class CombatHandler implements Runnable {
 					return false;
 				}
 
-				int listPosition = Player.listPosition.get();
+				int listPosition = Player.getListPosition().get();
 				
-				if (listPosition >= Player.onlinePlayers.size()) {
+				if (Player.getOnlinePlayers().isEmpty() ||
+						listPosition <= Player.getOnlinePlayers().size() ||
+						listPosition >= Player.getOnlinePlayers().size()) {
+
 					return false;
 				}
+				
+				System.out.println(Player.getOnlinePlayers().size());
 				
 				Player player = Player.onlinePlayers.get(listPosition);
 
