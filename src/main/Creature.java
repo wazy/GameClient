@@ -1,18 +1,21 @@
 package main;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
 
 public class Creature implements Serializable {
 	private static final long serialVersionUID = -8405971951484157840L;
 
-	private static int texture;
+	private static Texture tex;
 	public static int creatureID = 0;
-	private static String creatureImg = new File("./img/monster.png").getAbsolutePath();
+	private static File creatureImg = new File("./img/monster.png");
 
 	public static List<Creature> creatureList = Collections.synchronizedList(new ArrayList<Creature>(16));
 	public static int listPosition = 0; // client's position in the list init to zero
@@ -37,18 +40,22 @@ public class Creature implements Serializable {
 			return false;
 	}
 	
-	public static void loadTexture() {
-		texture = TextureLoader.setupTextures(creatureImg);
+	public static void loadTexture() throws IOException {
+		tex = TextureLoader.getTexture("PNG", new FileInputStream(creatureImg));
 	}
-	
+
+	public static Texture getTexture() {
+		return tex;
+	}
+
 	public static void deleteTexture() {
-		// dont forget to delete the texture after use
-		GL11.glDeleteTextures(texture);
+		tex.release();
 	}
+
 	
 	void drawNPC(String shape) {
 		if (shape.equals("rectangle") == true)
-			OpenGLShapes.drawQuad(this.x, this.y, this.width, this.height, this.name, texture);
+			OGLRenderer.drawQuad(this.x, this.y, this.width, this.height, this.name, tex);
 	}
 	public static void setID(String npcID) {
 		Creature.creatureID = Integer.parseInt(npcID);

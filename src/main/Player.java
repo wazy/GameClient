@@ -1,23 +1,27 @@
 package main;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.lwjgl.opengl.GL11;
+import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.opengl.TextureLoader;
 
 public class Player implements Serializable {
 
-	private static int tex = -1;
+	private static Texture texture = null;
+
 	public static int playerID = -1;
 	public static volatile int playerHealth = 5;
 
 	public static AtomicInteger listPosition = new AtomicInteger(-1);
 
 	private static final long serialVersionUID = -8405971951484157839L;
-	private static String playerImg = new File("./img/etc2.png").getAbsolutePath();
+	private static File playerImg = new File("./img/etc2.png");
 
 	public static volatile List<Player> onlinePlayers =	Collections.synchronizedList(
 																new ArrayList<Player>(16));
@@ -42,19 +46,22 @@ public class Player implements Serializable {
 		else
 			return false;
 	}
-	
-	public static void loadTexture() {
-		tex = TextureLoader.setupTextures(playerImg);
+
+	public static void loadTexture() throws IOException {
+		texture = TextureLoader.getTexture("PNG", new FileInputStream(playerImg));
 	}
-	
+
+	public static Texture getTexture() {
+		return texture;
+	}
+
 	public static void deleteTexture() {
-		// dont forget to delete the texture after use
-		GL11.glDeleteTextures(tex);
+		texture.release();
 	}
-	
+
 	void draw(String shape) {
 		if (shape.equals("rectangle") == true)
-			OpenGLShapes.drawQuad(this.x, this.y, 50, 50, this.name, tex);
+			OGLRenderer.drawQuad(this.x, this.y, 50, 50, this.name, texture);
 	}
 	
 	// this can help prevent wrong client d/c on server

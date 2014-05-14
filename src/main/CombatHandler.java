@@ -6,7 +6,7 @@ public class CombatHandler implements Runnable {
 
 	public void run () {
 		System.out.println("Handling combat..");
-		while (!Main.exitRequest) {
+		while (!GameClient.exitRequest) {
 			try {
 				// see if a collision occurred
 				Collision = DetectCollisions();
@@ -19,7 +19,7 @@ public class CombatHandler implements Runnable {
 					}
 					else {
 						System.out.println("\nPlayer has succumb to darkness.. farewell.\n");
-						Main.exitRequest = true;
+						GameClient.exitRequest = true;
 					}
 				}
 				Thread.sleep(1000);
@@ -27,13 +27,13 @@ public class CombatHandler implements Runnable {
 			catch (Exception e) {
 				e.printStackTrace();
 				System.out.println("\nFATAL: Combat handler thread is exiting..");
-				Main.exitRequest = true;
-				Main.threadCount.decrementAndGet(); // one less active thread
+				GameClient.exitRequest = true;
+				GameClient.threadCount.decrementAndGet(); // one less active thread
 				return;
 			}
 		}
 		System.out.println("SHUTDOWN: Combat handler thread is exiting..");
-		Main.threadCount.decrementAndGet(); // one less active thread
+		GameClient.threadCount.decrementAndGet(); // one less active thread
 		return;
 	}
 

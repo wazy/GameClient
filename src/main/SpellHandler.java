@@ -10,7 +10,7 @@ public class SpellHandler implements Runnable {
 		// client still loading
 		while (Player.onlinePlayers.size() < 1) {;}
 
-		while (!Main.exitRequest) {
+		while (!GameClient.exitRequest) {
 			try {
 				while (Keyboard.next()) { 	// buffered keyboard events
 					if (Keyboard.getEventKey() == Keyboard.KEY_F) { // key F was triggered
@@ -114,13 +114,13 @@ public class SpellHandler implements Runnable {
 			catch (Exception e) {
 				 //e.printStackTrace();
 				System.out.println("\nFATAL: spell handler thread is exiting..");
-				Main.exitRequest = true;
-				Main.threadCount.decrementAndGet(); // one less active thread
+				GameClient.exitRequest = true;
+				GameClient.threadCount.decrementAndGet(); // one less active thread
 				return;
 			}
 		}
 		System.out.println("SHUTDOWN: Spell handler thread is exiting..");
-		Main.threadCount.decrementAndGet(); // one less active thread
+		GameClient.threadCount.decrementAndGet(); // one less active thread
 		return;
 	}
 }

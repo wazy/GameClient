@@ -33,10 +33,10 @@ public class CreatureHandler implements Runnable {
 			if (c == 1) {
 				while (true) {
 					Thread.sleep(1000); // adjust this
-					if (Main.exitRequest) { // check if a reason exists to continue
+					if (GameClient.exitRequest) { // check if a reason exists to continue
 						connection.close();
 						System.out.println("SHUTDOWN: Creature thread is exiting..");
-						Main.threadCount.decrementAndGet(); // one less active thread
+						GameClient.threadCount.decrementAndGet(); // one less active thread
 						return;
 					}
 					Creature.creatureList = (List<Creature>) inputStream.readObject();
@@ -49,8 +49,8 @@ public class CreatureHandler implements Runnable {
 		// this will terminate entire client in a domino fashion
 		catch (Exception e) {
 			System.out.println("\nFATAL: Creature thread is exiting..");
-			Main.exitRequest = true;
-			Main.threadCount.decrementAndGet(); // one less active thread
+			GameClient.exitRequest = true;
+			GameClient.threadCount.decrementAndGet(); // one less active thread
 			return;
 			//e.printStackTrace();
 		} 

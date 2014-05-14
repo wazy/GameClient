@@ -13,12 +13,12 @@ public class ThreadHandler {
 		// handle receiving player coordinate updates
 		Runnable getPlayerCoordinates = new AcceptPlayerCoordinates();
 		Thread getPlayerCoordinatesThread = new Thread(getPlayerCoordinates);
-//		getPlayerCoordinatesThread.start();
+		getPlayerCoordinatesThread.start();
 
 		// handle sending coordinates
 		Runnable sendPlayerCoordinates = new SendPlayerCoordinates();
 		Thread sendPlayerCoordinatesThread = new Thread(sendPlayerCoordinates);
-//		sendPlayerCoordinatesThread.start();
+		sendPlayerCoordinatesThread.start();
 
 		// handle creature coordinates
 //		Runnable handleCreatureCoordinates = new CreatureHandler();
@@ -36,6 +36,6 @@ public class ThreadHandler {
 //		spellHandlerThread.start();
 
 		// update when modifying threads
-		Main.threadCount.set(5);
+		GameClient.threadCount.set(5);
 	}
 }

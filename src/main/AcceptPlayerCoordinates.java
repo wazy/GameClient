@@ -37,9 +37,9 @@ public class AcceptPlayerCoordinates implements Runnable {
 				Player.setOnlinePlayers((List<Player>) ois.readObject());
 
 				while (true) {
-					if (Main.isExitRequested()) {
+					if (GameClient.isExitRequested()) {
 						System.out.println("SHUTDOWN: Accepting player coordinates thread is exiting..");
-						Main.getThreadCount().decrementAndGet(); // one less active thread
+						GameClient.getThreadCount().decrementAndGet(); // one less active thread
 						ois.close();
 						return;
 					}
@@ -99,8 +99,8 @@ public class AcceptPlayerCoordinates implements Runnable {
 		// will cause client to shutdown on fatal error
 		catch (Exception e) {
 			System.out.println("\nFATAL: Accepting player coordinates thread is exiting..");
-			Main.exitRequest = true;
-			Main.threadCount.decrementAndGet(); // one less active thread
+			GameClient.exitRequest = true;
+			GameClient.threadCount.decrementAndGet(); // one less active thread
 			e.printStackTrace();
 			return;
 		}

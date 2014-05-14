@@ -40,10 +40,10 @@ public class SendPlayerCoordinates implements Runnable {
 				while (true) {
 					Thread.sleep(100); // adjust this
 
-					if (Main.exitRequest) { // check if a reason exists to continue
+					if (GameClient.exitRequest) { // check if a reason exists to continue
 						connection.close();
 						System.out.println("SHUTDOWN: Sending player coordinates thread is exiting..");
-						Main.threadCount.decrementAndGet(); // one less active thread
+						GameClient.threadCount.decrementAndGet(); // one less active thread
 						return;
 					}
 
@@ -70,8 +70,8 @@ public class SendPlayerCoordinates implements Runnable {
 		catch (Exception e) {
 			//e.printStackTrace();
 			System.out.println("FATAL: Sending player coordinates thread is exiting..");
-			Main.exitRequest = true;
-			Main.threadCount.decrementAndGet(); // one less active thread
+			GameClient.exitRequest = true;
+			GameClient.threadCount.decrementAndGet(); // one less active thread
 			return;
 		} 
 		finally {
