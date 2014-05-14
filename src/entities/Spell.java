@@ -6,10 +6,11 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import misc.OGLRenderer;
 
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
+
+import utils.OGLRenderer;
 
 public class Spell { 
 

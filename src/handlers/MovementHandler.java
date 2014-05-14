@@ -1,8 +1,9 @@
 package handlers;
-import misc.SimpleText;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+
+import utils.SimpleText;
 
 import entities.Player;
 

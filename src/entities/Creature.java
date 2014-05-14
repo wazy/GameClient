@@ -7,10 +7,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import misc.OGLRenderer;
 
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
+
+import utils.OGLRenderer;
 
 public class Creature implements Serializable {
 	private static final long serialVersionUID = -8405971951484157840L;

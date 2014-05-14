@@ -2,8 +2,9 @@ package handlers;
 
 import java.io.IOException;
 
+import utils.OGLRenderer;
+
 import main.PauseMenu;
-import misc.OGLRenderer;
 import entities.Creature;
 import entities.Player;
 

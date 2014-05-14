@@ -7,19 +7,20 @@ import java.io.IOException;
 
 import main.GameClient;
 import main.PauseMenu;
-import misc.OGLRenderer;
-import misc.States;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+
+import utils.OGLRenderer;
+import utils.States;
 
 
 public class GameDisplay {
 	public static void run() throws IOException {
 
 		// setup LWJGL, OpenGL, and Resources
-		setupWindow();
+		setupWindow(); 
 		OGLRenderer.setup();
 		ResourceHandler.loadResources();
 

@@ -18,6 +18,9 @@ public class GameClient {
 		try {
 			LoginFrontEnd.init();
 			
+			//packet.send(Packet.PacketEnum.valueOf("CONNECT"));
+			
+			
 			// loop until ready to completely exit client
 			// this won't spinlock due to volatile exitRequest
 			while (!exitRequest || threadCount.get() != 0) {;}
