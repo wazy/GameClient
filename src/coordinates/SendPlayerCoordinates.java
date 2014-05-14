@@ -1,9 +1,18 @@
-package main;
+package coordinates;
+import handlers.SocketHandler;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+
+import main.GameClient;
+
+
+
+import entities.Player;
+
 
 public class SendPlayerCoordinates implements Runnable {
 	public void run() {

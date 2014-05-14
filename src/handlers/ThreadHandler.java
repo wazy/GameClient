@@ -1,4 +1,8 @@
-package main;
+package handlers;
+
+import main.GameClient;
+import coordinates.AcceptPlayerCoordinates;
+import coordinates.SendPlayerCoordinates;
 
 public class ThreadHandler {
 	public static void initAll() {
@@ -36,6 +40,6 @@ public class ThreadHandler {
 //		spellHandlerThread.start();
 
 		// update when modifying threads
-		GameClient.threadCount.set(5);
+		GameClient.getThreadCount().set(2);
 	}
 }

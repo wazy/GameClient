@@ -1,4 +1,4 @@
-package main;
+package entities;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -6,6 +6,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import misc.OGLRenderer;
 
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
@@ -33,7 +35,7 @@ public class Creature implements Serializable {
 		this.faction = alliance;
 	}
 	
-	boolean inBounds(int mouseX, int mouseY) {
+	public boolean inBounds(int mouseX, int mouseY) {
 		if (mouseX > x && mouseX < x + 50 && mouseY > y && mouseY < y + 50)
 			return true;
 		else
@@ -53,7 +55,7 @@ public class Creature implements Serializable {
 	}
 
 	
-	void drawNPC(String shape) {
+	public void drawNPC(String shape) {
 		if (shape.equals("rectangle") == true)
 			OGLRenderer.drawQuad(this.x, this.y, this.width, this.height, this.name, tex);
 	}

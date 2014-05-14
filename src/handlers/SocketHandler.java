@@ -1,4 +1,4 @@
-package main;
+package handlers;
 
 import java.net.InetAddress;
 import java.net.Socket;

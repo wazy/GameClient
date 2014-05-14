@@ -1,9 +1,21 @@
-package main;
+package handlers;
+
+
+import main.GameClient;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+
+import entities.Creature;
+import entities.Player;
+import entities.Spell;
+
 public class SpellHandler implements Runnable {
+
+	// TODO: Change this to something better named
+	public static volatile boolean drawProjectile = false;
+
 	public void run() {
 		System.out.println("Handling spells..");
 
@@ -36,7 +48,7 @@ public class SpellHandler implements Runnable {
 							//	System.out.println("Increment value is " + results);
 
 							// not ready to render yet
-							while (GameDisplay.drawProjectile) {;}
+							while (drawProjectile) {;}
 
 							// lock it while we add here
 							synchronized (Spell.spellMap) {
@@ -93,7 +105,7 @@ public class SpellHandler implements Runnable {
 								//}
 							}
 							if (Spell.spellMap.size() > 0) {
-								GameDisplay.drawProjectile = true;
+								drawProjectile = true;
 							}
 							else {
 								continue;
@@ -114,13 +126,21 @@ public class SpellHandler implements Runnable {
 			catch (Exception e) {
 				 //e.printStackTrace();
 				System.out.println("\nFATAL: spell handler thread is exiting..");
-				GameClient.exitRequest = true;
-				GameClient.threadCount.decrementAndGet(); // one less active thread
+				GameClient.setExitRequest(true);
+				GameClient.getThreadCount().decrementAndGet(); // one less active thread
 				return;
 			}
 		}
 		System.out.println("SHUTDOWN: Spell handler thread is exiting..");
-		GameClient.threadCount.decrementAndGet(); // one less active thread
+		GameClient.getThreadCount().decrementAndGet(); // one less active thread
 		return;
+	}
+	
+	public static boolean isSpellCasted() {
+		return drawProjectile;
+	}
+
+	public static void setIsSpellCasted(boolean value) {
+		drawProjectile = value;
 	}
 }

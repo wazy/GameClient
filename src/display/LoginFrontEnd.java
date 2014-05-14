@@ -1,4 +1,6 @@
-package main;
+package display;
+
+import handlers.LoginHandler;
 
 import javax.swing.*;
 import jBCrypt.BCrypt;

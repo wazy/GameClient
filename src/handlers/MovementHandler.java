@@ -1,8 +1,12 @@
-package main;
+package handlers;
+import misc.SimpleText;
+
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-public class Movement {
+import entities.Player;
+
+public class MovementHandler {
 	
 	public static void check() {
 

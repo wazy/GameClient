@@ -1,4 +1,4 @@
-package main;
+package entities;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import misc.OGLRenderer;
 
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
@@ -33,14 +35,14 @@ public class Player implements Serializable {
 	
 	public boolean selected = false;
 	
-	Player (int id, String name, int x, int y) {
+	public Player (int id, String name, int x, int y) {
 		this.id = id;
 		this.name = name;
 		this.x = x;
 		this.y = y;
 	}
 	
-	boolean inBounds(int mouseX, int mouseY) {
+	public boolean inBounds(int mouseX, int mouseY) {
 		if (mouseX > x && mouseX < x + 50 && mouseY > y && mouseY < y + 50)
 			return true;
 		else
@@ -59,7 +61,7 @@ public class Player implements Serializable {
 		texture.release();
 	}
 
-	void draw(String shape) {
+	public void draw(String shape) {
 		if (shape.equals("rectangle") == true)
 			OGLRenderer.drawQuad(this.x, this.y, 50, 50, this.name, texture);
 	}
@@ -96,13 +98,13 @@ public class Player implements Serializable {
 		this.y = Y;
 	}
 	
-	void updateX(int newXValue) {
+	public void updateX(int newXValue) {
 		x += newXValue;
 	}
-	void updateY(int newYValue) {
+	public void updateY(int newYValue) {
 		y += newYValue;
 	}
-	void updateXY(int newXValue, int newYValue) {
+	public void updateXY(int newXValue, int newYValue) {
 		x += newXValue;
 		y += newYValue;
 	}

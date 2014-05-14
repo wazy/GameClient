@@ -1,16 +1,17 @@
-package main;
+package handlers;
+
+import main.GameClient;
+import entities.Creature;
+import entities.Player;
 
 public class CombatHandler implements Runnable {
-
-	private boolean Collision = false;
 
 	public void run () {
 		System.out.println("Handling combat..");
 		while (!GameClient.exitRequest) {
 			try {
 				// see if a collision occurred
-				Collision = DetectCollisions();
-				if (Collision) {
+				if (DetectCollisions()) {
 					System.out.println("Collision detected! Player being moved..");
 
 					// some template code for further development

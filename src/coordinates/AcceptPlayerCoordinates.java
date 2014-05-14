@@ -1,7 +1,16 @@
-package main;
+package coordinates;
+import handlers.SocketHandler;
+
 import java.io.*;
 import java.net.*;
 import java.util.List;
+
+import main.GameClient;
+
+
+
+import entities.Player;
+
 
 /* accepts / updates player list from server */
 public class AcceptPlayerCoordinates implements Runnable {
@@ -99,8 +108,8 @@ public class AcceptPlayerCoordinates implements Runnable {
 		// will cause client to shutdown on fatal error
 		catch (Exception e) {
 			System.out.println("\nFATAL: Accepting player coordinates thread is exiting..");
-			GameClient.exitRequest = true;
-			GameClient.threadCount.decrementAndGet(); // one less active thread
+			GameClient.setExitRequest(true);
+			GameClient.getThreadCount().decrementAndGet(); // one less active thread
 			e.printStackTrace();
 			return;
 		}

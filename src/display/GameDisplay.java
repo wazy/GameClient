@@ -1,24 +1,30 @@
-package main;
+package display;
+import handlers.MovementHandler;
+import handlers.ResourceHandler;
+import handlers.ThreadHandler;
+
 import java.io.IOException;
+
+import main.GameClient;
+import main.PauseMenu;
+import misc.OGLRenderer;
+import misc.States;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
+
 public class GameDisplay {
-
-	// TODO: Change this to something better named
-	public static volatile boolean drawProjectile = false;
-
 	public static void run() throws IOException {
 
-		// setup LWJGL and OpenGL
+		// setup LWJGL, OpenGL, and Resources
 		setupWindow();
 		OGLRenderer.setup();
-		loadResources();
+		ResourceHandler.loadResources();
 
-		// while not closed
+		// the main game loop runs until window is closed
 		while (!Display.isCloseRequested() && !GameClient.isExitRequested()) {
 			System.out.println(Mouse.getX() + ", " + (480 - Mouse.getY() - 1));
 			switch(States.getState()) {
@@ -29,7 +35,7 @@ public class GameDisplay {
 
 				case 1: // runs main game 
 					States.checkPaused();
-					Movement.check();
+					MovementHandler.check();
 					OGLRenderer.render();
 					break;
 
@@ -50,25 +56,10 @@ public class GameDisplay {
 		System.out.println("SHUTDOWN: Main display thread is exiting..");
 		
 		// cleanup and termination
-		deleteResources();
+		ResourceHandler.deleteResources();
+
 		Display.destroy();
 		GameClient.setExitRequest(true);
-	}
-
-	// TODO: REMOVE ME!!!!! (Hint -> ResourceLoader)
-	private static void loadResources() throws IOException {
-		OGLRenderer.loadTexture();
-		Player.loadTexture();
-		Creature.loadTexture();
-		PauseMenu.loadTexture();
-	}
-	
-	// TODO: REMOVE ME!!!!! (Hint -> ResourceLoader)
-	private static void deleteResources() throws IOException {
-		OGLRenderer.deleteTexture();
-		Player.deleteTexture();
-		Creature.deleteTexture();
-		PauseMenu.deleteTexture();
 	}
 
 	public static void setupWindow() {
@@ -81,9 +72,5 @@ public class GameDisplay {
 			e.printStackTrace();
 			System.exit(1);
 		}
-	}
-
-	public static boolean isSpellCasted() {
-		return drawProjectile;
 	}
 }

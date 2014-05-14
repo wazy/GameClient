@@ -3,6 +3,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.lwjgl.LWJGLException;
 
+import display.LoginFrontEnd;
+
 public class GameClient {
 	public static volatile boolean exitRequest = false;
 	// public static int threadCount = -1;
@@ -34,7 +36,7 @@ public class GameClient {
 		return exitRequest;
 	}
 
-	public static AtomicInteger getThreadCount() {
+	public static synchronized AtomicInteger getThreadCount() {
 		return threadCount;
 	}
 

@@ -1,4 +1,4 @@
-package main;
+package misc;
 import static org.lwjgl.opengl.GL11.GL_COLOR_BUFFER_BIT;
 import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
 import static org.lwjgl.opengl.GL11.GL_PROJECTION;
@@ -14,12 +14,19 @@ import static org.lwjgl.opengl.GL11.glOrtho;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 
+import handlers.SpellHandler;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
+
+import entities.Creature;
+import entities.Player;
+import entities.Spell;
 
 public class OGLRenderer {
 
@@ -43,15 +50,15 @@ public class OGLRenderer {
 		drawBackground();
 		drawEntities();
 		
-		if (GameDisplay.isSpellCasted()) {
+		if (SpellHandler.isSpellCasted()) {
 			drawSpell();
 		}
 	}
-	
+
 	private static void drawBackground() {
 		drawQuad(0, 0, 640, 480, null, texture);
 	}
-	
+
 	public static void loadTexture() throws IOException {
 		texture = TextureLoader.getTexture("PNG", new FileInputStream(backgroundImg));
 	}
@@ -128,7 +135,7 @@ public class OGLRenderer {
 				glVertex2f(x2, y2+50);
 			glEnd();
 			
-			GameDisplay.drawProjectile = false;
+			SpellHandler.setIsSpellCasted(false);
 			k = 0;
 		}
 	}
