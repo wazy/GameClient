@@ -11,7 +11,6 @@ import misc.OGLRenderer;
 import misc.States;
 
 import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 
@@ -26,7 +25,7 @@ public class GameDisplay {
 
 		// the main game loop runs until window is closed
 		while (!Display.isCloseRequested() && !GameClient.isExitRequested()) {
-			System.out.println(Mouse.getX() + ", " + (480 - Mouse.getY() - 1));
+
 			switch(States.getState()) {
 				case 0:  // entry point -> start threads
 					States.setState(1);
@@ -65,7 +64,7 @@ public class GameDisplay {
 	public static void setupWindow() {
 		try {
 			Display.setDisplayMode(new DisplayMode(640, 480));
-			Display.setTitle("Game");
+			Display.setTitle("Game Window");
 			Display.create();
 		}
 		catch(LWJGLException e){
