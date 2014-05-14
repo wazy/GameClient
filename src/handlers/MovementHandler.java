@@ -40,32 +40,32 @@ public class MovementHandler {
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
 			if (Keyboard.isKeyDown(Keyboard.KEY_A)) { // check if player is moving up and left
-				player.updateXY(-5,5); // moves the player northwest
+				player.updateXY(-5,-5); // moves the player northwest
 			}
 			else if (Keyboard.isKeyDown(Keyboard.KEY_D)) { // check if player is moving up and right
-				player.updateXY(5, 5); // moves the player northeast
+				player.updateXY(5, -5); // moves the player northeast
 			}
 			else {
-				player.updateY(5); // moves the player up 
+				player.updateY(-5); // moves the player up 
 			}
 		}
 		else if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
 			if (Keyboard.isKeyDown(Keyboard.KEY_A)) { // check if player is moving down and left
-				player.updateXY(-5,-5); // moves the player southwest
+				player.updateXY(-5,5); // moves the player southwest
 			}
 			else if (Keyboard.isKeyDown(Keyboard.KEY_D)) { // check if player is moving down and right
-				player.updateXY(5, -5); // moves the player southeast
+				player.updateXY(5, 5); // moves the player southeast
 			}
 			else {
-				player.updateY(-5); // moves the player down
+				player.updateY(5); // moves the player down
 			}
 		}
 		else if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
 			if (Keyboard.isKeyDown(Keyboard.KEY_W)) { // check if player is moving left and up
-				player.updateXY(-5,5); // moves the player northwest
+				player.updateXY(-5,-5); // moves the player northwest
 			}
 			else if (Keyboard.isKeyDown(Keyboard.KEY_S)) { // check if player is moving left and down
-				player.updateXY(-5, -5); // moves the player southwest
+				player.updateXY(-5, 5); // moves the player southwest
 			}
 			else {
 				player.updateX(-5); // moves the player left
@@ -73,10 +73,10 @@ public class MovementHandler {
 		}
 		else if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
 			if (Keyboard.isKeyDown(Keyboard.KEY_W)) { // check if player is moving right and up
-				player.updateXY(5, 5); // moves the player northeast
+				player.updateXY(5, -5); // moves the player northeast
 			}
 			else if (Keyboard.isKeyDown(Keyboard.KEY_S)) { // check if player is moving right and down
-				player.updateXY(5, -5); // moves the player southeast
+				player.updateXY(5, 5); // moves the player southeast
 			}
 			else {
 				player.updateX(5); // moves the player right
