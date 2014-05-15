@@ -11,6 +11,7 @@ import main.PauseMenu;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.newdawn.slick.openal.SoundStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,7 +56,8 @@ public class GameDisplay {
 					logger.error("Invalid State: Terminating Program!");
 					System.exit(1);
 			}
-
+			
+			SoundStore.get().poll(0);
 			Display.update();
 			Display.sync(60);
 		}

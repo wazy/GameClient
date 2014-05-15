@@ -79,7 +79,7 @@ public class AcceptPlayerCoordinates implements Runnable {
 								ois.read();
 						}
 					}
-					Thread.sleep(2000);
+					Thread.sleep(200);
 				}
 			}
 			else {

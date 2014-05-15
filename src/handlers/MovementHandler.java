@@ -3,13 +3,11 @@ package handlers;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import utils.SimpleText;
-
 import entities.Player;
 
 public class MovementHandler {
 	
-	private final static int PLAYER_SPEED = 5;
+	private final static int PLAYER_SPEED = 1;
 	
 	public static void check() {
 
@@ -25,19 +23,29 @@ public class MovementHandler {
 		
 		//System.out.println(x + " " + y);
 		
-		// if player is out of screen boundary
-		// this should actually push player back
-		// temporarily going to reset coordinates
-		if (x > 640 || y > 480 || x < 0 || y < 0) {
-			player.setX(100);
-			player.setY(100);
-		}
+		// if player is heading out of screen boundary
+		// then push player back -> player X and Y are top left corner
+		// so subtract height and width from x and y for calculation
+		// 640-50 = 590 and 480-50 = 430 
+		if (x >= 590)
+			player.setX(x - PLAYER_SPEED);
 		
+		 if (y >= 430)
+			 player.setY(y - PLAYER_SPEED);
+		 
+		 if (x <= 0) {
+			 player.setX(x + PLAYER_SPEED);
+			 ResourceHandler.testingWavEffect.playAsSoundEffect(1.0f, 1.0f, false);
+		 }
+		 
+		 if (y <= 0)
+			 player.setY(y + PLAYER_SPEED);
+		 
 		// just testing .... 
 		if (Mouse.next()) { // buffered events
 			if (Mouse.getEventButtonState()) { // pressed down?
-				if (player.inBounds(Mouse.getX(), Mouse.getY())) {
-					SimpleText.drawString("YOU CLICKED PLAYER", 500, 100);
+				if (player.inBounds(Mouse.getX(), 480 - Mouse.getY() - 1)) {
+					ResourceHandler.getFont().drawString(300, 300, "YOU CLICKED PLAYER");
 				}
 			}
 		}
