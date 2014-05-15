@@ -5,28 +5,28 @@ import org.lwjgl.LWJGLException;
 
 import display.LoginFrontEnd;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class GameClient {
 	public static volatile boolean exitRequest = false;
 	// public static int threadCount = -1;
 	public static AtomicInteger threadCount = new AtomicInteger(-1);
-
-	// public synchronized void decreaseThread() {
-	//	threadCount--;
-	// }
+	
+	final static Logger logger = LoggerFactory.getLogger(GameClient.class);
 	
 	public static void main(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, LWJGLException {
 		try {
 			LoginFrontEnd.init();
 			
-			//packet.send(Packet.PacketEnum.valueOf("CONNECT"));
-			
+			logger.info("Front end initialized");
 			
 			// loop until ready to completely exit client
 			// this won't spinlock due to volatile exitRequest
 			while (!exitRequest || threadCount.get() != 0) {;}
 			
-			System.out.println("SHUTDOWN: Main thread is exiting..");
-			System.out.println("SHUTDOWN COMPLETE: Client has stopped.");
+			logger.info("SHUTDOWN: Main thread is exiting..\n");
+			logger.info("SHUTDOWN COMPLETE: Client has stopped.");
 			System.exit(0);
 		}
 		catch(Exception e) {

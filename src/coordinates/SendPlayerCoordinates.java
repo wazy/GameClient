@@ -7,6 +7,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import main.GameClient;
 
 
@@ -15,17 +18,21 @@ import entities.Player;
 
 
 public class SendPlayerCoordinates implements Runnable {
+
+	final static Logger logger = LoggerFactory.getLogger(SendPlayerCoordinates.class);
+
 	public void run() {
 		Socket connection = null;
 		int x , y, pos = -1;
 		
 		try {
-			System.out.println("Sending player coordinates...");
-			// gets server address and attempts to establish a connection
-			connection = SocketHandler.fetchSocket();
-			if (connection == null) {
+			logger.info("Sending player coordinates...");
+
+			if ((connection = SocketHandler.fetchSocket()) == null) {
+				logger.error("Unable to open a socket.");
 				System.exit(-1);
 			}
+
 			// init the streams here for r/w
 			ObjectOutputStream oos = new ObjectOutputStream(
 										new BufferedOutputStream(
@@ -35,40 +42,41 @@ public class SendPlayerCoordinates implements Runnable {
 												new BufferedInputStream(
 													connection.getInputStream()));
 			
-			// tell server we wadnt to update player coordinates
+			// tell server we want to update player coordinates
 			oos.writeObject("update");
-			oos.writeInt(Player.playerID);
+			oos.writeInt(Player.getPlayerID());
 			oos.flush();
 						
 			int c = ois.readInt();
 
 			if (c == 1) { // accepted connection from server
 
-				while (Player.onlinePlayers.size() < 1) {;}
+				while (Player.getOnlinePlayers().size() < 1) {;}
 
 				while (true) {
-					Thread.sleep(100); // adjust this
-
-					if (GameClient.exitRequest) { // check if a reason exists to continue
+					if (GameClient.isExitRequested()) { // check if a reason exists to continue
 						connection.close();
-						System.out.println("SHUTDOWN: Sending player coordinates thread is exiting..");
-						GameClient.threadCount.decrementAndGet(); // one less active thread
+						logger.info("SHUTDOWN: Sending player coordinates thread is exiting..");
+						GameClient.getThreadCount().decrementAndGet(); // one less active thread
 						return;
 					}
-
-					pos = Player.getListPosition().get();
 
 					while (pos < 0) {
 						pos = Player.getListPosition().get();
 					}
 
-					x = Player.onlinePlayers.get(pos).getX();
-					y = Player.onlinePlayers.get(pos).getY();
+					x = Player.getOnlinePlayers().get(pos).getX();
+					y = Player.getOnlinePlayers().get(pos).getY();
+
+					//System.out.println(pos + ", " + x + ", " + y);
 
 					oos.write(pos);
 					oos.write(x);
 					oos.write(y);
 					oos.flush();
+
+					Thread.sleep(200);
+
 					// System.out.println("Coordinates sent = " + x + "  " + y);
 				}
 			}
@@ -77,10 +85,10 @@ public class SendPlayerCoordinates implements Runnable {
 		// socket exception thrown when connection terminates
 		// this will terminate entire client in a domino fashion
 		catch (Exception e) {
+			logger.error("FATAL: Sending player coordinates thread is exiting..");
+			GameClient.setExitRequest(true);
+			GameClient.getThreadCount().decrementAndGet(); // one less active thread
 			//e.printStackTrace();
-			System.out.println("FATAL: Sending player coordinates thread is exiting..");
-			GameClient.exitRequest = true;
-			GameClient.threadCount.decrementAndGet(); // one less active thread
 			return;
 		} 
 		finally {

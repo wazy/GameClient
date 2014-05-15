@@ -9,6 +9,8 @@ import entities.Player;
 
 public class MovementHandler {
 	
+	private final static int PLAYER_SPEED = 5;
+	
 	public static void check() {
 
 		// client still loading
@@ -41,46 +43,46 @@ public class MovementHandler {
 		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
 			if (Keyboard.isKeyDown(Keyboard.KEY_A)) { // check if player is moving up and left
-				player.updateXY(-5,-5); // moves the player northwest
+				player.updateXY(-PLAYER_SPEED, -PLAYER_SPEED); // moves the player northwest
 			}
 			else if (Keyboard.isKeyDown(Keyboard.KEY_D)) { // check if player is moving up and right
-				player.updateXY(5, -5); // moves the player northeast
+				player.updateXY(PLAYER_SPEED, -PLAYER_SPEED); // moves the player northeast
 			}
 			else {
-				player.updateY(-5); // moves the player up 
+				player.updateY(-PLAYER_SPEED); // moves the player up 
 			}
 		}
 		else if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
 			if (Keyboard.isKeyDown(Keyboard.KEY_A)) { // check if player is moving down and left
-				player.updateXY(-5,5); // moves the player southwest
+				player.updateXY(-PLAYER_SPEED, PLAYER_SPEED); // moves the player southwest
 			}
 			else if (Keyboard.isKeyDown(Keyboard.KEY_D)) { // check if player is moving down and right
-				player.updateXY(5, 5); // moves the player southeast
+				player.updateXY(PLAYER_SPEED, PLAYER_SPEED); // moves the player southeast
 			}
 			else {
-				player.updateY(5); // moves the player down
+				player.updateY(PLAYER_SPEED); // moves the player down
 			}
 		}
 		else if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
 			if (Keyboard.isKeyDown(Keyboard.KEY_W)) { // check if player is moving left and up
-				player.updateXY(-5,-5); // moves the player northwest
+				player.updateXY(-PLAYER_SPEED,-PLAYER_SPEED); // moves the player northwest
 			}
 			else if (Keyboard.isKeyDown(Keyboard.KEY_S)) { // check if player is moving left and down
-				player.updateXY(-5, 5); // moves the player southwest
+				player.updateXY(-PLAYER_SPEED, PLAYER_SPEED); // moves the player southwest
 			}
 			else {
-				player.updateX(-5); // moves the player left
+				player.updateX(-PLAYER_SPEED); // moves the player left
 			}
 		}
 		else if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
 			if (Keyboard.isKeyDown(Keyboard.KEY_W)) { // check if player is moving right and up
-				player.updateXY(5, -5); // moves the player northeast
+				player.updateXY(PLAYER_SPEED, -PLAYER_SPEED); // moves the player northeast
 			}
 			else if (Keyboard.isKeyDown(Keyboard.KEY_S)) { // check if player is moving right and down
-				player.updateXY(5, 5); // moves the player southeast
+				player.updateXY(PLAYER_SPEED, PLAYER_SPEED); // moves the player southeast
 			}
 			else {
-				player.updateX(5); // moves the player right
+				player.updateX(PLAYER_SPEED); // moves the player right
 			}
 		}
 	/*

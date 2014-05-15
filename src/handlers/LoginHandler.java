@@ -1,8 +1,9 @@
 package handlers;
-import jBCrypt.BCrypt;
 
 import java.io.*;
 import java.net.*;
+
+import utils.BCrypt;
 
 import entities.Player;
 

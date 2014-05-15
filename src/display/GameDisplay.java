@@ -11,18 +11,25 @@ import main.PauseMenu;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import utils.OGLRenderer;
 import utils.States;
 
 
 public class GameDisplay {
+
+	final static Logger logger = LoggerFactory.getLogger(GameDisplay.class);
+
 	public static void run() throws IOException {
 
 		// setup LWJGL, OpenGL, and Resources
 		setupWindow(); 
 		OGLRenderer.setup();
 		ResourceHandler.loadResources();
+
+		logger.info("Display, Renderer, and Resources are loaded.");
 
 		// the main game loop runs until window is closed
 		while (!Display.isCloseRequested() && !GameClient.isExitRequested()) {
@@ -45,7 +52,7 @@ public class GameDisplay {
 					break;
 
 				default:
-					System.out.println("Invalid State: Terminating Program!");
+					logger.error("Invalid State: Terminating Program!");
 					System.exit(1);
 			}
 
@@ -53,7 +60,7 @@ public class GameDisplay {
 			Display.sync(60);
 		}
 		
-		System.out.println("SHUTDOWN: Main display thread is exiting..");
+		logger.info("SHUTDOWN: Main display thread is exiting..");
 		
 		// cleanup and termination
 		ResourceHandler.deleteResources();

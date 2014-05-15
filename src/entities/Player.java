@@ -63,8 +63,8 @@ public class Player implements Serializable {
 	}
 
 	public void draw(String shape) {
-		if (shape.equals("rectangle") == true)
-			OGLRenderer.drawQuad(this.x, this.y, 50, 50, this.name, texture);
+		if (shape.equals("rectangle"))
+			OGLRenderer.drawQuad(this.x, this.y, 50, 50, this.name, null);
 	}
 	
 	// this can help prevent wrong client d/c on server

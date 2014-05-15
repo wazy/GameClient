@@ -3,7 +3,9 @@ package display;
 import handlers.LoginHandler;
 
 import javax.swing.*;
-import jBCrypt.BCrypt;
+
+import utils.BCrypt;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;

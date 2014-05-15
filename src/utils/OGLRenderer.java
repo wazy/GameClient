@@ -75,7 +75,8 @@ public class OGLRenderer {
 			SimpleText.drawString(name, x, y-height);
 
 		// bind texture to OpenGL
-		texture.bind();
+		if (texture != null)
+			texture.bind();	
 
 		glBegin(GL_QUADS);
 			glTexCoord2f(0.0f, 0.0f);

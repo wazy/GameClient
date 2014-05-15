@@ -1,29 +1,32 @@
 package coordinates;
 import handlers.SocketHandler;
 
-import java.io.*;
-import java.net.*;
+import java.io.BufferedOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.util.List;
 
 import main.GameClient;
 
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import entities.Player;
 
 
 /* accepts / updates player list from server */
 public class AcceptPlayerCoordinates implements Runnable {
+
+	final static Logger logger = LoggerFactory.getLogger(AcceptPlayerCoordinates.class);
+
 	@SuppressWarnings("unchecked")
 	public void run () {
-		// probably not best place for this but
-		// receive player coordinates here
+		// need to do path prediction on player coordinates
 		Socket connection = null;
 		try {
-			connection = SocketHandler.fetchSocket();
-
-			// null if fails to open connection
-			if (connection == null) {
+			if ((connection = SocketHandler.fetchSocket()) == null) {
+				logger.error("Unable to open a socket.");
 				System.exit(-1);
 			}
 
@@ -34,11 +37,9 @@ public class AcceptPlayerCoordinates implements Runnable {
 			oos.writeObject("spc");
 			oos.flush();
 
-			int c = ois.readInt();
+			if (ois.readInt() == 1) {
 
-			if (c == 1) {
-
-				System.out.println("Accepting player coordinates...");
+				logger.info("Accepting player coordinates...");
 
 				oos.writeInt(Player.getPlayerID());
 				oos.flush();
@@ -47,7 +48,7 @@ public class AcceptPlayerCoordinates implements Runnable {
 
 				while (true) {
 					if (GameClient.isExitRequested()) {
-						System.out.println("SHUTDOWN: Accepting player coordinates thread is exiting..");
+						logger.info("SHUTDOWN: Accepting player coordinates thread is exiting..");
 						GameClient.getThreadCount().decrementAndGet(); // one less active thread
 						ois.close();
 						return;
@@ -60,44 +61,24 @@ public class AcceptPlayerCoordinates implements Runnable {
 
 					// read all players and their positions
 					for (int i = 0; i < n; i++) {
-						int playerUpdatePacket = ois.readInt();
-						System.out.println("PUP: " + playerUpdatePacket);
-
-						String packet = String.valueOf(playerUpdatePacket); 
-						int size = packet.length();
-
-						// decode packet (other players)
-						if (size >= 7) {
-							while (size <= 9) { 
-								size = 0 + size;
-							}
-							System.out.println(size);
-							String[] arr = packet.split(("(?<=\\G...)"));
-							
-							int ID = Integer.parseInt(arr[0]);
-							int X = Integer.parseInt(arr[1]);
-							int Y = Integer.parseInt(arr[2]);
-
-							if (i >= Player.getOnlinePlayers().size()) {
-								System.out.println("Player being added: " + playerUpdatePacket);
-								Player player = new Player(ID, "test", X, Y);
-								Player.getOnlinePlayers().add(player);	
-					
-							}
+						int type = ois.read();
+						
+						if (type == 0) { // receiving player updates
+							Player player = (Player) ois.readObject();
+							if (i >= Player.getOnlinePlayers().size())
+								Player.getOnlinePlayers().add(player);
 							else {
-								Player player = Player.getOnlinePlayers().get(i);
-								System.out.println("Player being moved: " + playerUpdatePacket);
-								player.setX(X);
-								player.setY(Y);
+								System.out.println(player.getName() + ", " + player.getX() + ", " + player.getY());
+								Player.getOnlinePlayers().set(i, player);
 							}
 						}
 						else { // set our position in list
 							if (i < Player.getOnlinePlayers().size())
-								Player.setListPosition(playerUpdatePacket);
-							
+								Player.setListPosition(ois.read());
+							else
+								ois.read();
 						}
 					}
-
 					Thread.sleep(2000);
 				}
 			}
@@ -107,10 +88,10 @@ public class AcceptPlayerCoordinates implements Runnable {
 		}
 		// will cause client to shutdown on fatal error
 		catch (Exception e) {
-			System.out.println("\nFATAL: Accepting player coordinates thread is exiting..");
+			logger.error("\nFATAL: Accepting player coordinates thread is exiting..");
 			GameClient.setExitRequest(true);
 			GameClient.getThreadCount().decrementAndGet(); // one less active thread
-			e.printStackTrace();
+			//e.printStackTrace();
 			return;
 		}
 		finally {
