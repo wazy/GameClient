@@ -56,27 +56,38 @@ public class AcceptPlayerCoordinates implements Runnable {
 
 					// get "actual" size of player list
 					int n = ois.read();
+					int m = Player.getOnlinePlayers().size();
 
-					// w: spc | r: 1 | w: ID | r: List | while true { r: n | r: 9 || r: 1 }
+					// w: spc | r: 1 | w: ID | r: List | while true { r: int | r: player or position }
 
-					// read all players and their positions
-					for (int i = 0; i < n; i++) {
-						int type = ois.read();
-						
-						if (type == 0) { // receiving player updates
-							Player player = (Player) ois.readObject();
-							if (i >= Player.getOnlinePlayers().size())
-								Player.getOnlinePlayers().add(player);
-							else {
-								System.out.println(player.getName() + ", " + player.getX() + ", " + player.getY());
-								Player.getOnlinePlayers().set(i, player);
+					if (n >= m) { // read all players and their positions
+						for (int i = 0; i < n; i++) {
+							int type = ois.read();
+							
+							if (type == 0) { // receiving player updates
+								Player player = (Player) ois.readObject();
+								if (i >= m)
+									Player.getOnlinePlayers().add(player);
+								else {
+									//System.out.println(player.getName() + ", " + player.getX() + ", " + player.getY());
+									Player.getOnlinePlayers().set(i, player);
+								}
+							}
+							else { // set our position in list
+								if (i < m)
+									Player.setListPosition(ois.read());
+								else
+									ois.read();
 							}
 						}
-						else { // set our position in list
-							if (i < Player.getOnlinePlayers().size())
-								Player.setListPosition(ois.read());
-							else
-								ois.read();
+					}
+					else { // remove a player
+						synchronized (Player.getOnlinePlayers()) {
+							int mt = ois.read();
+							System.out.println(mt);
+							if (mt < 0)
+								continue;
+							Player.getOnlinePlayers().remove(mt);
 						}
 					}
 					Thread.sleep(200);
@@ -91,7 +102,7 @@ public class AcceptPlayerCoordinates implements Runnable {
 			logger.error("\nFATAL: Accepting player coordinates thread is exiting..");
 			GameClient.setExitRequest(true);
 			GameClient.getThreadCount().decrementAndGet(); // one less active thread
-			//e.printStackTrace();
+			e.printStackTrace();
 			return;
 		}
 		finally {

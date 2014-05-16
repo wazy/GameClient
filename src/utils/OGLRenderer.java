@@ -51,7 +51,7 @@ public class OGLRenderer {
 	public static void render() {
 		// clear canvas
 		glClear(GL_COLOR_BUFFER_BIT);
-		
+
 		drawBackground();
 		drawEntities();
 		

@@ -2,6 +2,7 @@ package display;
 import handlers.MovementHandler;
 import handlers.ResourceHandler;
 import handlers.ThreadHandler;
+import handlers.TimeHandler;
 
 import java.io.IOException;
 
@@ -58,6 +59,7 @@ public class GameDisplay {
 			}
 			
 			SoundStore.get().poll(0);
+			TimeHandler.updateFPS();
 			Display.update();
 			Display.sync(60);
 		}
@@ -74,8 +76,10 @@ public class GameDisplay {
 	public static void setupWindow() {
 		try {
 			Display.setDisplayMode(new DisplayMode(640, 480));
-			Display.setTitle("Game Window");
 			Display.create();
+
+			// init the FPS
+			TimeHandler.setLastFPS(TimeHandler.getTime());
 		}
 		catch(LWJGLException e){
 			e.printStackTrace();

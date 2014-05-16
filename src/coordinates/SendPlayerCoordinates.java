@@ -61,7 +61,7 @@ public class SendPlayerCoordinates implements Runnable {
 						return;
 					}
 
-					while (pos < 0) {
+					while (pos < 0 || pos >= Player.getOnlinePlayers().size()) {
 						pos = Player.getListPosition().get();
 					}
 
@@ -88,7 +88,7 @@ public class SendPlayerCoordinates implements Runnable {
 			logger.error("FATAL: Sending player coordinates thread is exiting..");
 			GameClient.setExitRequest(true);
 			GameClient.getThreadCount().decrementAndGet(); // one less active thread
-			//e.printStackTrace();
+			e.printStackTrace();
 			return;
 		} 
 		finally {
