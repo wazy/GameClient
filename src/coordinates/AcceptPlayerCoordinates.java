@@ -26,7 +26,7 @@ public class AcceptPlayerCoordinates implements Runnable {
 		Socket connection = null;
 		try {
 			if ((connection = SocketHandler.fetchSocket()) == null) {
-				logger.error("Unable to open a socket.");
+				logger.error("Unable to open a socket!");
 				System.exit(-1);
 			}
 
@@ -60,43 +60,37 @@ public class AcceptPlayerCoordinates implements Runnable {
 
 					// w: spc | r: 1 | w: ID | r: List | while true { r: int | r: player or position }
 
-					if (n >= m) { // read all players and their positions
-						for (int i = 0; i < n; i++) {
-							int type = ois.read();
-							
-							if (type == 0) { // receiving player updates
-								Player player = (Player) ois.readObject();
-								if (i >= m)
-									Player.getOnlinePlayers().add(player);
-								else {
-									//System.out.println(player.getName() + ", " + player.getX() + ", " + player.getY());
-									Player.getOnlinePlayers().set(i, player);
-								}
-							}
-							else { // set our position in list
-								if (i < m)
-									Player.setListPosition(ois.read());
-								else
-									ois.read();
-							}
+					int disconnect = ois.read();
+
+					if (disconnect == 1) { // remove a player
+						disconnect = ois.read();
+						if (disconnect < 0)
+							continue;
+
+						synchronized (Player.getOnlinePlayers()) {
+							Player.getOnlinePlayers().remove(disconnect);
 						}
 					}
-					else { // remove a player
-						synchronized (Player.getOnlinePlayers()) {
-							int mt = ois.read();
-							System.out.println(mt);
-							if (mt < 0)
-								continue;
-							
-//							for (int i = 0; i < Player.getOnlinePlayers().size(); i++) {
-//								Player player = Player.getOnlinePlayers().get(i);
-//								if (player.getID() == disconnectedID) {
-//									Player.getOnlinePlayers().remove(i);
-//									break;
-//								}
-//							}
-							
-							Player.getOnlinePlayers().remove(mt);
+					else {
+						if (n >= m) { // read all players and their positions
+							for (int i = 0; i < n; i++) {
+								int type = ois.read();
+	
+								if (type == 0) { // receiving player updates
+									Player player = (Player) ois.readObject();
+									if (i >= m)
+										Player.getOnlinePlayers().add(player);
+									else {
+										//System.out.println(player.getName() + ", " + player.getX() + ", " + player.getY());
+										Player.getOnlinePlayers().set(i, player);
+									}
+								}
+								else { // set our position in list
+									int pos = ois.read();
+									if (i < m && pos >= 0)
+										Player.setListPosition(pos);
+								}
+							}
 						}
 					}
 					Thread.sleep(200);

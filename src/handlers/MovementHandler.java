@@ -2,11 +2,15 @@ package handlers;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import entities.Player;
 
 public class MovementHandler {
-	
+
+	final static Logger logger = LoggerFactory.getLogger(MovementHandler.class);
+
 	private final static int PLAYER_SPEED = 1;
 	private final static int PLAYER_LETHAL_COLLISION = 5;
 	private static int counter = 0;
@@ -32,7 +36,7 @@ public class MovementHandler {
 				player.updateY(gForce++);
 			}
 			else if (gForce > PLAYER_LETHAL_COLLISION) {
-				System.out.println("YOU DIED!");
+				logger.info("YOU DIED!");
 				gForce = 1;
 			}
 			else

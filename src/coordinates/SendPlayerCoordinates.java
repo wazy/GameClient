@@ -61,9 +61,8 @@ public class SendPlayerCoordinates implements Runnable {
 						return;
 					}
 
-					while (pos < 0 || pos >= Player.getOnlinePlayers().size()) {
+					while (pos < 0 || pos >= Player.getOnlinePlayers().size())
 						pos = Player.getListPosition().get();
-					}
 
 					x = Player.getOnlinePlayers().get(pos).getX();
 					y = Player.getOnlinePlayers().get(pos).getY();
