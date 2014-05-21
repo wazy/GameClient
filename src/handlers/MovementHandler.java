@@ -8,8 +8,12 @@ import entities.Player;
 public class MovementHandler {
 	
 	private final static int PLAYER_SPEED = 1;
+	private final static int PLAYER_LETHAL_COLLISION = 5;
+	private static int counter = 0;
+	private static int gForce = 1;
 	
 	public static void check() {
+		counter++;
 
 		// client still loading
 		if (Player.listPosition.get() < 0 || Player.onlinePlayers.size() < 1 
@@ -20,6 +24,22 @@ public class MovementHandler {
 		Player player = Player.onlinePlayers.get(Player.listPosition.get());
 		int x = player.getX();
 		int y = player.getY();
+		
+		// TODO: PUT IN PHYSICS HANDLER!!!
+		// update physics every 10 frames (60/10 = 6 updates per second) 
+		if (counter >= 10) {
+			if (player.getY() < 400) {
+				player.updateY(gForce++);
+			}
+			else if (gForce > PLAYER_LETHAL_COLLISION) {
+				System.out.println("YOU DIED!");
+				gForce = 1;
+			}
+			else
+				gForce = 1;
+			
+			counter = 0;
+		}
 		
 		//System.out.println(x + " " + y);
 		

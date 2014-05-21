@@ -87,6 +87,15 @@ public class AcceptPlayerCoordinates implements Runnable {
 							System.out.println(mt);
 							if (mt < 0)
 								continue;
+							
+//							for (int i = 0; i < Player.getOnlinePlayers().size(); i++) {
+//								Player player = Player.getOnlinePlayers().get(i);
+//								if (player.getID() == disconnectedID) {
+//									Player.getOnlinePlayers().remove(i);
+//									break;
+//								}
+//							}
+							
 							Player.getOnlinePlayers().remove(mt);
 						}
 					}

@@ -7,7 +7,6 @@ import utils.BCrypt;
 
 import entities.Player;
 
-
 public class LoginHandler {
 	public static boolean authenticate(String username, String password) {
 		try {
