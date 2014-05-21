@@ -71,8 +71,8 @@ public class SendPlayerCoordinates implements Runnable {
 					//System.out.println(pos + ", " + x + ", " + y);
 
 					oos.write(pos);
-					oos.write(x);
-					oos.write(y);
+					oos.writeShort(x);
+					oos.writeShort(y);
 					oos.flush();
 
 					Thread.sleep(200);
