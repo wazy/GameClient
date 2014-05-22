@@ -14,7 +14,7 @@ import org.newdawn.slick.opengl.TextureLoader;
 
 import utils.OGLRenderer;
 
-public class Player implements Serializable {
+public class Player extends PhysObject implements Serializable{
 
 	private static Texture texture = null;
 
@@ -32,7 +32,7 @@ public class Player implements Serializable {
 	public String name;
 
 	// x and y should probably be atomic for thread safety?
-	public int id, x, y;
+	public int id;
 	
 	public boolean selected = false;
 	
@@ -81,33 +81,6 @@ public class Player implements Serializable {
 	
 	public String getName() {
 		return this.name;
-	}
-	
-	public int getX() {
-		return this.x;
-	}
-	
-	public void setX(int X) {
-		this.x = X;
-	}
-	
-	public int getY() {
-		return this.y;
-	}
-	
-	public void setY(int Y) {
-		this.y = Y;
-	}
-	
-	public void updateX(int newXValue) {
-		x += newXValue;
-	}
-	public void updateY(int newYValue) {
-		y += newYValue;
-	}
-	public void updateXY(int newXValue, int newYValue) {
-		x += newXValue;
-		y += newYValue;
 	}
 
 	// finds where the player's info is -- from the server
