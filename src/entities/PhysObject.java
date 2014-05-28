@@ -5,6 +5,15 @@ public class PhysObject {
 	int y;
 	int vx = 0;
 	int vy = 0;
+	int mass = 1;
+	
+	public PhysObject(int x, int y, int vx, int vy, int mass) {
+		this.x = x;
+		this.y = y;
+		this.vx = vx;
+		this.vy = vy;
+		this.mass = mass;
+	}
 
 	public int getX() {
 		return this.x;
@@ -39,5 +48,13 @@ public class PhysObject {
 	
 	public void updateXvel(int dvx) {
 		this.vx +=dvx;
+	}
+	
+	public void setMass(int newmass) {
+		this.mass = newmass;
+	}
+	
+	public int getMass() {
+		return this.mass;
 	}
 }

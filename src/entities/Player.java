@@ -37,10 +37,9 @@ public class Player extends PhysObject implements Serializable{
 	public boolean selected = false;
 	
 	public Player (int id, String name, int x, int y) {
+		super(x,y,0,0,1);  //xpos, ypos, xvelocity, yvelocity, mass
 		this.id = id;
 		this.name = name;
-		this.x = x;
-		this.y = y;
 	}
 	
 	public boolean inBounds(int mouseX, int mouseY) {
