@@ -2,19 +2,15 @@ package entities;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
-import utils.OGLRenderer;
-
-public class Player extends PhysObject implements Serializable{
+public class Player extends AbstractMoveableEntity {
 
 	private static Texture texture = null;
 
@@ -24,62 +20,26 @@ public class Player extends PhysObject implements Serializable{
 	public static AtomicInteger listPosition = new AtomicInteger(-1);
 
 	private static final long serialVersionUID = -8405971951484157839L;
+
+	private static final int PLAYER_WIDTH = 50;
+	private static final int PLAYER_HEIGHT = 50;
+
 	private static File playerImg = new File("./img/etc2.png");
 
 	public static volatile List<Player> onlinePlayers =	Collections.synchronizedList(
 																new ArrayList<Player>(16));
-	
-	public String name;
-
-	// x and y should probably be atomic for thread safety?
-	public int id;
-	
-	public boolean selected = false;
-	
+		
 	public Player (int id, String name, int x, int y) {
-		super(x,y,0,0,1);  //xpos, ypos, xvelocity, yvelocity, mass
-		this.id = id;
-		this.name = name;
-	}
-	
-	public boolean inBounds(int mouseX, int mouseY) {
-		if (mouseX > x && mouseX < x + 50 && mouseY > y && mouseY < y + 50)
-			return true;
-		else
-			return false;
+		super(id, name, x, y, PLAYER_WIDTH, PLAYER_HEIGHT);
 	}
 
 	public static void loadTexture() throws IOException {
 		texture = TextureLoader.getTexture("PNG", new FileInputStream(playerImg));
 	}
 
-	public static Texture getTexture() {
-		return texture;
-	}
 
 	public static void deleteTexture() {
 		texture.release();
-	}
-
-	public void draw(String shape) {
-		if (shape.equals("rectangle"))
-			OGLRenderer.drawQuad(this.x, this.y, 50, 50, this.name, texture);
-	}
-	
-	// this can help prevent wrong client d/c on server
-	public void setID(String playerID) {
-		this.id = Integer.parseInt(playerID);
-	}
-	public int getID() {
-		return this.id;
-	}
-	
-	public void setName(String newName) {
-		this.name = newName;
-	}
-	
-	public String getName() {
-		return this.name;
 	}
 
 	// finds where the player's info is -- from the server

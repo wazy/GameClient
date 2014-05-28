@@ -1,7 +1,6 @@
 package handlers;
 
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,14 +64,14 @@ public class MovementHandler {
 		 if (y <= 0)
 			 player.setY(y + PLAYER_SPEED);
 		 
-		// just testing .... 
-		if (Mouse.next()) { // buffered events
-			if (Mouse.getEventButtonState()) { // pressed down?
-				if (player.inBounds(Mouse.getX(), 480 - Mouse.getY() - 1)) {
-					ResourceHandler.getFont().drawString(300, 300, "YOU CLICKED PLAYER");
-				}
-			}
-		}
+//		// just testing .... 
+//		if (Mouse.next()) { // buffered events
+//			if (Mouse.getEventButtonState()) { // pressed down?
+//				if (player.inBounds(Mouse.getX(), 480 - Mouse.getY() - 1)) {
+//					ResourceHandler.getFont().drawString(300, 300, "YOU CLICKED PLAYER");
+//				}
+//			}
+//		}
 		if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
 			if (Keyboard.isKeyDown(Keyboard.KEY_A)) { // check if player is moving up and left
 				player.updateXY(-PLAYER_SPEED, -PLAYER_SPEED); // moves the player northwest

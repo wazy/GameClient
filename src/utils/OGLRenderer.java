@@ -9,8 +9,8 @@ import static org.lwjgl.opengl.GL11.GL_SRC_ALPHA;
 import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
 import static org.lwjgl.opengl.GL11.glBegin;
 import static org.lwjgl.opengl.GL11.glBlendFunc;
-import static org.lwjgl.opengl.GL11.glDisable;
 import static org.lwjgl.opengl.GL11.glClear;
+import static org.lwjgl.opengl.GL11.glDisable;
 import static org.lwjgl.opengl.GL11.glEnable;
 import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glLoadIdentity;
@@ -20,6 +20,7 @@ import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 import handlers.ResourceHandler;
 import handlers.SpellHandler;
+import handlers.WorldObjectHandler;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,9 +29,9 @@ import java.io.IOException;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
-import entities.Creature;
 import entities.Player;
 import entities.Spell;
+import entities.XMLObject;
 
 public class OGLRenderer {
 
@@ -102,16 +103,22 @@ public class OGLRenderer {
 
 	public static void drawEntities() {
 		// draw players in the online list (constantly updated)
-		for (Player player : Player.onlinePlayers) {
+		for (Player player : Player.getOnlinePlayers()) {
 			if (player != null)
-				player.draw("rectangle");
+				player.draw();
 		}
 
-		// draw creatures from server
-		for (Creature creature : Creature.creatureList) {
-			if (creature != null)
-				creature.drawNPC("rectangle");
+		// level objects loaded from xml file
+		for (XMLObject obj : WorldObjectHandler.getObjectList()) {
+			if (obj != null)
+				obj.draw();
 		}
+
+//		// draw creatures from server
+//		for (Creature creature : Creature.creatureList) {
+//			if (creature != null)
+//				creature.drawNPC("rectangle");
+//		}
 	}
 
 	// TODO: NYI: DO NOT TOUCH - USE AT YOUR OWN RISK
