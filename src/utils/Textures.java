@@ -12,17 +12,21 @@ import org.newdawn.slick.opengl.TextureLoader;
 public class Textures {
 	private static HashMap<String, Texture> textureMap = new HashMap<String, Texture> (32);
 	
-	public static final String BACKGROUND_IMAGE_1 = "BACKGROUND_IMAGE_1";
-	public static final String PLAYER_IMAGE_1 = "PLAYER_IMAGE_1";
-	public static final String PLAYER_IMAGE_2 = "PLAYER_IMAGE_2";
-	public static final String GROUND_IMAGE_1 = "GROUND_IMAGE_1";
+	public static final String BACKGROUND_IMAGE_1 	= "BACKGROUND_IMAGE_1";
+	public static final String PAUSE_MENU_1 		= "PAUSE_MENU_1";
+	public static final String PLAYER_IMAGE_1 		= "PLAYER_IMAGE_1";
+	public static final String PLAYER_IMAGE_2 		= "PLAYER_IMAGE_2";
+	public static final String GROUND_IMAGE_1 		= "GROUND_IMAGE_1";
+	public static final String GRASS_IMAGE_1		= "GRASS_IMAGE_1";
 	
 
 	public static void loadTextures() throws FileNotFoundException, IOException {
 		addTexture(BACKGROUND_IMAGE_1);
+		addTexture(PAUSE_MENU_1);
 		addTexture(PLAYER_IMAGE_1);
 		addTexture(PLAYER_IMAGE_2);
 		addTexture(GROUND_IMAGE_1);
+		addTexture(GRASS_IMAGE_1);
 	}
 
 	public static void addTexture(String key) throws FileNotFoundException, IOException {

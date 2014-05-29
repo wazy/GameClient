@@ -22,12 +22,9 @@ import handlers.ResourceHandler;
 import handlers.SpellHandler;
 import handlers.WorldObjectHandler;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 
 import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
 
 import entities.Player;
 import entities.Spell;
@@ -35,9 +32,9 @@ import entities.XMLObject;
 
 public class OGLRenderer {
 
-	private static Texture texture;
-	private static File backgroundImg = new File("./img/background.png");
-	
+	public static Texture texture;
+	public static String textureName = "BACKGROUND_IMAGE_1";
+
 	// init OpenGL
 	public static void setup() throws IOException {
 		glMatrixMode(GL_PROJECTION);
@@ -63,14 +60,6 @@ public class OGLRenderer {
 
 	private static void drawBackground() {
 		drawQuad(0, 0, 640, 480, null, texture);
-	}
-
-	public static void loadTexture() throws IOException {
-		texture = TextureLoader.getTexture("PNG", new FileInputStream(backgroundImg));
-	}
-
-	public static void deleteTexture() {
-		texture.release();
 	}
 
 	// draw a quad of custom width and height

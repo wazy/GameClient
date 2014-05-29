@@ -15,6 +15,7 @@ import org.newdawn.slick.openal.AudioLoader;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.util.ResourceLoader;
 
+import utils.OGLRenderer;
 import utils.Textures;
 
 public class ResourceHandler {
@@ -22,15 +23,10 @@ public class ResourceHandler {
 	public static UnicodeFont font;
 	public static Audio testingWavEffect;
 
-	//0-32
-
 	public static void loadResources() throws IOException {
-//		OGLRenderer.loadTexture();
-//		Player.loadTexture();
-//		Creature.loadTexture();
-//		PauseMenu.loadTexture();
 		Textures.loadTextures();
-		
+
+		setGameBackgrounds();
 
 		setUpFonts();
 		loadSounds();
@@ -39,15 +35,9 @@ public class ResourceHandler {
 	}
 
 	public static void deleteResources() throws IOException {
-		//OGLRenderer.deleteTexture();
-		//Player.deleteTexture();
-		//Creature.deleteTexture();
-		PauseMenu.deleteTexture();
 		Textures.deleteTextures();
-
 		font.destroy();
 		testingWavEffect.release();
-		
 		AL.destroy();
 	}
 	
@@ -74,5 +64,12 @@ public class ResourceHandler {
 
 	public static Texture getTexture(String textureName) {
 		return getTextureFromHashMap(textureName);
+	}
+
+	// TODO: Put these somewhere better.
+	private static void setGameBackgrounds() {
+		// sets background image and pause menu (textures)
+		OGLRenderer.texture = ResourceHandler.getTexture(OGLRenderer.textureName);
+		PauseMenu.texture = ResourceHandler.getTexture(PauseMenu.textureName);
 	}
 }
