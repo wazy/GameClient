@@ -1,5 +1,7 @@
 package entities;
 
+import handlers.ResourceHandler;
+
 import java.io.Serializable;
 
 import org.newdawn.slick.opengl.Texture;
@@ -12,17 +14,23 @@ public abstract class AbstractEntity implements EntityInterface, Serializable {
 	
 	protected String name;
 	protected Texture texture;
-	protected int id, x, y, width, height;
+	protected int id, x, y, width, height, textureID;
 	
-	public AbstractEntity(int id, String name, int x, int y, int width, int height) {
+	public AbstractEntity(int id, String name, int x, int y, int width, int height, int textureID) {
 		this.id = id;
 		this.name = name;
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.textureID = textureID;
+		this.texture = ResourceHandler.getTexture(textureID);
 	}
-
+	
+	public int getTextureID() {
+		return this.textureID;
+	}
+	
 	// Do nothing for now: stationary object
 	public void update(int delta) {
 		return;

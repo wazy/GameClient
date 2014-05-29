@@ -82,19 +82,21 @@ public class OGLRenderer {
 
 		// bind texture to OpenGL
 		if (texture != null)
-			texture.bind();	
+			texture.bind();
 
+		//System.out.println(x + " " + y + " " + width + " " + height + " " + name + " " + texture);
+		
 		glEnable(GL_TEXTURE_2D);
 		glBegin(GL_QUADS);
 			glTexCoord2f(0.0f, 0.0f);
 			glVertex2f(x, y);				// Upper-left
-			
+
 			glTexCoord2f(1.0f, 0.0f);
 			glVertex2f(x+width, y);			// Upper-right
-			
+
 			glTexCoord2f(1.0f, 1.0f);
 			glVertex2f(x+width, y+height);	// Bottom-right
-			
+
 			glTexCoord2f(0.0f, 1.0f);
 			glVertex2f(x, y+height);		// Bottom-left
 		glEnd();

@@ -10,6 +10,7 @@ import org.newdawn.slick.UnicodeFont;
 import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.openal.Audio;
 import org.newdawn.slick.openal.AudioLoader;
+import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.util.ResourceLoader;
 
 import utils.OGLRenderer;
@@ -20,6 +21,8 @@ public class ResourceHandler {
 
 	public static UnicodeFont font;
 	public static Audio testingWavEffect;
+
+	//0-32
 
 	public static void loadResources() throws IOException {
 		OGLRenderer.loadTexture();
@@ -63,5 +66,9 @@ public class ResourceHandler {
 
 	private static void loadSounds() throws IOException {
 		testingWavEffect = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("sound/testing.wav"));		
+	}
+
+	public static Texture getTexture(int textureID) {
+		return Player.texture;
 	}
 }

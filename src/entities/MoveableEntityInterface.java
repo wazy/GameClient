@@ -9,6 +9,7 @@ public interface MoveableEntityInterface extends EntityInterface {
 	public void setDY(double dy);
 	public void setMass(int newMass);
 	
-	public void updateYvel(int dvy);
 	public void updateXvel(int dvx);
+	public void updateYvel(int dvy);
+	public void updateY(int y);
 }

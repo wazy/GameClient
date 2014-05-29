@@ -24,7 +24,8 @@ public class MovementHandler {
 			return;
 		}
 
-		Player player = Player.onlinePlayers.get(Player.listPosition.get());
+		Player player = Player.getOnlinePlayers().get(Player.getListPosition().get());
+
 		int x = player.getX();
 		int y = player.getY();
 		

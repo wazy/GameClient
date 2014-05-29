@@ -1,6 +1,5 @@
 package entities;
 
-
 public abstract class AbstractMoveableEntity extends AbstractEntity implements MoveableEntityInterface {
 	
 	private static final long serialVersionUID = -8405971951484157839L;
@@ -8,8 +7,8 @@ public abstract class AbstractMoveableEntity extends AbstractEntity implements M
 	protected double dx, dy;
 	protected int x, y, vx, vy, mass;
 
-	public AbstractMoveableEntity(int id, String name, int x, int y, int width, int height) {
-		super(id, name, x, y, width, height);
+	public AbstractMoveableEntity(int id, String name, int x, int y, int width, int height, int textureID) {
+		super(id, name, x, y, width, height, textureID);
 		this.dx = 0;
 		this.dy = 0;
 		this.vx = 0;

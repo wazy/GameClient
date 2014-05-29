@@ -12,7 +12,7 @@ import org.newdawn.slick.opengl.TextureLoader;
 
 public class Player extends AbstractMoveableEntity {
 
-	private static Texture texture = null;
+	public static Texture texture = null;
 
 	public static int playerID = -1;
 	public static volatile int playerHealth = 5;
@@ -29,8 +29,8 @@ public class Player extends AbstractMoveableEntity {
 	public static volatile List<Player> onlinePlayers =	Collections.synchronizedList(
 																new ArrayList<Player>(16));
 		
-	public Player (int id, String name, int x, int y) {
-		super(id, name, x, y, PLAYER_WIDTH, PLAYER_HEIGHT);
+	public Player (int id, String name, int x, int y, int textureID) {
+		super(id, name, x, y, PLAYER_WIDTH, PLAYER_HEIGHT, textureID);
 	}
 
 	public static void loadTexture() throws IOException {

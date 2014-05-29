@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import entities.Player;
 
+import static handlers.ResourceHandler.getTexture;
 
 /* accepts / updates player list from server */
 public class AcceptPlayerCoordinates implements Runnable {
@@ -78,17 +79,20 @@ public class AcceptPlayerCoordinates implements Runnable {
 	
 								if (type == 0) { // receiving player updates
 									Player player = (Player) ois.readObject();
+									player.setTexture(getTexture(player.getTextureID()));
 									if (i >= m)
 										Player.getOnlinePlayers().add(player);
 									else {
-										//System.out.println(player.getName() + ", " + player.getX() + ", " + player.getY());
 										Player.getOnlinePlayers().set(i, player);
 									}
 								}
 								else { // set our position in list
 									int pos = ois.read();
-									if (i < m && pos >= 0)
+									if (i < m && pos >= 0 && pos != Player.getListPosition().get()) {
+										Player player = Player.getOnlinePlayers().get(pos);
+										player.setTexture(getTexture(player.getTextureID()));
 										Player.setListPosition(pos);
+									}
 								}
 							}
 						}
