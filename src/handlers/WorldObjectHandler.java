@@ -23,7 +23,7 @@ public class WorldObjectHandler {
 	public static void loadObjects(String level) {
 		try {
 
-			File fXmlFile = new File("res/"+level+".xml");
+			File fXmlFile = new File("res/xml/" + level + ".xml");
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(fXmlFile);
@@ -46,8 +46,9 @@ public class WorldObjectHandler {
 					int y = Integer.valueOf(eElement.getElementsByTagName("y").item(0).getTextContent());
 					int width = Integer.valueOf(eElement.getElementsByTagName("width").item(0).getTextContent());
 					int height = Integer.valueOf(eElement.getElementsByTagName("height").item(0).getTextContent());
+					String textureName = eElement.getElementsByTagName("texture").item(0).getTextContent();
 					
-					XMLObject obj = new XMLObject(id, name, x, y, width, height);
+					XMLObject obj = new XMLObject(id, name, x, y, width, height, textureName);
 					objectList.add(obj);
 				}
 			}

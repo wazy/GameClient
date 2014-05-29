@@ -17,6 +17,8 @@ import utils.OGLRenderer;
 import entities.Creature;
 import entities.Player;
 
+//import static utils.Textures.getTextureFromHashMap;
+
 public class ResourceHandler {
 
 	public static UnicodeFont font;
@@ -32,6 +34,7 @@ public class ResourceHandler {
 
 		setUpFonts();
 		loadSounds();
+
 		WorldObjectHandler.loadObjects("level-1");
 	}
 
@@ -68,7 +71,8 @@ public class ResourceHandler {
 		testingWavEffect = AudioLoader.getAudio("WAV", ResourceLoader.getResourceAsStream("sound/testing.wav"));		
 	}
 
-	public static Texture getTexture(int textureID) {
+	public static Texture getTexture(String textureName) {
+		//return Textures.getTextureFromHashMap(textureName);
 		return Player.texture;
 	}
 }

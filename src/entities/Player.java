@@ -29,14 +29,13 @@ public class Player extends AbstractMoveableEntity {
 	public static volatile List<Player> onlinePlayers =	Collections.synchronizedList(
 																new ArrayList<Player>(16));
 		
-	public Player (int id, String name, int x, int y, int textureID) {
-		super(id, name, x, y, PLAYER_WIDTH, PLAYER_HEIGHT, textureID);
+	public Player (int id, String name, int x, int y, String textureName) {
+		super(id, name, x, y, PLAYER_WIDTH, PLAYER_HEIGHT, textureName);
 	}
 
 	public static void loadTexture() throws IOException {
 		texture = TextureLoader.getTexture("PNG", new FileInputStream(playerImg));
 	}
-
 
 	public static void deleteTexture() {
 		texture.release();
@@ -82,5 +81,4 @@ public class Player extends AbstractMoveableEntity {
 	public static void setListPosition(int positionFromServer) {
 		listPosition.set(positionFromServer);
 	}
-	
 }

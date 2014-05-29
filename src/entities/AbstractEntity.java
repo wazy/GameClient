@@ -12,23 +12,23 @@ public abstract class AbstractEntity implements EntityInterface, Serializable {
 
 	private static final long serialVersionUID = -8405971951484157839L;
 	
-	protected String name;
 	protected Texture texture;
+	protected String name, textureName;
 	protected int id, x, y, width, height, textureID;
 	
-	public AbstractEntity(int id, String name, int x, int y, int width, int height, int textureID) {
+	public AbstractEntity(int id, String name, int x, int y, int width, int height, String textureName) {
 		this.id = id;
 		this.name = name;
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
-		this.textureID = textureID;
-		this.texture = ResourceHandler.getTexture(textureID);
+		this.textureName = textureName;
+		this.texture = ResourceHandler.getTexture(textureName);
 	}
 	
-	public int getTextureID() {
-		return this.textureID;
+	public String getTextureName() {
+		return this.textureName;
 	}
 	
 	// Do nothing for now: stationary object

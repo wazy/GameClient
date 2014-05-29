@@ -79,7 +79,7 @@ public class AcceptPlayerCoordinates implements Runnable {
 	
 								if (type == 0) { // receiving player updates
 									Player player = (Player) ois.readObject();
-									player.setTexture(getTexture(player.getTextureID()));
+									player.setTexture(getTexture(player.getTextureName()));
 									if (i >= m)
 										Player.getOnlinePlayers().add(player);
 									else {
@@ -90,7 +90,7 @@ public class AcceptPlayerCoordinates implements Runnable {
 									int pos = ois.read();
 									if (i < m && pos >= 0 && pos != Player.getListPosition().get()) {
 										Player player = Player.getOnlinePlayers().get(pos);
-										player.setTexture(getTexture(player.getTextureID()));
+										player.setTexture(getTexture(player.getTextureName()));
 										Player.setListPosition(pos);
 									}
 								}

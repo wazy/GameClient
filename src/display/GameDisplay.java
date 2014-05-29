@@ -63,13 +63,15 @@ public class GameDisplay {
 			Display.update();
 			Display.sync(60);
 		}
-		
-		logger.info("SHUTDOWN: Main display thread is exiting..");
-		
+
 		// cleanup and termination
+		logger.info("SHUTDOWN: Deleting resources..");
 		ResourceHandler.deleteResources();
 
+		logger.info("SHUTDOWN: Main display thread is exiting..");
+
 		Display.destroy();
+
 		GameClient.setExitRequest(true);
 	}
 

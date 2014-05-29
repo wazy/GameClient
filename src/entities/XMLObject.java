@@ -5,8 +5,8 @@ public class XMLObject extends AbstractEntity {
 	
 	private static final long serialVersionUID = -8405971951484157839L;
 
-	public XMLObject (int id, String name, int x, int y, int width, int height) {
-		super(id, name, x, y, width, height, 2);
+	public XMLObject (int id, String name, int x, int y, int width, int height, String textureName) {
+		super(id, name, x, y, width, height, textureName);
 	}
 
 }
