@@ -31,8 +31,8 @@ public class ResourceHandler {
 		PauseMenu.loadTexture();
 
 		setUpFonts();
-		
 		loadSounds();
+		WorldObjectHandler.loadObjects("level-1");
 	}
 
 	public static void deleteResources() throws IOException {

@@ -32,7 +32,7 @@ public class MovementHandler {
 		// TODO: PUT IN PHYSICS HANDLER!!!
 		// update physics every 10 frames (60/10 = 6 updates per second) 
 		if (counter >= 10) {
-			if (player.getY() < 400) {
+			if (player.getY() < 350) {
 				player.updateY(gForce++);
 			}
 			else if (gForce > PLAYER_LETHAL_COLLISION) {

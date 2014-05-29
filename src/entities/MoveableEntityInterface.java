@@ -11,5 +11,9 @@ public interface MoveableEntityInterface extends EntityInterface {
 	
 	public void updateXvel(int dvx);
 	public void updateYvel(int dvy);
+
+	public void updateX(int x);
 	public void updateY(int y);
+	public void updateXY(int x, int y);
+	
 }

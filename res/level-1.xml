@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<level>
+  <object id="1">
+    <name>one</name>
+    <x>300</x>
+    <y>300</y>
+    <width>50</width>
+    <height>60</height>
+  </object>
+  <object id="2">
+    <name>two</name>
+    <x>400</x>
+    <y>400</y>
+    <width>50</width>
+    <height>75</height>
+  </object>
+    <object id="3">
+    <name>three</name>
+    <x>500</x>
+    <y>400</y>
+    <width>50</width>
+    <height>80</height>
+  </object>
+</level>

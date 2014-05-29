@@ -5,7 +5,7 @@ public abstract class AbstractMoveableEntity extends AbstractEntity implements M
 	private static final long serialVersionUID = -8405971951484157839L;
 
 	protected double dx, dy;
-	protected int x, y, vx, vy, mass;
+	protected int vx, vy, mass;
 
 	public AbstractMoveableEntity(int id, String name, int x, int y, int width, int height, int textureID) {
 		super(id, name, x, y, width, height, textureID);
@@ -29,12 +29,12 @@ public abstract class AbstractMoveableEntity extends AbstractEntity implements M
 		this.y += y;
 	}
 
-	public void updateYvel(int dvy) {
-		this.vy +=dvy;
+	public void updateXvel(int dvx) {
+		this.vx += dvx;
 	}
 
-	public void updateXvel(int dvx) {
-		this.vx +=dvx;
+	public void updateYvel(int dvy) {
+		this.vy += dvy;
 	}
 
 	public void setMass(int newmass) {
