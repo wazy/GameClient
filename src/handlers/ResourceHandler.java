@@ -1,5 +1,7 @@
 package handlers;
 
+import static utils.Textures.getTextureFromHashMap;
+
 import java.io.IOException;
 
 import main.PauseMenu;
@@ -13,12 +15,7 @@ import org.newdawn.slick.openal.AudioLoader;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.util.ResourceLoader;
 
-import utils.OGLRenderer;
 import utils.Textures;
-import entities.Creature;
-import entities.Player;
-
-//import static utils.Textures.getTextureFromHashMap;
 
 public class ResourceHandler {
 
@@ -42,15 +39,15 @@ public class ResourceHandler {
 	}
 
 	public static void deleteResources() throws IOException {
-		OGLRenderer.deleteTexture();
-		Player.deleteTexture();
-		Creature.deleteTexture();
+		//OGLRenderer.deleteTexture();
+		//Player.deleteTexture();
+		//Creature.deleteTexture();
 		PauseMenu.deleteTexture();
+		Textures.deleteTextures();
 
 		font.destroy();
 		testingWavEffect.release();
-		Textures.deleteTextures();
-
+		
 		AL.destroy();
 	}
 	
@@ -76,7 +73,6 @@ public class ResourceHandler {
 	}
 
 	public static Texture getTexture(String textureName) {
-		//return Textures.getTextureFromHashMap(textureName);
-		return Player.texture;
+		return getTextureFromHashMap(textureName);
 	}
 }

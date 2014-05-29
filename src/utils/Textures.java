@@ -38,7 +38,7 @@ public class Textures {
 		}
 	}
 	
-	public static Texture getTexureFromHashMap(String key) {
+	public static Texture getTextureFromHashMap(String key) {
 		return textureMap.get(key);
 	}
 }

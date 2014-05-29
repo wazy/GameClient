@@ -6,7 +6,7 @@
     <y>300</y>
     <width>50</width>
     <height>60</height>
-    <texture>GROUND</texture>
+    <texture>PLAYER_IMAGE_1</texture>
   </object>
   <object id="2">
     <name>two</name>
@@ -14,7 +14,7 @@
     <y>400</y>
     <width>50</width>
     <height>75</height>
-    <texture>GROUND_2</texture>
+    <texture>GROUND_IMAGE_1</texture>
   </object>
     <object id="3">
     <name>three</name>
@@ -22,6 +22,6 @@
     <y>400</y>
     <width>50</width>
     <height>80</height>
-    <texture>GROUND_3</texture>
+    <texture>GRASS_IMAGE_1</texture>
   </object>
 </level>
