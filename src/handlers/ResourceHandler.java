@@ -14,6 +14,7 @@ import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.util.ResourceLoader;
 
 import utils.OGLRenderer;
+import utils.Textures;
 import entities.Creature;
 import entities.Player;
 
@@ -27,10 +28,12 @@ public class ResourceHandler {
 	//0-32
 
 	public static void loadResources() throws IOException {
-		OGLRenderer.loadTexture();
-		Player.loadTexture();
-		Creature.loadTexture();
-		PauseMenu.loadTexture();
+//		OGLRenderer.loadTexture();
+//		Player.loadTexture();
+//		Creature.loadTexture();
+//		PauseMenu.loadTexture();
+		Textures.loadTextures();
+		
 
 		setUpFonts();
 		loadSounds();
@@ -46,6 +49,7 @@ public class ResourceHandler {
 
 		font.destroy();
 		testingWavEffect.release();
+		Textures.deleteTextures();
 
 		AL.destroy();
 	}
