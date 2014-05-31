@@ -101,16 +101,17 @@ public class OGLRenderer {
 	}
 
 	public static void drawEntities() {
-		// draw players in the online list (constantly updated)
-		for (Player player : Player.getOnlinePlayers()) {
-			if (player != null)
-				player.draw();
-		}
 
 		// level objects loaded from xml file
 		for (XMLObject obj : WorldObjectHandler.getObjectList()) {
 			if (obj != null)
 				obj.draw();
+		}
+		
+		// draw players in the online list (constantly updated)
+		for (Player player : Player.getOnlinePlayers()) {
+			if (player != null)
+				player.draw();
 		}
 
 //		// draw creatures from server

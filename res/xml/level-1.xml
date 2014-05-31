@@ -1,27 +1,43 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <level>
+  <!-- grass-1 -->
   <object id="1">
-    <name>one</name>
-    <x>300</x>
-    <y>300</y>
-    <width>50</width>
-    <height>60</height>
-    <texture>PLAYER_IMAGE_1</texture>
-  </object>
-  <object id="2">
-    <name>two</name>
-    <x>400</x>
-    <y>400</y>
-    <width>50</width>
-    <height>75</height>
-    <texture>GROUND_IMAGE_1</texture>
-  </object>
-    <object id="3">
-    <name>three</name>
-    <x>500</x>
-    <y>400</y>
-    <width>50</width>
-    <height>80</height>
+    <name></name>
+    <x>1</x>
+    <y>360</y>
+    <width>640</width>
+    <height>40</height>
     <texture>GRASS_IMAGE_1</texture>
   </object>
+    
+  <!-- block-1 -->
+  <object id="1">
+    <name></name>
+    <x>200</x>
+    <y>360</y>
+    <width>40</width>
+    <height>40</height>
+    <texture>BLOCK_IMAGE_1</texture>
+  </object>
+  
+  <!-- block-2 -->
+  <object id="2">
+    <name></name>
+    <x>240</x>
+    <y>340</y>
+    <width>40</width>
+    <height>60</height>
+    <texture>BLOCK_IMAGE_1</texture>
+  </object>
+  
+  <!-- block-3 -->
+  <object id="3">
+    <name></name>
+    <x>280</x>
+    <y>320</y>
+    <width>40</width>
+    <height>80</height>
+    <texture>BLOCK_IMAGE_1</texture>
+  </object>
+  
 </level>

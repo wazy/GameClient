@@ -18,6 +18,7 @@ public class Textures {
 	public static final String PLAYER_IMAGE_2 		= "PLAYER_IMAGE_2";
 	public static final String GROUND_IMAGE_1 		= "GROUND_IMAGE_1";
 	public static final String GRASS_IMAGE_1		= "GRASS_IMAGE_1";
+	public static final String BLOCK_IMAGE_1		= "BLOCK_IMAGE_1";
 	
 
 	public static void loadTextures() throws FileNotFoundException, IOException {
@@ -27,6 +28,7 @@ public class Textures {
 		addTexture(PLAYER_IMAGE_2);
 		addTexture(GROUND_IMAGE_1);
 		addTexture(GRASS_IMAGE_1);
+		addTexture(BLOCK_IMAGE_1);
 	}
 
 	public static void addTexture(String key) throws FileNotFoundException, IOException {
