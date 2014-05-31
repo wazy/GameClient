@@ -18,7 +18,9 @@ import static org.lwjgl.opengl.GL11.glMatrixMode;
 import static org.lwjgl.opengl.GL11.glOrtho;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glVertex2f;
-import handlers.ResourceHandler;
+import static entities.Player.PLAYER_WIDTH;
+import static handlers.ResourceHandler.font;
+
 import handlers.SpellHandler;
 import handlers.WorldObjectHandler;
 
@@ -65,9 +67,9 @@ public class OGLRenderer {
 	// draw a quad of custom width and height
 	public static void drawQuad(int x, int y, int width, int height, String name, Texture texture) {
 
-		// draw entity name
+		// draw entity name -> Hack to calculate name offset for X ~ magic numbers ftw!
 		if (name != null)
-			ResourceHandler.getFont().drawString(x, y-20, name);
+			font.drawString(calculateNameX(x, name.length()), y-20, name);
 
 		// bind texture to OpenGL
 		if (texture != null)
@@ -90,6 +92,12 @@ public class OGLRenderer {
 			glVertex2f(x, y+height);		// Bottom-left
 		glEnd();
 		glDisable(GL_TEXTURE_2D);
+	}
+
+	// this calcuates the x where we should start drawing the name
+	// uses a magic number 8 for font width
+	private static int calculateNameX(int x, int size) {
+		return x + ((PLAYER_WIDTH - (size * 8)) / 2);
 	}
 
 	public static void drawEntities() {

@@ -26,7 +26,7 @@ public abstract class AbstractEntity implements EntityInterface, Serializable {
 		this.textureName = textureName;
 		this.texture = ResourceHandler.getTexture(textureName);
 	}
-	
+
 	public String getTextureName() {
 		return this.textureName;
 	}

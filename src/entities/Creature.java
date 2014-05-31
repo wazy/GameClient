@@ -57,8 +57,7 @@ public class Creature implements Serializable {
 
 	
 	public void drawNPC(String shape) {
-		if (shape.equals("rectangle") == true)
-			OGLRenderer.drawQuad(this.x, this.y, this.width, this.height, this.name, tex);
+		OGLRenderer.drawQuad(this.x, this.y, this.width, this.height, this.name, tex);
 	}
 	public static void setID(String npcID) {
 		Creature.creatureID = Integer.parseInt(npcID);
