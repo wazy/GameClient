@@ -67,9 +67,9 @@ public class ResourceHandler {
 	}
 
 	// TODO: Put these somewhere better.
+	// sets background image and pause menu (textures)
 	private static void setGameBackgrounds() {
-		// sets background image and pause menu (textures)
-		OGLRenderer.texture = ResourceHandler.getTexture(OGLRenderer.textureName);
+		OGLRenderer.backgroundTexture = ResourceHandler.getTexture(OGLRenderer.backgroundTextureName);
 		PauseMenu.texture = ResourceHandler.getTexture(PauseMenu.textureName);
 	}
 }

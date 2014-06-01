@@ -2,30 +2,50 @@ package handlers;
 
 import java.util.ArrayList;
 
-import entities.AbstractMoveableEntity;
+import entities.AbstractEntity;
 import entities.Player;
 
 public class PhysicsHandler {
+
+	private int gforce = 10;
+	private ArrayList<AbstractEntity> gameObjects = new ArrayList<AbstractEntity>();
 	
-	static int gforce = 10;
-	static ArrayList<AbstractMoveableEntity> gameObjects = new ArrayList<AbstractMoveableEntity>();
+	public PhysicsHandler() { }
 	
-	public static void addObject(AbstractMoveableEntity obj) {
+	public void addObject(AbstractEntity obj) {
 		gameObjects.add(obj);
 	}
 	
-	public static void update() {
+	public void update() {
+		int position = -1;
+		while ((position = Player.getListPosition().get()) < 0) {;}
+		Player player = Player.getOnlinePlayers().get(position); 
 		
+		if (player.getID() == Player.getPlayerID())
+			player.updateYvel(player.getMass() * gforce);  //Force (of fall) = mass*accel(due to gravity)
 		
-		for (Player p : Player.getOnlinePlayers())
-		{
-			if (p.getID() == Player.getPlayerID())
-				p.updateYvel(gforce*p.getMass());  //Force = mass*accel(due to gravity)
-				break;
-		}
-		
-		for (AbstractMoveableEntity ob : gameObjects) {
-			ob.updateYvel(gforce*ob.getMass());  //Force = mass*accel(due to gravity)
+		int px = player.getX(); int py = player.getY();
+		int pw = player.getWidth(); int ph = player.getHeight();
+
+		for (AbstractEntity ob : WorldObjectHandler.getObjectList()) {
+			int ox = ob.getX(); int oy = ob.getY();
+			int ow = ob.getWidth(); int oh = ob.getHeight();
+			
+			// collision (from left) between an object and the player
+			if ((px > (ox - ow) && px < ox) && (py > (oy - oh) && py < oy)) {
+				player.updateX(-1);
+				System.out.printf("Collision -> Object (x, y, w, h): (%d, %d, %d, %d) | " +
+												"Player (x, y, w, h): (%d, %d, %d, %d)\n",
+												ox, oy, ow, oh, px, py, pw, ph);
+			}
+			// collision (from right) between an object and the player
+			else if ((ox > (px - pw) && ox < px) && (oy > (py - ph) && oy < py)) {
+				player.updateX(1);
+				System.out.printf("Collision -> Object (x, y, w, h): (%d, %d, %d, %d) | " +
+												"Player (x, y, w, h): (%d, %d, %d, %d)\n",
+												ox, oy, ow, oh, px, py, pw, ph);
+			}
+			
 		}
 	}
 	

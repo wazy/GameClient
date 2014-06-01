@@ -1,5 +1,6 @@
 package display;
 import handlers.MovementHandler;
+import handlers.PhysicsHandler;
 import handlers.ResourceHandler;
 import handlers.ThreadHandler;
 import handlers.TimeHandler;
@@ -19,7 +20,6 @@ import org.slf4j.LoggerFactory;
 import utils.OGLRenderer;
 import utils.States;
 
-
 public class GameDisplay {
 
 	final static Logger logger = LoggerFactory.getLogger(GameDisplay.class);
@@ -30,6 +30,7 @@ public class GameDisplay {
 		setupWindow(); 
 		OGLRenderer.setup();
 		ResourceHandler.loadResources();
+		PhysicsHandler world = new PhysicsHandler();
 
 		logger.info("Display, Renderer, and Resources are loaded.");
 
@@ -40,12 +41,14 @@ public class GameDisplay {
 				case 0:  // entry point -> start threads
 					States.setState(1);
 					ThreadHandler.initAll();
+					world = new PhysicsHandler();
 					break;
 
 				case 1: // runs main game 
 					States.checkPaused();
 					MovementHandler.check();
 					OGLRenderer.render();
+					world.update();
 					break;
 
 				case 2: // handles pause menu

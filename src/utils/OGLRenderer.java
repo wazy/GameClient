@@ -34,8 +34,8 @@ import entities.XMLObject;
 
 public class OGLRenderer {
 
-	public static Texture texture;
-	public static String textureName = "BACKGROUND_IMAGE_1";
+	public static Texture backgroundTexture;
+	public static String backgroundTextureName = "BACKGROUND_IMAGE_1";
 
 	// init OpenGL
 	public static void setup() throws IOException {
@@ -49,25 +49,25 @@ public class OGLRenderer {
 
 	// main drawing loop
 	public static void render() {
-		// clear canvas
-		glClear(GL_COLOR_BUFFER_BIT);
 
 		drawBackground();
 		drawEntities();
 		
-		if (SpellHandler.isSpellCasted()) {
-			drawSpell();
-		}
+//		if (SpellHandler.isSpellCasted())
+//			drawSpell();
 	}
 
+	// clear canvas and texture the background quad
 	private static void drawBackground() {
-		drawQuad(0, 0, 640, 480, null, texture);
+		glClear(GL_COLOR_BUFFER_BIT);
+		drawQuad(0, 0, 640, 480, null, backgroundTexture);
 	}
 
 	// draw a quad of custom width and height
 	public static void drawQuad(int x, int y, int width, int height, String name, Texture texture) {
 
-		// draw entity name -> Hack to calculate name offset for X ~ magic numbers ftw!
+		// TODO: Make this better?
+		// draw entity name at an offset of x and y
 		if (name != null)
 			font.drawString(calculateNameX(x, name.length()), y-20, name);
 
