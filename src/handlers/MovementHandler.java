@@ -10,13 +10,14 @@ public class MovementHandler {
 
 	final static Logger logger = LoggerFactory.getLogger(MovementHandler.class);
 
-	private final static int PLAYER_SPEED = 1;
-	private final static int PLAYER_LETHAL_COLLISION = 5;
-	private static int counter = 0;
 	private static int gForce = 1;
-	
+	private static int fallDelay = 0;
+
+	private final static int PLAYER_SPEED = 1;
+	private final static int PLAYER_JUMP_SPEED = 50;
+	private final static int PLAYER_LETHAL_COLLISION = 15;
+
 	public static void check() {
-		counter++;
 
 		// client still loading
 		if (Player.listPosition.get() < 0 || Player.onlinePlayers.size() < 1 
@@ -28,42 +29,45 @@ public class MovementHandler {
 
 		int x = player.getX();
 		int y = player.getY();
-		
+		fallDelay++;
+
 		// TODO: PUT IN PHYSICS HANDLER!!!
-		// update physics every 10 frames (60/10 = 6 updates per second) 
-		if (counter >= 10) {
-			if (player.getY() < 350) {
+		if (fallDelay >= 2 && player.isFalling()) {
+			if (y < 350) {
 				player.updateY(gForce++);
 			}
 			else if (gForce > PLAYER_LETHAL_COLLISION) {
 				logger.info("YOU DIED!");
+				player.isFalling(false);
 				gForce = 1;
 			}
-			else
+			else {
+				player.isFalling(false);
 				gForce = 1;
-			
-			counter = 0;
+			}
+			fallDelay = 0;
 		}
-		
+
 		//System.out.println(x + " " + y);
 		
 		// if player is heading out of screen boundary
 		// then push player back -> player X and Y are top left corner
 		// so subtract height and width from x and y for calculation
 		// 640-50 = 590 and 480-50 = 430 
-		if (x >= 590)
-			player.setX(x - PLAYER_SPEED);
-		
-		 if (y >= 430)
-			 player.setY(y - PLAYER_SPEED);
-		 
-		 if (x <= 0) {
-			 player.setX(x + PLAYER_SPEED);
-			 ResourceHandler.testingWavEffect.playAsSoundEffect(1.0f, 1.0f, false);
-		 }
-		 
-		 if (y <= 0)
-			 player.setY(y + PLAYER_SPEED);
+		if (x > 590)
+			player.setX(590);
+
+		if (x < 0) {
+			player.setX(0);
+			if (!ResourceHandler.testingWavEffect.isPlaying())
+				ResourceHandler.testingWavEffect.playAsSoundEffect(1.0f, 1.0f, false);
+		}
+
+		if (y >= 430)
+			player.setY(y - PLAYER_SPEED);
+
+		if (y <= 0)
+			player.setY(y + PLAYER_SPEED);
 		 
 //		// just testing .... 
 //		if (Mouse.next()) { // buffered events
@@ -73,15 +77,16 @@ public class MovementHandler {
 //				}
 //			}
 //		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
+		if (Keyboard.isKeyDown(Keyboard.KEY_W) && !player.isFalling()) {
+			player.isFalling(true);
 			if (Keyboard.isKeyDown(Keyboard.KEY_A)) { // check if player is moving up and left
-				player.updateXY(-PLAYER_SPEED, -PLAYER_SPEED); // moves the player northwest
+				player.updateXY(-PLAYER_JUMP_SPEED, -PLAYER_JUMP_SPEED); // moves the player northwest
 			}
 			else if (Keyboard.isKeyDown(Keyboard.KEY_D)) { // check if player is moving up and right
-				player.updateXY(PLAYER_SPEED, -PLAYER_SPEED); // moves the player northeast
+				player.updateXY(PLAYER_JUMP_SPEED, -PLAYER_JUMP_SPEED); // moves the player northeast
 			}
 			else {
-				player.updateY(-PLAYER_SPEED); // moves the player up 
+				player.updateY(-PLAYER_JUMP_SPEED); // moves the player up 
 			}
 		}
 		else if (Keyboard.isKeyDown(Keyboard.KEY_S)) {

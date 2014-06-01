@@ -13,6 +13,7 @@ public abstract class AbstractEntity implements EntityInterface, Serializable {
 	private static final long serialVersionUID = -8405971951484157839L;
 	
 	protected Texture texture;
+	protected boolean falling = false;
 	protected String name, textureName;
 	protected int id, x, y, width, height, textureID;
 	
@@ -25,6 +26,14 @@ public abstract class AbstractEntity implements EntityInterface, Serializable {
 		this.height = height;
 		this.textureName = textureName;
 		this.texture = ResourceHandler.getTexture(textureName);
+	}
+
+	public boolean isFalling() {
+		return this.falling;
+	}
+
+	public void isFalling(boolean value) {
+		this.falling = value;
 	}
 
 	public String getTextureName() {

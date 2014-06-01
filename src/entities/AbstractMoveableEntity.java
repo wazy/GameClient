@@ -6,6 +6,7 @@ public abstract class AbstractMoveableEntity extends AbstractEntity implements M
 
 	protected double dx, dy;
 	protected int vx, vy, mass;
+	protected boolean moving = false;
 
 	public AbstractMoveableEntity(int id, String name, int x, int y, int width, int height, String textureName) {
 		super(id, name, x, y, width, height, textureName);
@@ -14,6 +15,14 @@ public abstract class AbstractMoveableEntity extends AbstractEntity implements M
 		this.vx = 0;
 		this.vy = 0;
 		this.mass = 1;
+	}
+	
+	public boolean isMoving() {
+		return this.moving;
+	}
+	
+	public void isMoving(boolean value) {
+		this.moving = value;
 	}
 
 	public void updateX(int x) {
