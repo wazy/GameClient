@@ -31,8 +31,18 @@ public class PhysicsHandler {
 			int ox = ob.getX(); int oy = ob.getY();
 			int ow = ob.getWidth(); int oh = ob.getHeight();
 
+			//if ((py >= (oy - oh) && py <= oy) || (oy >= (py - ph) && oy <= py)) {
+			//	MovementHandler.ground = oy;
+			//	System.out.println("Y collision");
+			//}
+			
 			// collision (from left) between an object and the player
-			if ((px >= (ox - ow) && px <= ox) && (py >= (oy - oh) && py <= oy)) {
+			if ((px >= (ox - ow) && px <= ox)) {
+				if (py <= oy) {
+					MovementHandler.ground = oy-oh;
+					System.out.println("Ground Set " + (oy-oh));
+					continue;
+				}
 				player.updateX(-1);
 				System.out.printf("Collision (L) -> Object (x, y, w, h): (%d, %d, %d, %d) | " +
 												"Player (x, y, w, h): (%d, %d, %d, %d)\n",

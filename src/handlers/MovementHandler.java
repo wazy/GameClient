@@ -11,6 +11,7 @@ public class MovementHandler {
 	final static Logger logger = LoggerFactory.getLogger(MovementHandler.class);
 
 	private static int gForce = 1;
+	public static int ground = 350;
 	private static int fallDelay = 0;
 
 	private final static int PLAYER_SPEED = 1;
@@ -33,7 +34,7 @@ public class MovementHandler {
 
 		// TODO: PUT IN PHYSICS HANDLER!!!
 		if (fallDelay >= 2 && player.isFalling()) {
-			if (y < 350) {
+			if (y < ground) { // (above ground)
 				player.updateY(gForce++);
 			}
 			else if (gForce > PLAYER_LETHAL_COLLISION) {
