@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 
 import entities.Player;
 
+import static org.lwjgl.input.Keyboard.isKeyDown;
+
 public class MovementHandler {
 
 	final static Logger logger = LoggerFactory.getLogger(MovementHandler.class);
@@ -27,9 +29,14 @@ public class MovementHandler {
 		}
 
 		Player player = Player.getOnlinePlayers().get(Player.getListPosition().get());
-
+		
 		int x = player.getX();
 		int y = player.getY();
+
+		// if player should be falling
+		if (!player.isFalling() && y < ground)
+			player.isFalling(true);
+		
 		fallDelay++;
 
 		// TODO: PUT IN PHYSICS HANDLER!!!
@@ -78,45 +85,52 @@ public class MovementHandler {
 //				}
 //			}
 //		}
-		if (Keyboard.isKeyDown(Keyboard.KEY_W) && !player.isFalling()) {
-			player.isFalling(true);
-			if (Keyboard.isKeyDown(Keyboard.KEY_A)) { // check if player is moving up and left
+
+//		while (Keyboard.next()) {
+//			switch(Keyboard.getEventCharacter()) {
+//			case Keyboard.KEY_W:
+//				System.out.println("W PRESSED!!!!");
+//			}
+//		}
+
+		if (isKeyDown(Keyboard.KEY_W) && !player.isFalling()) {
+			if (isKeyDown(Keyboard.KEY_A)) { // check if player is moving up and left
 				player.updateXY(-PLAYER_JUMP_SPEED, -PLAYER_JUMP_SPEED); // moves the player northwest
 			}
-			else if (Keyboard.isKeyDown(Keyboard.KEY_D)) { // check if player is moving up and right
+			else if (isKeyDown(Keyboard.KEY_D)) { // check if player is moving up and right
 				player.updateXY(PLAYER_JUMP_SPEED, -PLAYER_JUMP_SPEED); // moves the player northeast
 			}
 			else {
 				player.updateY(-PLAYER_JUMP_SPEED); // moves the player up 
 			}
 		}
-		else if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-			if (Keyboard.isKeyDown(Keyboard.KEY_A)) { // check if player is moving down and left
+		else if (isKeyDown(Keyboard.KEY_S)) {
+			if (isKeyDown(Keyboard.KEY_A)) { // check if player is moving down and left
 				player.updateXY(-PLAYER_SPEED, PLAYER_SPEED); // moves the player southwest
 			}
-			else if (Keyboard.isKeyDown(Keyboard.KEY_D)) { // check if player is moving down and right
+			else if (isKeyDown(Keyboard.KEY_D)) { // check if player is moving down and right
 				player.updateXY(PLAYER_SPEED, PLAYER_SPEED); // moves the player southeast
 			}
 			else {
 				player.updateY(PLAYER_SPEED); // moves the player down
 			}
 		}
-		else if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-			if (Keyboard.isKeyDown(Keyboard.KEY_W)) { // check if player is moving left and up
+		else if (isKeyDown(Keyboard.KEY_A)) {
+			if (isKeyDown(Keyboard.KEY_W)) { // check if player is moving left and up
 				player.updateXY(-PLAYER_SPEED,-PLAYER_SPEED); // moves the player northwest
 			}
-			else if (Keyboard.isKeyDown(Keyboard.KEY_S)) { // check if player is moving left and down
+			else if (isKeyDown(Keyboard.KEY_S)) { // check if player is moving left and down
 				player.updateXY(-PLAYER_SPEED, PLAYER_SPEED); // moves the player southwest
 			}
 			else {
 				player.updateX(-PLAYER_SPEED); // moves the player left
 			}
 		}
-		else if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-			if (Keyboard.isKeyDown(Keyboard.KEY_W)) { // check if player is moving right and up
+		else if (isKeyDown(Keyboard.KEY_D)) {
+			if (isKeyDown(Keyboard.KEY_W)) { // check if player is moving right and up
 				player.updateXY(PLAYER_SPEED, -PLAYER_SPEED); // moves the player northeast
 			}
-			else if (Keyboard.isKeyDown(Keyboard.KEY_S)) { // check if player is moving right and down
+			else if (isKeyDown(Keyboard.KEY_S)) { // check if player is moving right and down
 				player.updateXY(PLAYER_SPEED, PLAYER_SPEED); // moves the player southeast
 			}
 			else {
