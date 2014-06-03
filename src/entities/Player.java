@@ -21,8 +21,8 @@ public class Player extends AbstractMoveableEntity {
 
 	private static final long serialVersionUID = -8405971951484157839L;
 
-	public static final int PLAYER_WIDTH = 50;
-	public static final int PLAYER_HEIGHT = 50;
+	public static final int PLAYER_WIDTH = 32;
+	public static final int PLAYER_HEIGHT = 32;
 
 	private static File playerImg = new File("./img/etc2.png");
 

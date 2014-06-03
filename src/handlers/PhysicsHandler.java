@@ -37,7 +37,7 @@ public class PhysicsHandler {
 			//}
 			
 			// collision (from left) between an object and the player
-			if ((px >= (ox - ow) && px <= ox)) {
+			if ( ((px + pw) >= ox) &&  (px + pw) <= (ox + ow) ) {
 				if (py <= oy) {
 					MovementHandler.ground = oy-oh;
 					System.out.println("Ground Set " + (oy-oh));

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <level>
-  <!-- grass-1 -->
+   <!-- ground -->
   <object id="1">
     <name></name>
-    <x>1</x>
+    <x>0</x>
     <y>360</y>
     <width>640</width>
-    <height>40</height>
-    <texture>GRASS_IMAGE_1</texture>
+    <height>0</height>
+    <texture>GROUND_IMAGE_1</texture>
   </object>
     
   <!-- block-1 -->
@@ -23,7 +23,7 @@
   <!-- block-2 -->
   <object id="2">
     <name></name>
-    <x>240</x>
+    <x>260</x>
     <y>340</y>
     <width>40</width>
     <height>60</height>
@@ -33,7 +33,7 @@
   <!-- block-3 -->
   <object id="3">
     <name></name>
-    <x>280</x>
+    <x>320</x>
     <y>320</y>
     <width>40</width>
     <height>80</height>
